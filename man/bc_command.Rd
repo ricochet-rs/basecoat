@@ -15,7 +15,8 @@ bc_command(
   label = "Command menu",
   dialog = FALSE,
   trigger = NULL,
-  manual = FALSE
+  manual = FALSE,
+  icon = NULL
 )
 
 bc_command_item(
@@ -57,9 +58,9 @@ with a trigger button.}
 
 \item{manual}{Bool. Add \code{data-filter="manual"} when the app owns filtering.}
 
-\item{shortcut}{String. A shortcut hint shown at the inline end.}
-
 \item{icon}{A tag. An icon before the label.}
+
+\item{shortcut}{String. A shortcut hint shown at the inline end.}
 
 \item{disabled}{Bool. Mark the item as disabled.}
 

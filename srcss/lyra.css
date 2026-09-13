@@ -7,3 +7,12 @@
 
 @source "../R";
 @source "../inst/examples/*.R";
+
+/* This pack squares its components with `rounded-none` rather than by moving
+   --radius, so the prose block has to be told as well or code sits round
+   beside square buttons. */
+@layer components {
+  .prose :is(pre, code) {
+    border-radius: 0;
+  }
+}

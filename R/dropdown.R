@@ -183,7 +183,7 @@ bc_dropdown_checkbox <- function(label,
     `aria-checked` = tolower(checked),
     `aria-disabled` = if (disabled) "true",
     ...,
-    span(`data-indicator` = NA, dropdown_lucide("check")),
+    span(`data-indicator` = NA, bc_icon("check")),
     if (!is.null(icon)) icon,
     if (is.null(icon)) label else span(label)
   ))
@@ -205,7 +205,7 @@ bc_dropdown_radio <- function(label,
     `aria-checked` = tolower(checked),
     `aria-disabled` = if (disabled) "true",
     ...,
-    span(`data-indicator` = NA, dropdown_lucide("check")),
+    span(`data-indicator` = NA, bc_icon("check")),
     if (!is.null(icon)) icon,
     if (is.null(icon)) label else span(label)
   ))
@@ -226,16 +226,3 @@ dropdown_items <- function(items) {
   })
 }
 
-dropdown_lucide <- function(icon) {
-  paths <- c(
-    check = '<path d="M20 6 9 17l-5-5" />'
-  )
-
-  HTML(paste0(
-    '<svg class="lucide lucide-', icon, '" xmlns="http://www.w3.org/2000/svg" width="24" ',
-    'height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ',
-    'stroke-linecap="round" stroke-linejoin="round">',
-    paths[[icon]],
-    "</svg>"
-  ))
-}

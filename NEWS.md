@@ -1,5 +1,9 @@
 # basecoat 0.0.0.9000
 
+* `bc_page_sidebar()` and `bc_page_navbar()` lay out a whole page around a collapsible sidebar or a navbar.
+
+* A `prose` class gives headings, text and lists vertical rhythm the component reset takes away.
+
 * Components render in knitr and Quarto without a `bc_deps()` call, carrying the stylesheet themselves.
 
 * `bc_shiny_deps()` adds Shiny input bindings for `bc_radio_group()`, `bc_slider()`, `bc_select()` and `bc_combobox()`.

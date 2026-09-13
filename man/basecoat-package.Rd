@@ -12,7 +12,7 @@ Builds Basecoat UI markup with htmltools tags, and attaches the bundled Basecoat
 Useful links:
 \itemize{
   \item \url{https://basecoatui.com}
-  \item \url{https://josiahparry.github.io/basecoat/}
+  \item \url{https://ricochet-rs.github.io/basecoat/}
 }
 
 }

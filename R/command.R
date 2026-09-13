@@ -14,6 +14,8 @@
 #'   with a trigger button.
 #' @param trigger String. The trigger button's label when `dialog = TRUE`.
 #' @param manual Bool. Add `data-filter="manual"` when the app owns filtering.
+#' @param icon Tag. Replaces the search icon beside the input, such as one from
+#'   the phosphoricons package. `NULL` for the default.
 #' @return A `<div class="command">`, or a trigger button and `<dialog>` pair.
 #' @details
 #' The script filters `role="menuitem"` items by the input and manages keyboard
@@ -32,7 +34,8 @@ bc_command <- function(...,
                        label = "Command menu",
                        dialog = FALSE,
                        trigger = NULL,
-                       manual = FALSE) {
+                       manual = FALSE,
+                       icon = NULL) {
   check_string(placeholder, allow_empty = TRUE)
   check_string(empty, allow_empty = TRUE)
   check_string(label, allow_empty = FALSE)
@@ -56,7 +59,7 @@ bc_command <- function(...,
     id = if (!dialog) id,
     `data-filter` = if (manual) "manual",
     tags$header(
-      command_lucide(),
+      icon %||% bc_icon("magnifying-glass"),
       tags$input(
         type = "text",
         id = input_id,
@@ -149,7 +152,7 @@ bc_command_item <- function(label,
     `aria-disabled` = if (disabled) "true",
     `data-checked` = if (checked) "true",
     ...,
-    if (checked) span(`data-indicator` = NA, command_check()),
+    if (checked) span(`data-indicator` = NA, bc_icon("check")),
     icon,
     if (is.null(shortcut) && is.null(icon) && !checked) {
       label
@@ -196,19 +199,4 @@ command_items <- function(items) {
   })
 }
 
-command_lucide <- function() {
-  HTML(
-    '<svg class="lucide lucide-search-icon lucide-search" xmlns="http://www.w3.org/2000/svg" ',
-    'width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" ',
-    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">',
-    '<circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>'
-  )
-}
 
-command_check <- function() {
-  HTML(
-    '<svg class="lucide lucide-check" xmlns="http://www.w3.org/2000/svg" width="24" ',
-    'height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ',
-    'stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>'
-  )
-}

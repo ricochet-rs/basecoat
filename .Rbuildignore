@@ -1,3 +1,4 @@
+_files$
 ^_pkgdown\.yml$
 ^_site$
 ^\.DS_Store$
@@ -18,6 +19,6 @@
 ^rv\.lock$
 ^rv$
 ^srcss$
-^vignettes/articles/*_files$
+^vignettes/\.quarto$
 ^vignettes/articles/\.quarto$
 ^vignettes/articles$

@@ -15,11 +15,10 @@ Imports:
     cli,
     htmltools (>= 0.5.4),
     rlang (>= 1.1.0)
-URL: https://basecoatui.com, https://josiahparry.github.io/basecoat/
+URL: https://basecoatui.com, https://ricochet-rs.github.io/basecoat/
 Config/roxygen2/version: 8.1.0.9000
 Suggests:
     knitr,
-    quarto,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/Needs/website: commonmark, downlit, knitr, xml2, yaml

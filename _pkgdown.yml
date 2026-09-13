@@ -1,7 +1,12 @@
-url: https://josiahparry.github.io/basecoat/
+url: https://ricochet-rs.github.io/basecoat/
 template:
   bootstrap: 5
 reference:
+- title: Page layouts
+  desc: The shape a whole page takes.
+  contents:
+  - bc_page_sidebar
+  - bc_page_navbar
 - title: Serving Basecoat
   desc: The stylesheet and scripts a page needs.
   contents:

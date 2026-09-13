@@ -219,6 +219,97 @@ description_of <- function(md) {
   inline_md(paste(rest, collapse = " "))
 }
 
+# ---- style packs ------------------------------------------------------------
+
+# ricochet is lyra plus the token file, so it is a pack and an overlay rather
+# than a tenth stylesheet. Everything else is a pack on its own.
+SITE_STYLES <- c("ricochet", bc_styles)
+DEFAULT_STYLE <- "ricochet"
+
+copy_styles <- function(out) {
+  dir <- file.path(out, "deps", "styles")
+  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+
+  from <- system.file("basecoat", package = "basecoat")
+  for (s in bc_styles) {
+    file.copy(file.path(from, paste0("basecoat-", s, ".min.css")), dir, overwrite = TRUE)
+  }
+  file.copy("dev/site/theme.css", file.path(dir, "ricochet.css"), overwrite = TRUE)
+}
+
+# Every pack is on the page, switched with `media` rather than `disabled`. The
+# disabled content attribute is honoured inconsistently at parse time, and a
+# sheet parsed as disabled may never be fetched at all; `media="not all"`
+# always loads and never applies, so a switch is instant.
+style_links <- function(depth) {
+  root <- strrep("../", depth)
+  media <- function(on) if (on) "all" else "not all"
+
+  packs <- vapply(bc_styles, function(s) {
+    sprintf(
+      '<link rel="stylesheet" data-style="%s" media="%s" href="%sdeps/styles/basecoat-%s.min.css">',
+      s, media(s == "lyra"), root, s
+    )
+  }, character(1))
+
+  c(packs, sprintf(
+    '<link rel="stylesheet" data-style="ricochet" media="all" href="%sdeps/styles/ricochet.css">',
+    root
+  ))
+}
+
+# Applied before first paint, so a stored choice never flashes the default.
+style_script <- HTML(sprintf('
+(function () {
+  var STYLES = %s;
+  var PACK = { ricochet: "lyra" };
+  function apply(name) {
+    if (STYLES.indexOf(name) === -1) name = "%s";
+    var pack = PACK[name] || name;
+    document.querySelectorAll("link[data-style]").forEach(function (el) {
+      var s = el.dataset.style;
+      var on = s === "ricochet" ? name === "ricochet" : s === pack;
+      el.media = on ? "all" : "not all";
+    });
+    document.querySelectorAll("[data-style-option]").forEach(function (el) {
+      el.setAttribute("aria-checked", String(el.dataset.styleOption === name));
+    });
+    try { localStorage.setItem("basecoatStyle", name); } catch (e) {}
+  }
+  window.basecoatSite = { setStyle: apply };
+  var stored;
+  try { stored = localStorage.getItem("basecoatStyle"); } catch (e) {}
+  apply(stored || "%s");
+})();
+', jsonlite::toJSON(SITE_STYLES), DEFAULT_STYLE, DEFAULT_STYLE))
+
+style_menu <- function() {
+  do.call(bc_dropdown_menu, c(
+    lapply(SITE_STYLES, function(s) {
+      tags$button(
+        type = "button",
+        role = "menuitemradio",
+        `aria-checked` = tolower(s == DEFAULT_STYLE),
+        `data-style-option` = s,
+        onclick = sprintf("window.basecoatSite.setStyle('%s')", s),
+        span(`data-indicator` = NA, icon("check", size = "1rem")),
+        span(s)
+      )
+    }),
+    list(
+      trigger = tags$button(
+        class = "btn",
+        `data-variant` = "ghost",
+        `data-size` = "sm",
+        type = "button",
+        "Style",
+        icon("caret-down", size = ".8rem")
+      ),
+      align = "end"
+    )
+  ))
+}
+
 # ---- page shell -------------------------------------------------------------
 
 site_css <- readLines("dev/site/site.css", warn = FALSE)
@@ -227,7 +318,9 @@ navbar <- function(depth, active = NA, articles = list()) {
   root <- strrep("../", depth)
   link <- function(href, label, key) {
     tags$a(
-      class = paste("nav-link", if (identical(active, key)) "is-active"),
+      class = "btn",
+      `data-variant` = if (identical(active, key)) "secondary" else "ghost",
+      `data-size` = "sm",
       href = paste0(root, href), label
     )
   }
@@ -252,7 +345,9 @@ navbar <- function(depth, active = NA, articles = list()) {
         }),
         list(
           trigger = tags$button(
-            class = paste("nav-link nav-trigger", if (identical(active, "articles")) "is-active"),
+            class = "btn",
+            `data-variant` = if (identical(active, "articles")) "secondary" else "ghost",
+            `data-size` = "sm",
             type = "button",
             "Articles",
             icon("caret-down", size = ".8rem")
@@ -260,8 +355,11 @@ navbar <- function(depth, active = NA, articles = list()) {
           align = "end"
         )
       )),
+      style_menu(),
       tags$a(
-        class = "nav-icon",
+        class = "btn",
+        `data-variant` = "ghost",
+        `data-size` = "icon",
         href = REPO,
         `aria-label` = "GitHub",
         rel = "noreferrer",
@@ -316,7 +414,7 @@ write_page <- function(path, title, body, depth, rail = NULL, active = NA, artic
     navbar(depth, active, articles),
     tags$div(
       class = "site-shell site-container",
-      tags$main(class = "site-main", body),
+      tags$main(class = "site-main prose", body),
       if (!is.null(rail)) tags$aside(class = "site-rail", rail)
     )
   )
@@ -324,10 +422,10 @@ write_page <- function(path, title, body, depth, rail = NULL, active = NA, artic
   # A theme is returned after the style pack so its tokens win. The @theme
   # inline block in the file is Tailwind build syntax a browser ignores: the
   # :root and .dark blocks are the whole of it, and they are plain CSS.
-  deps <- resolveDependencies(c(
-    bc_deps(style = "lyra", theme = "dev/site/theme.css"),
-    findDependencies(page)
-  ))
+  # The stylesheets are handled by style_links() rather than bc_deps(), since
+  # the switcher needs all nine on the page at once and a dependency named
+  # "basecoat" would be de-duplicated down to one.
+  deps <- resolveDependencies(findDependencies(page))
   deps <- lapply(deps, copyDependencyToDir, file.path(OUT, "deps"), FALSE)
   deps <- lapply(deps, makeDependencyRelative, OUT, FALSE)
 
@@ -345,8 +443,10 @@ write_page <- function(path, title, body, depth, rail = NULL, active = NA, artic
       '<meta charset="utf-8">',
       '<meta name="viewport" content="width=device-width, initial-scale=1">',
       as.character(tags$title(title)),
+      style_links(depth),
       dep_html,
       as.character(tags$style(HTML(paste(site_css, collapse = "\n")))),
+      as.character(tags$script(style_script)),
       "</head>", "<body>", as.character(page), "</body>", "</html>"
     ),
     path
@@ -492,6 +592,8 @@ home_body <- function() {
 main <- function() {
   unlink(OUT, recursive = TRUE)
   dir.create(OUT, recursive = TRUE, showWarnings = FALSE)
+
+  copy_styles(OUT)
 
   cfg <- read_config()
   articles <- article_stubs()

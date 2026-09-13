@@ -62,7 +62,7 @@ bc_pagination_ellipsis <- function() {
   bc_tag(tags$li(
     div(
       class = "size-9 flex items-center justify-center",
-      HTML(pagination_lucide("ellipsis"))
+      bc_icon("dots-three", class = "size-4 shrink-0")
     )
   ))
 }
@@ -78,7 +78,7 @@ bc_pagination_previous <- function(label = "Previous", href = "#") {
       href = href,
       class = "btn",
       `data-variant` = "ghost",
-      HTML(pagination_lucide("chevron-left")),
+      bc_icon("caret-left"),
       span(label)
     )
   ))
@@ -96,38 +96,8 @@ bc_pagination_next <- function(label = "Next", href = "#") {
       class = "btn",
       `data-variant` = "ghost",
       span(label),
-      HTML(pagination_lucide("chevron-right"))
+      bc_icon("caret-right")
     )
   ))
 }
 
-pagination_lucide <- function(icon) {
-  svg <- function(class, inner) {
-    paste0(
-      '<svg class="', class, '" xmlns="http://www.w3.org/2000/svg" width="24" ',
-      'height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" ',
-      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">',
-      inner,
-      '</svg>'
-    )
-  }
-
-  switch(icon,
-    `chevron-left` = svg(
-      "lucide lucide-chevron-left",
-      '<path d="m15 18-6-6 6-6" />'
-    ),
-    `chevron-right` = svg(
-      "lucide lucide-chevron-right",
-      '<path d="m9 18 6-6-6-6" />'
-    ),
-    ellipsis = svg(
-      "size-4 shrink-0 lucide lucide-ellipsis",
-      paste0(
-        '<circle cx="12" cy="12" r="1" />',
-        '<circle cx="19" cy="12" r="1" />',
-        '<circle cx="5" cy="12" r="1" />'
-      )
-    )
-  )
-}

@@ -7,7 +7,14 @@
 \usage{
 bc_accordion(..., id = NULL, multiple = FALSE, class = NULL)
 
-bc_accordion_item(title, ..., open = FALSE, disabled = FALSE, id = NULL)
+bc_accordion_item(
+  title,
+  ...,
+  open = FALSE,
+  disabled = FALSE,
+  id = NULL,
+  icon = NULL
+)
 }
 \arguments{
 \item{...}{Accordion items. Tags pass through and lists are passed to
@@ -25,6 +32,9 @@ default, so opening one item closes the others.}
 \item{open}{Bool. Whether the item starts open.}
 
 \item{disabled}{Bool. Whether the item can be toggled.}
+
+\item{icon}{Tag. Replaces the caret in the summary, such as one from the
+phosphoricons package. \code{NULL} for the default.}
 }
 \value{
 A \verb{<section class="accordion">} of \verb{<details>} items.

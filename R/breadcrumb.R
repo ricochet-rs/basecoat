@@ -74,24 +74,19 @@ bc_breadcrumb_separator <- function(icon = "chevron-right") {
 
   bc_tag(tags$li(
     `aria-hidden` = "true",
-    HTML(breadcrumb_lucide(icon))
+    breadcrumb_icon(icon)
   ))
 }
 
-breadcrumb_lucide <- function(icon) {
+breadcrumb_icon <- function(icon) {
   if (icon == "dot") {
-    return(paste0(
-      '<svg class="lucide lucide-dot" xmlns="http://www.w3.org/2000/svg" width="24" ',
-      'height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" ',
-      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">',
-      '<circle cx="12.1" cy="12.1" r="1" /></svg>'
-    ))
+    return(bc_icon("dot"))
   }
 
-  paste0(
-    '<svg data-rtl-flip class="lucide lucide-chevron-right" xmlns="http://www.w3.org/2000/svg" ',
-    'width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" ',
-    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">',
-    '<path d="m9 18 6-6-6-6" /></svg>'
-  )
+  # data-rtl-flip is what turns the chevron around under dir="rtl".
+  HTML(sub(
+    "<svg ", '<svg data-rtl-flip ',
+    as.character(bc_icon("caret-right")),
+    fixed = TRUE
+  ))
 }

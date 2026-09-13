@@ -92,13 +92,7 @@ bc_select <- function(...,
     `aria-invalid` = if (invalid) "true",
     `aria-label` = aria_label,
     span(class = "truncate", select_label(placeholder, chosen, multiple)),
-    HTML(paste0(
-      '<svg class="lucide lucide-chevron-down text-muted-foreground ',
-      'opacity-50 shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" ',
-      'height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" ',
-      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">',
-      '<path d="m6 9 6 6 6-6"/></svg>'
-    ))
+    bc_icon("caret-down", class = "text-muted-foreground opacity-50 shrink-0")
   )
 
   bc_tag(htmltools::attachDependencies(div(

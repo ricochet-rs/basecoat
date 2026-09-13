@@ -144,15 +144,17 @@ bc_theme_switcher()
 ```{r results="asis"}
 bc_field_group(
   aria_label = "Account credentials",
-  bc_field(
-    htmltools::tags$label(`for` = "email-field", "Email"),
-    htmltools::tags$input(id = "email-field", type = "email"),
-    htmltools::tags$p("We never share your address.")
+  bc_input(
+    id = "email-field",
+    label = "Email",
+    type = "email",
+    description = "We never share your address."
   ),
   bc_field_separator(),
-  bc_field(
-    htmltools::tags$label(`for` = "password-field", "Password"),
-    htmltools::tags$input(id = "password-field", type = "password")
+  bc_input(
+    id = "password-field",
+    label = "Password",
+    type = "password"
   )
 )
 ```

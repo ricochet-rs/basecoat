@@ -121,8 +121,8 @@ bc_sidebar_group <- function(title, ..., id = NULL) {
 #'   submenu.
 #' @param href String or `NULL`. A destination turns the item into a link, and
 #'   `NULL` into a `<button>`.
-#' @param icon Tag. An icon shown before the label, such as an `HTML()` lucide
-#'   `<svg>`, or `NULL`.
+#' @param icon Tag. An icon shown before the label, such as one from the
+#'   phosphoricons package, or `NULL`.
 #' @param variant String. One of `r toString(bc_sidebar_variants)`. `default`
 #'   writes no attribute.
 #' @param size String. One of `r toString(bc_sidebar_sizes)`. `default` writes

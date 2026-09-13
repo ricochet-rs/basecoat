@@ -8,7 +8,7 @@ Naturally, I've grown quite fond of it.
 ## Installation
 
 ```r
-pak::pak("josiahparry/basecoat")
+pak::pak("ricochet-rs/basecoat")
 ```
 
 ## Usage

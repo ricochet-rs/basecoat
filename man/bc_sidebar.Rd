@@ -81,8 +81,8 @@ submenu.}
 \item{href}{String or \code{NULL}. A destination turns the item into a link, and
 \code{NULL} into a \verb{<button>}.}
 
-\item{icon}{Tag. An icon shown before the label, such as an \code{HTML()} lucide
-\verb{<svg>}, or \code{NULL}.}
+\item{icon}{Tag. An icon shown before the label, such as one from the
+phosphoricons package, or \code{NULL}.}
 
 \item{variant}{String. One of default, outline. \code{default}
 writes no attribute.}

@@ -45,8 +45,15 @@ bc_accordion <- function(...,
 #' @param title String. The item's trigger, always visible.
 #' @param open Bool. Whether the item starts open.
 #' @param disabled Bool. Whether the item can be toggled.
+#' @param icon Tag. Replaces the caret in the summary, such as one from the
+#'   phosphoricons package. `NULL` for the default.
 #' @export
-bc_accordion_item <- function(title, ..., open = FALSE, disabled = FALSE, id = NULL) {
+bc_accordion_item <- function(title,
+                              ...,
+                              open = FALSE,
+                              disabled = FALSE,
+                              id = NULL,
+                              icon = NULL) {
   check_string(title, allow_empty = FALSE)
   check_bool(open)
   check_bool(disabled)
@@ -56,7 +63,7 @@ bc_accordion_item <- function(title, ..., open = FALSE, disabled = FALSE, id = N
     id = id,
     open = if (open) NA,
     `aria-disabled` = if (disabled) "true",
-    tags$summary(title, accordion_lucide()),
+    tags$summary(title, icon %||% bc_icon("caret-down")),
     tags$section(...)
   ))
 }
@@ -73,10 +80,3 @@ accordion_items <- function(items) {
   })
 }
 
-accordion_lucide <- function() {
-  HTML(
-    '<svg class="lucide lucide-chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" ',
-    'height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ',
-    'stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>'
-  )
-}
