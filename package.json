@@ -1,0 +1,12 @@
+{
+  "name": "basecoat-r",
+  "private": true,
+  "description": "Build inputs for inst/basecoat. Not shipped with the R package. Run `just vendor` after changing a version here.",
+  "dependencies": {
+    "basecoat-css": "1.0.2"
+  },
+  "devDependencies": {
+    "@phosphor-icons/core": "^2.1.1",
+    "@tailwindcss/cli": "^4.1.0"
+  }
+}

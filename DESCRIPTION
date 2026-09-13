@@ -1,0 +1,25 @@
+Package: basecoat
+Title: Basecoat UI Components
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Josiah", "Parry", , "josiah@ricochet.rs", role = c("aut", "cre")),
+    person("Ronan", "Berder", role = c("ctb", "cph"),
+           comment = "Author of the bundled basecoat-css library")
+  )
+Description: Builds Basecoat UI markup with htmltools tags, and attaches the
+    bundled Basecoat stylesheet and scripts as an HTML dependency.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Imports:
+    cli,
+    htmltools (>= 0.5.4),
+    rlang (>= 1.1.0)
+URL: https://basecoatui.com, https://josiahparry.github.io/basecoat/
+Config/roxygen2/version: 8.1.0.9000
+Suggests:
+    knitr,
+    quarto,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Config/Needs/website: commonmark, downlit, knitr, yaml

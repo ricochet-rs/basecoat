@@ -1,0 +1,283 @@
+/* The site chrome. Everything here sits on top of basecoat's tokens, so the
+   whole page follows the style pack and the dark-mode class with it. */
+
+* { box-sizing: border-box; }
+
+/* html carries the background too. Only body is painted by basecoat, so any
+   strip the body box does not cover shows through as white, dark mode
+   included. No overflow-x here: it would make body the scroll container and
+   break the sticky rail. Width is held by the grid's minmax(0, 1fr) and the
+   scrollers on pre and .prose-table. */
+html, body { margin: 0; padding: 0; }
+html {
+  min-height: 100%;
+  background: var(--background);
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* The ricochet theme in theme.css sets --radius: 0rem, which is where the
+   square corners come from. Nothing to override here. */
+
+/* ---- navbar ---- */
+
+/* One container, used by both the header and the page body, so the brand and
+   the first line of prose sit on the same gutter at every width. Two elements
+   each computing their own max-width and padding is how that drifts apart. */
+.site-container {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding-block: 0.6rem;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklab, var(--background) 85%, transparent);
+  backdrop-filter: blur(8px);
+}
+.site-header > .site-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.site-brand { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+.site-brand > a {
+  font-weight: 650;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.site-nav { display: flex; align-items: center; gap: 0.25rem; margin-left: auto; }
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.nav-link:hover { color: var(--foreground); background: var(--accent); }
+.nav-link.is-active { color: var(--foreground); background: var(--accent); }
+.nav-trigger { font-family: inherit; }
+
+.nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin-inline: 0.15rem;
+  border-radius: var(--radius);
+  color: var(--muted-foreground);
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.nav-icon:hover { color: var(--foreground); background: var(--accent); }
+
+/* ---- layout ---- */
+
+.site-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 15rem;
+  gap: 3.5rem;
+  align-items: start;
+  padding-block: 2.5rem 6rem;
+}
+/* A transform makes this the containing block for `position: fixed`
+   descendants. bc_sidebar() and bc_toaster() pin themselves to the viewport,
+   so an example rendering one — on its own reference page, say — would
+   otherwise cover the whole site and shove the page sideways. */
+.site-main { min-width: 0; transform: translateZ(0); }
+
+.site-rail {
+  position: sticky;
+  top: 4.5rem;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--border);
+}
+
+@media (max-width: 64rem) {
+  .site-shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .site-rail { display: none; }
+}
+
+/* ---- rail ---- */
+
+.rail-block + .rail-block { margin-top: 1.75rem; }
+.rail-title {
+  margin: 0 0 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.rail-toc, .rail-list { margin: 0; padding: 0; list-style: none; }
+.rail-toc li { margin: 0; }
+.rail-toc a, .rail-list a {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.28rem 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  transition: color 120ms ease;
+}
+.rail-toc a:hover, .rail-list a:hover { color: var(--foreground); }
+.rail-toc-sub a { padding-left: 0.85rem; font-size: 0.82rem; }
+.rail-name { display: block; font-size: 0.85rem; font-weight: 500; }
+.rail-role { display: block; font-size: 0.78rem; color: var(--muted-foreground); margin-bottom: 0.5rem; }
+
+/* ---- prose ---- */
+
+/* Every prose rule hangs off `.site-main >`, never a bare descendant. The page
+   is markdown and rendered components side by side, and a component's own
+   heading, link or paragraph must keep basecoat's styling: a descendant
+   selector here is unlayered and would beat basecoat's @layer components,
+   which is what blew up the toast titles. Markdown output is always a direct
+   child, so the child combinator draws the line exactly. */
+
+.site-main { font-size: 0.95rem; line-height: 1.7; color: var(--foreground); }
+.site-main > h1 {
+  margin: 0 0 1.75rem;
+  font-size: 2rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.site-main > h2 {
+  margin: 2.75rem 0 0.9rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.site-main > h3 { margin: 2rem 0 0.6rem; font-size: 1.05rem; font-weight: 600; }
+.site-main > h4 { margin: 1.5rem 0 0.5rem; font-size: 0.95rem; font-weight: 600; }
+.site-main > p { margin: 0 0 1.1rem; }
+.site-main > ul, .site-main > ol { margin: 0 0 1.1rem; padding-left: 1.3rem; }
+.site-main > ul > li, .site-main > ol > li { margin-bottom: 0.35rem; }
+.site-main > ul { list-style: disc; }
+.site-main > ol { list-style: decimal; }
+
+.site-main > p > a,
+.site-main > ul a,
+.site-main > ol a,
+.site-main > blockquote a,
+.prose-table a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in oklab, var(--primary) 40%, transparent);
+  transition: text-decoration-color 120ms ease;
+}
+.site-main > p > a:hover,
+.site-main > ul a:hover,
+.site-main > ol a:hover,
+.prose-table a:hover { text-decoration-color: var(--primary); }
+
+.site-main > p code,
+.site-main > ul code,
+.site-main > ol code,
+.site-main > h2 code,
+.site-main > h3 code,
+.prose-table code {
+  padding: 0.12em 0.36em;
+  border-radius: calc(var(--radius) * 0.6);
+  background: var(--muted);
+  font-size: 0.86em;
+  overflow-wrap: anywhere;
+}
+.site-main > pre {
+  margin: 0 0 1.25rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.site-main > pre code { background: none; padding: 0; font-size: inherit; }
+
+.site-main > blockquote {
+  margin: 0 0 1.1rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--border);
+  color: var(--muted-foreground);
+}
+.site-main > hr { margin: 2.5rem 0; border: 0; border-top: 1px solid var(--border); }
+.site-main img { max-width: 100%; height: auto; }
+
+/* Tables get their own scroller so a wide one never widens the page. */
+.prose-table { margin: 0 0 1.25rem; overflow-x: auto; }
+.prose-table table { width: 100%; }
+.prose-table td, .prose-table th { overflow-wrap: anywhere; vertical-align: top; }
+.prose-table td:first-child { white-space: nowrap; }
+
+/* ---- reference index ---- */
+
+.ref-section-desc { margin: 0 0 1.25rem; color: var(--muted-foreground); }
+.ref-list { margin: 0 0 2rem; padding: 0; list-style: none; }
+.ref-row { margin: 0; padding: 0.7rem 0; border-bottom: 1px solid var(--border); }
+.ref-row:last-child { border-bottom: 0; }
+.ref-names { margin: 0 0 0.2rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.ref-names a { text-decoration: none; }
+.ref-names code { font-size: 0.85rem; }
+.ref-desc { margin: 0; color: var(--muted-foreground); font-size: 0.9rem; }
+
+/* ---- downlit syntax highlighting ---- */
+
+/* Two palettes rather than one: a single set of hues legible on paper goes
+   muddy on the dark surface, so the dark side lifts lightness and drops
+   chroma. The style pack's own --chart tokens are tuned for data, not code. */
+:root {
+  --hl-fn:      oklch(0.50 0.19 272);
+  --hl-string:  oklch(0.48 0.13 150);
+  --hl-number:  oklch(0.52 0.17 35);
+  --hl-keyword: oklch(0.50 0.17 340);
+  --hl-comment: oklch(0.58 0.02 260);
+  --hl-op:      oklch(0.52 0.02 260);
+}
+html.dark {
+  --hl-fn:      oklch(0.80 0.12 272);
+  --hl-string:  oklch(0.84 0.13 150);
+  --hl-number:  oklch(0.83 0.11 55);
+  --hl-keyword: oklch(0.82 0.11 340);
+  --hl-comment: oklch(0.62 0.02 260);
+  --hl-op:      oklch(0.72 0.02 260);
+}
+
+.site-main > pre code .fu { color: var(--hl-fn); }
+.site-main > pre code .st { color: var(--hl-string); }
+.site-main > pre code .co { color: var(--hl-comment); font-style: italic; }
+.site-main > pre code .kw { color: var(--hl-keyword); font-weight: 500; }
+.site-main > pre code .cn,
+.site-main > pre code .dv,
+.site-main > pre code .fl { color: var(--hl-number); }
+.site-main > pre code .op,
+.site-main > pre code .sc { color: var(--hl-op); }
+.site-main > pre code .va { color: var(--foreground); }
+.site-main > pre code a { color: inherit; text-decoration: none; }
+.site-main > pre code a:hover { text-decoration: underline; text-decoration-style: dotted; }

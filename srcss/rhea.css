@@ -1,0 +1,9 @@
+/* Built into inst/basecoat/basecoat-rhea.min.css by `just vendor`. See vega.css
+   for what the sources do. */
+@import "tailwindcss";
+@import "basecoat-css/rhea";
+
+@import "./_shared.css";
+
+@source "../R";
+@source "../inst/examples/*.R";

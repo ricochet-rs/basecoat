@@ -1,0 +1,8 @@
+rv/
+node_modules/
+docs
+**/.quarto/
+
+/.quarto/
+**/*.quarto_ipynb
+_site/

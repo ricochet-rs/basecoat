@@ -1,0 +1,78 @@
+url: https://josiahparry.github.io/basecoat/
+template:
+  bootstrap: 5
+reference:
+- title: Serving Basecoat
+  desc: The stylesheet and scripts a page needs.
+  contents:
+  - bc_deps
+  - bc_styles
+  - bc_theme
+  - bc_init
+  - bc_shiny_deps
+  - print.bc_tag
+- title: Layout
+  desc: Regions that hold other components.
+  contents:
+  - bc_card
+  - bc_sidebar
+  - bc_scroll_area
+  - bc_item
+  - bc_empty
+- title: Actions
+  desc: Controls that do something when clicked.
+  contents:
+  - bc_button
+  - bc_button_group
+  - bc_dropdown_menu
+  - bc_command
+  - bc_pagination
+  - bc_theme_switcher
+- title: Inputs
+  desc: Form controls and the field wrappers around them.
+  contents:
+  - bc_field
+  - bc_label
+  - bc_input
+  - bc_input_group
+  - bc_textarea
+  - bc_checkbox
+  - bc_radio
+  - bc_radio_group
+  - bc_switch
+  - bc_slider
+  - bc_select
+  - bc_select_option
+  - bc_native_select
+  - bc_combobox
+  - bc_combobox_option
+  - bc_combobox_group
+  - bc_combobox_separator
+- title: Navigation
+  desc: Moving between views.
+  contents:
+  - bc_tabs
+  - bc_tab
+  - bc_breadcrumb
+- title: Overlays
+  desc: Content layered over the page.
+  contents:
+  - bc_dialog
+  - bc_dialog_trigger
+  - bc_alert_dialog
+  - bc_drawer
+  - bc_popover
+  - bc_tooltip
+  - bc_toast
+- title: Display
+  desc: Components that show state rather than collect it.
+  contents:
+  - bc_alert
+  - bc_avatar
+  - bc_badge
+  - bc_kbd
+  - bc_progress
+  - bc_skeleton
+  - bc_spinner
+  - bc_accordion
+

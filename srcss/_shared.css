@@ -1,0 +1,37 @@
+/* What every style pack adds on top of basecoat-css, imported by each of them.
+   The packs differ only in the upstream stylesheet they pull. */
+
+/* Basecoat rounds the toast surface with `rounded-2xl` and the badge with
+   `rounded-4xl`. Tailwind fixes both at a literal size, which puts them out of
+   reach of a theme that only sets `--radius`. Restating them as multiples of it
+   keeps every pack looking as it did, and a theme asking for square corners
+   gets them here too. */
+@theme {
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-4xl: calc(var(--radius) * 3.2);
+}
+
+/* A popover is capped at 18rem and scrolls, which is right for a menu and
+   wrong for one holding another popover: the nested list is positioned inside
+   it, so the cap cuts it off and the scroll takes the heading with it. */
+@layer components {
+  [data-popover]:has([data-popover]) {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+/* Upstream draws a table for a handful of rows, and its row height is what
+   stops a long one being readable in a screen. `sm` keeps the inline padding
+   and takes the vertical back, the same `data-size` the button and the card
+   already answer to. */
+@layer components {
+  .table[data-size="sm"] th {
+    height: auto;
+    padding-block: calc(var(--spacing) * 1.5);
+  }
+
+  .table[data-size="sm"] td {
+    padding-block: calc(var(--spacing) * 1);
+  }
+}

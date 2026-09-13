@@ -1,0 +1,77 @@
+---
+title: "Theming"
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(basecoat)
+```
+
+## Pick a pack
+
+```{r}
+bc_styles
+```
+
+```{r}
+#| eval: false
+bc_deps(style = "maia")
+```
+
+**Once per page.** A second call is deduplicated and one wins.
+
+## Dark mode
+
+```{r results="asis"}
+bc_theme_switcher()
+```
+
+**Flips the `dark` class on `<html>`.** The choice survives a reload.
+
+## Override tokens
+
+```css
+:root { --primary: oklch(0.54 0.16 320); --radius: 0.25rem; }
+.dark { --primary: oklch(0.72 0.14 320); }
+```
+
+```{r}
+#| eval: false
+bc_deps(style = "vega", theme = "my-theme.css")
+```
+
+**Loads after the pack, so it wins.** Names are shadcn/ui: `--background`, `--foreground`, `--primary`, `--border`, `--ring`, `--radius`.
+
+**`--radius` drives every corner.** The pack still owns layout.
+
+## tweakcn
+
+**Paste an export in unedited.** Its `:root` and `.dark` blocks beat the pack. The rest is Tailwind build syntax a browser ignores.
+
+## By hand
+
+**Web fonts.** A theme names the font. You load it.
+
+**Letter spacing.**
+
+```css
+body { letter-spacing: var(--tracking-normal); }
+```
+
+## base
+
+```{r}
+#| eval: false
+bc_deps(style = "base")
+```
+
+**Tokens and structure, no visuals.** Where you start a pack, not where you theme one.
+
+## Your own Tailwind
+
+**Load it before `bc_deps()`.** After resets borders and inputs.

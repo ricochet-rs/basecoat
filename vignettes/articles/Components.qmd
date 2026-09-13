@@ -1,0 +1,479 @@
+---
+title: "Components"
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: '#>'
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(basecoat)
+```
+
+## Card
+
+```{r results="asis"}
+bc_card(
+  bc_card_header(
+    htmltools::h2("Production deploy"),
+    htmltools::p("v1.4.2, 3m 12s"),
+    bc_card_action(bc_badge("passed"))
+  ),
+  bc_card_body(htmltools::p("All 128 checks green.")),
+  bc_card_footer(htmltools::p("Deployed just now."))
+)
+```
+
+## Scroll Area
+
+```{r results="asis"}
+bc_scroll_area(
+  lapply(
+    sprintf("v1.2.0-build.%03d", 1:40),
+    function(tag) htmltools::div(class = "border-b py-2 text-sm", tag)
+  ),
+  class = "h-72 w-64 rounded-md border p-4",
+  aria_label = "Builds"
+)
+```
+
+## Item
+
+```{r results="asis"}
+bc_item_group(
+  bc_item(
+    htmltools::tags$section(
+      htmltools::tags$h3("Basic Item"),
+      htmltools::p("A simple item with title and description.")
+    ),
+    htmltools::tags$aside(
+      bc_button("Action", variant = "outline", size = "sm")
+    ),
+    variant = "outline"
+  ),
+  bc_item(
+    htmltools::tags$section(
+      htmltools::tags$h3("Visit our documentation"),
+      htmltools::p("Get started.")
+    ),
+    href = "#",
+    variant = "outline"
+  )
+)
+```
+
+## Empty
+
+```{r results="asis"}
+bc_empty(
+  title = "No Projects Yet",
+  description = "Create your first project to get started.",
+  actions = bc_button("Create Project"),
+  class = "border border-dashed"
+)
+```
+
+## Button
+
+```{r results="asis"}
+htmltools::tagList(
+  bc_button("Save"),
+  bc_button("Delete", variant = "destructive"),
+  bc_button("Snooze", variant = "outline"),
+  bc_button("Cancel", variant = "ghost")
+)
+```
+
+## Button Group
+
+```{r results="asis"}
+bc_button_group(
+  bc_button("Copy", variant = "secondary", size = "sm"),
+  bc_button_group_separator(),
+  bc_button("Paste", variant = "secondary", size = "sm")
+)
+```
+
+## Dropdown Menu
+
+```{r results="asis"}
+bc_dropdown_menu(
+  bc_dropdown_group(
+    "My Account",
+    bc_dropdown_item("Profile", shortcut = "CtrP"),
+    bc_dropdown_item("Settings", shortcut = "CtrS")
+  ),
+  bc_dropdown_separator(),
+  bc_dropdown_item("Log out")
+)
+```
+
+## Command
+
+```{r results="asis"}
+bc_command(
+  bc_command_group("Suggestions", "Calendar", "Search Emoji"),
+  bc_command_separator(),
+  bc_command_item("Profile", shortcut = "CmdP")
+)
+```
+
+## Pagination
+
+```{r results="asis"}
+bc_pagination(
+  bc_pagination_previous(),
+  bc_pagination_item("1", href = "#"),
+  bc_pagination_item("2", href = "#", current = TRUE),
+  bc_pagination_item("3", href = "#"),
+  bc_pagination_ellipsis(),
+  bc_pagination_next()
+)
+```
+
+## Theme Switcher
+
+```{r results="asis"}
+bc_theme_switcher()
+```
+
+## Field
+
+```{r results="asis"}
+bc_field_group(
+  aria_label = "Account credentials",
+  bc_field(
+    htmltools::tags$label(`for` = "email-field", "Email"),
+    htmltools::tags$input(id = "email-field", type = "email"),
+    htmltools::tags$p("We never share your address.")
+  ),
+  bc_field_separator(),
+  bc_field(
+    htmltools::tags$label(`for` = "password-field", "Password"),
+    htmltools::tags$input(id = "password-field", type = "password")
+  )
+)
+```
+
+## Label
+
+```{r results="asis"}
+bc_label(
+  "Accept terms and conditions",
+  class = "gap-2",
+  htmltools::tags$input(type = "checkbox", class = "input")
+)
+```
+
+## Input
+
+```{r results="asis"}
+bc_input(
+  id = "email",
+  label = "Email",
+  type = "email",
+  placeholder = "m@example.com",
+  description = "Enter your email address."
+)
+```
+
+## Input Group
+
+```{r results="asis"}
+bc_input_group(
+  htmltools::tags$input(type = "text", placeholder = "Search..."),
+  bc_input_group_addon("Ctrl K", align = "start"),
+  bc_input_group_addon("Search", align = "end")
+)
+```
+
+## Textarea
+
+```{r results="asis"}
+bc_textarea(
+  id = "message",
+  label = "Message",
+  placeholder = "Type your message here",
+  description = "Write a short message."
+)
+```
+
+## Checkbox
+
+```{r results="asis"}
+bc_checkbox(
+  "updates",
+  "Email me updates",
+  checked = TRUE,
+  description = "Unsubscribe at any time."
+)
+```
+
+## Radio Group
+
+```{r results="asis"}
+bc_radio_group(
+  name = "density",
+  bc_radio("default", "Default"),
+  bc_radio("comfortable", "Comfortable", checked = TRUE),
+  bc_radio("compact", "Compact")
+)
+```
+
+## Switch
+
+```{r results="asis"}
+bc_switch(
+  "focus-mode",
+  "Share across devices",
+  checked = TRUE,
+  description = "Focus is shared across devices."
+)
+```
+
+## Slider
+
+```{r results="asis"}
+bc_slider(
+  min = 0,
+  max = 100,
+  value = 50,
+  label = "Temperature",
+  description = "Adjust the temperature setting"
+)
+```
+
+## Select
+
+```{r results="asis"}
+bc_select(
+  bc_select_option("light", "Light"),
+  bc_select_option("dark", "Dark"),
+  bc_select_option("system", "System"),
+  placeholder = "Theme",
+  name = "appearance",
+  selected = "dark"
+)
+```
+
+## Native Select
+
+```{r results="asis"}
+bc_native_select(
+  bc_native_select_option("Apple", value = "apple"),
+  bc_native_select_option("Banana", value = "banana"),
+  bc_native_select_option("Blueberry", value = "blueberry"),
+  aria_label = "Fruit",
+  placeholder = "Select a fruit"
+)
+```
+
+## Combobox
+
+```{r results="asis"}
+bc_combobox(
+  "framework",
+  bc_combobox_option("Next.js"),
+  bc_combobox_option("SvelteKit"),
+  bc_combobox_option("Remix"),
+  placeholder = "Select a framework",
+  class = "w-60"
+)
+```
+
+## Tabs
+
+```{r results="asis"}
+bc_tabs(
+  bc_tab("Account details", label = "Account"),
+  bc_tab("Password settings", label = "Password"),
+  bc_tab("Not yet", label = "Billing", disabled = TRUE)
+)
+```
+
+## Breadcrumb
+
+```{r results="asis"}
+bc_breadcrumb(
+  bc_breadcrumb_item("Home", href = "#"),
+  bc_breadcrumb_item("Components", href = "#"),
+  bc_breadcrumb_item("Breadcrumb", current = TRUE)
+)
+```
+
+## Sidebar
+
+```{r results="asis"}
+htmltools::div(
+  style = "position:relative;height:24rem;overflow:hidden;transform:translateZ(0)",
+  bc_sidebar(
+    id = "sidebar",
+    bc_sidebar_group(
+      "Getting started",
+      bc_sidebar_item("Playground", href = "#", aria_current = TRUE),
+      bc_sidebar_item("Models", href = "#"),
+      bc_sidebar_submenu(
+        "Settings",
+        bc_sidebar_item("General", href = "#"),
+        bc_sidebar_item("Limits", href = "#")
+      )
+    ),
+    bc_sidebar_separator(),
+    bc_sidebar_group(
+      "Account",
+      bc_sidebar_item("Billing", href = "#")
+    )
+  )
+)
+```
+
+## Dialog
+
+```{r results="asis"}
+htmltools::tagList(
+  bc_dialog_trigger("profile-dialog", class = "btn", "Edit profile"),
+  bc_dialog(
+    id = "profile-dialog",
+    title = "Edit profile",
+    description = "Make changes to your profile here.",
+    content = htmltools::tags$div(
+      class = "grid gap-3",
+      htmltools::tags$label(class = "label", `for` = "name", "Name"),
+      htmltools::tags$input(
+        class = "input", type = "text", id = "name", value = "Pedro Duarte"
+      )
+    ),
+    actions = htmltools::tagList(
+      htmltools::tags$button(
+        class = "btn", `data-variant` = "outline",
+        onclick = "this.closest('dialog').close()", "Cancel"
+      ),
+      htmltools::tags$button(
+        class = "btn",
+        onclick = "this.closest('dialog').close()", "Save changes"
+      )
+    )
+  )
+)
+```
+
+## Alert Dialog
+
+```{r results="asis"}
+bc_alert_dialog(
+  title = "Are you absolutely sure?",
+  description = "This cannot be undone.",
+  confirm = list(label = "Delete", variant = "destructive"),
+  trigger = "Delete Chat"
+)
+```
+
+## Drawer
+
+```{r results="asis"}
+bc_drawer(
+  "Use this panel for content that needs the full viewport width.",
+  title = "Move Goal",
+  description = "Set your daily activity goal.",
+  actions = htmltools::tags$button(
+    class = "btn",
+    onclick = "this.closest('dialog').close()",
+    "Submit"
+  )
+)
+```
+
+## Popover
+
+```{r results="asis"}
+bc_popover(
+  htmltools::tags$header(
+    htmltools::tags$h4("Title"),
+    htmltools::tags$p("A short description.")
+  )
+)
+```
+
+## Tooltip
+
+```{r results="asis"}
+bc_tooltip("Save", text = "Save your work")
+```
+
+## Toast
+
+```{r results="asis"}
+htmltools::div(
+  style = "position:relative;height:14rem;overflow:hidden;transform:translateZ(0)",
+  bc_toaster(
+    bc_toast(
+      "Saved",
+      description = "Your changes are in place.",
+      category = "success",
+      cancel = list(label = "Dismiss")
+    ),
+    bc_toast("Upload failed", category = "error", duration = -1)
+  )
+)
+```
+
+## Alert
+
+```{r results="asis"}
+bc_alert(
+  htmltools::h2("Payment failed"),
+  htmltools::tags$section("Check your card and try again."),
+  variant = "destructive"
+)
+```
+
+## Avatar
+
+```{r results="asis"}
+bc_avatar_group(
+  bc_avatar(src = "https://github.com/shadcn.png", alt = "@shadcn", fallback = "CN"),
+  bc_avatar(fallback = "LR"),
+  count = "+3"
+)
+```
+
+## Badge
+
+```{r results="asis"}
+bc_badge("stable")
+```
+
+## Keyboard Key
+
+```{r results="asis"}
+bc_kbd("⌘K")
+```
+
+## Progress
+
+```{r results="asis"}
+bc_progress(66, label = "Upload progress")
+```
+
+## Skeleton
+
+```{r results="asis"}
+bc_skeleton(class = "h-4 w-full")
+```
+
+## Spinner
+
+```{r results="asis"}
+bc_spinner(size = "6")
+```
+
+## Accordion
+
+```{r results="asis"}
+bc_accordion(
+  bc_accordion_item("First section", "First section content.", open = TRUE),
+  bc_accordion_item("Second section", "Second section content.")
+)
+```

@@ -1,0 +1,20 @@
+The basecoat R package as a whole is distributed under the MIT license, as
+described in LICENSE and DESCRIPTION.
+
+The stylesheets under inst/basecoat are built from the sources in srcss by
+`just vendor`, and carry code from two MIT licensed projects:
+
+  Files: inst/basecoat/*.css
+  Sources: basecoat-css, https://github.com/hunvreus/basecoat
+             Copyright (c) 2025 Ronan Berder
+           Tailwind CSS, https://github.com/tailwindlabs/tailwindcss
+             Copyright (c) Tailwind Labs, Inc.
+  License: MIT. The basecoat-css terms are reproduced in
+           inst/basecoat/LICENSE.md.
+
+The scripts are copied from basecoat-css unchanged:
+
+  Files: inst/basecoat/js/*.js
+  Source: https://github.com/hunvreus/basecoat (npm: basecoat-css)
+  Copyright (c) 2025 Ronan Berder
+  License: MIT, reproduced in inst/basecoat/LICENSE.md

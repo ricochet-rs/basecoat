@@ -1,0 +1,12 @@
+/* Built into inst/basecoat/basecoat-vega.min.css by `just vendor`.
+
+   Tailwind emits only the utilities it finds in the sources below, so those
+   paths decide which utilities ship. The component functions in R/ are the ones
+   that matter, and the examples are here so their demo pages render whole. */
+@import "tailwindcss";
+@import "basecoat-css/vega";
+
+@import "./_shared.css";
+
+@source "../R";
+@source "../inst/examples/*.R";
