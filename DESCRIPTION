@@ -22,4 +22,4 @@ Suggests:
     quarto,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Config/Needs/website: commonmark, downlit, knitr, yaml
+Config/Needs/website: commonmark, downlit, knitr, xml2, yaml

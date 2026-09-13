@@ -24,7 +24,7 @@ read_config <- function(path = "_pkgdown.yml") {
 }
 
 DESC <- as.list(read.dcf("DESCRIPTION")[1, ])
-REPO <- "https://github.com/josiahparry/basecoat"
+REPO <- "https://github.com/ricochet-rs/basecoat"
 
 # ---- icons ------------------------------------------------------------------
 
