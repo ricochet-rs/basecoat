@@ -8,6 +8,7 @@ _files$
 ^bun\.lock$
 ^dev$
 ^docs$
+^images$
 ^justfile$
 ^node_modules$
 ^package\.json$
@@ -22,3 +23,4 @@ _files$
 ^vignettes/\.quarto$
 ^vignettes/articles/\.quarto$
 ^vignettes/articles$
+^images$

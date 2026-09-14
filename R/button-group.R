@@ -30,10 +30,12 @@ bc_button_group_orientations <- c("default", "vertical")
 #'   bc_button_group_separator(),
 #'   bc_button("Paste", variant = "secondary", size = "sm")
 #' )
-bc_button_group <- function(...,
-                            orientation = "default",
-                            aria_label = NULL,
-                            class = NULL) {
+bc_button_group <- function(
+  ...,
+  orientation = "default",
+  aria_label = NULL,
+  class = NULL
+) {
   orientation <- arg_match(orientation, bc_button_group_orientations)
   check_string(aria_label, allow_null = TRUE, allow_empty = FALSE)
   check_string(class, allow_null = TRUE, allow_empty = TRUE)

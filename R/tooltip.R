@@ -16,7 +16,10 @@
 #' bc_tooltip("Info", text = "Additional information", side = "bottom")
 bc_tooltip <- function(..., text, side = "top", align = "center") {
   check_string(text, allow_empty = FALSE)
-  side <- arg_match(side, c("top", "bottom", "left", "right", "inline-start", "inline-end"))
+  side <- arg_match(
+    side,
+    c("top", "bottom", "left", "right", "inline-start", "inline-end")
+  )
   align <- arg_match(align, c("start", "center", "end"))
 
   bc_tag(tags$span(

@@ -1,9 +1,27 @@
+```{r}
+#| include: false
+library(htmltools)
+
+screenshot <- function(name, alt) {
+  tags$picture(
+    tags$source(
+      media = "(prefers-color-scheme: dark)",
+      srcset = paste0("images/", name, "-dark.png")
+    ),
+    tags$img(src = paste0("images/", name, "-light.png"), alt = alt)
+  )
+}
+```
+
 # basecoat
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/ricochet-rs/basecoat/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ricochet-rs/basecoat/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 Bindings to the [basecoat UI](https://basecoatui.com/) component library from R.
 
-Basecoat is a pure tailwind css implementation of [shadcn/ui](https://ui.shadcn.com/) that is the very same design system that powers [ricochet.rs](https://ricochet.rs).
-Naturally, I've grown quite fond of it.
+Basecoat is a pure tailwind css implementation of [shadcn/ui](https://ui.shadcn.com/) that is the very same design system that powers [ricochet.rs](https://ricochet.rs). Naturally, we've grown quite fond of it.
 
 ## Installation
 
@@ -13,6 +31,64 @@ pak::pak("ricochet-rs/basecoat")
 
 ## Usage
 
-`{basecoat}` is designed as an `htmltools` package that generates raw HTML with _opt-in_ shiny binding. 
+`{basecoat}` is designed as an `htmltools` package that generates raw HTML with _opt-in_ shiny binding.
 
 It works for creating HTML templates or with server-side-rendering (SSR) with a framework like `{plumber2}` or `{ambiorix}` as well as an opt-in [`{shiny}`]() integration.
+
+
+## Page Layouts
+
+To help create full page applications, two page layout helps are shipped:
+
+- `bc_page_navbar()`
+- `bc_page_sidebar()`
+
+
+## Shiny integration
+
+{basecoat} ships an optional shiny integration.
+
+```{r}
+#| echo: false
+#| output: asis
+screenshot(
+  "shiny-app",
+  "A Shiny app using bc_page_sidebar(), with basecoat inputs wired to input$"
+)
+```
+
+Open an example application file with:
+
+```{r}
+#| eval: false
+tmp <- tempfile(fileext = ".R")
+fp <- system.file("examples", "shiny-app.R", package = "basecoat")
+file.copy(fp, tmp)
+
+file.edit(tmp)
+```
+
+## Theme builder
+
+`bc_theme_builder()` can be used to launch a small html page to customize your own theme. Alternatively, you can use the theme customization in the [package docs](https://ricochet-rs.github.io/basecoat/theme/index.html) to help
+
+```{r}
+#| eval: false
+bc_theme_builder()
+```
+
+```{r}
+#| echo: false
+#| output: asis
+screenshot("ricochet-theme", "The theme builder on the ricochet style pack")
+```
+
+
+```{r}
+#| echo: false
+#| output: asis
+screenshot(
+  "random-theme",
+  "The same page after deriving a palette from a new primary colour"
+)
+```

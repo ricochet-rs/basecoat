@@ -17,17 +17,19 @@ library(basecoat)
 
 style <- "lyra"
 
-basecoat_head <- htmltools::renderDependencies(
-  list(bc_deps(style = style, js = TRUE, source = "/basecoat/")),
-  "href"
+htmx <- htmltools::tags$script(
+  src = "/htmxr/assets/htmx/2.0.8/htmx.min.js",
+  defer = NA
 )
 
 #* @get /
 #* @parser none
 #* @serializer html
 function() {
-  hx_page(
-    hx_head(title = "Basecoat with htmxr", basecoat_head),
+  bc_page(
+    title = "Basecoat with htmxr",
+    style = style,
+    head = htmx,
     tags$main(
       class = "prose mx-auto flex max-w-2xl flex-col gap-6 p-10",
       tags$h1("Basecoat components with htmxr"),

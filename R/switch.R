@@ -23,15 +23,17 @@ bc_switch_sizes <- c("default", "sm")
 #'   checked = TRUE,
 #'   description = "Focus is shared across devices."
 #' )
-bc_switch <- function(id,
-                      label,
-                      ...,
-                      size = "default",
-                      checked = FALSE,
-                      disabled = FALSE,
-                      invalid = FALSE,
-                      description = NULL,
-                      name = id) {
+bc_switch <- function(
+  id,
+  label,
+  ...,
+  size = "default",
+  checked = FALSE,
+  disabled = FALSE,
+  invalid = FALSE,
+  description = NULL,
+  name = id
+) {
   size <- arg_match(size, bc_switch_sizes)
   check_string(id, allow_empty = FALSE)
   check_bool(checked)

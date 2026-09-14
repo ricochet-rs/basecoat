@@ -28,7 +28,10 @@ bc_icon_paths <- list(
 # neither stroke attributes nor a size beyond the box the component gives it.
 bc_icon <- function(name, size = 24, class = NULL) {
   HTML(paste0(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="', size, '" height="', size,
+    '<svg xmlns="http://www.w3.org/2000/svg" width="',
+    size,
+    '" height="',
+    size,
     '" viewBox="0 0 256 256" fill="currentColor"',
     if (!is.null(class)) paste0(' class="', class, '"'),
     ' aria-hidden="true">',

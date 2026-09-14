@@ -24,15 +24,17 @@
 #'   bc_command_separator(),
 #'   bc_command_item("Profile", shortcut = "CmdP")
 #' )
-bc_command <- function(...,
-                       id = NULL,
-                       placeholder = "Type a command or search...",
-                       empty = "No results found.",
-                       label = "Command menu",
-                       dialog = FALSE,
-                       trigger = NULL,
-                       manual = FALSE,
-                       icon = NULL) {
+bc_command <- function(
+  ...,
+  id = NULL,
+  placeholder = "Type a command or search...",
+  empty = "No results found.",
+  label = "Command menu",
+  dialog = FALSE,
+  trigger = NULL,
+  manual = FALSE,
+  icon = NULL
+) {
   check_string(placeholder, allow_empty = TRUE)
   check_string(empty, allow_empty = TRUE)
   check_string(label, allow_empty = FALSE)
@@ -41,7 +43,10 @@ bc_command <- function(...,
   check_string(trigger, allow_null = TRUE, allow_empty = FALSE)
 
   if (is.null(id)) {
-    id <- paste0("command-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+    id <- paste0(
+      "command-",
+      paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+    )
   }
   if (dialog && is.null(trigger)) {
     trigger <- "Open Menu"
@@ -80,7 +85,10 @@ bc_command <- function(...,
   )
 
   if (!dialog) {
-    return(bc_tag(htmltools::attachDependencies(command, bc_script_dep("command"))))
+    return(bc_tag(htmltools::attachDependencies(
+      command,
+      bc_script_dep("command")
+    )))
   }
 
   bc_tag(htmltools::attachDependencies(
@@ -116,22 +124,26 @@ bc_command <- function(...,
 #' @param keep_open Bool. Keep the command open when the item is chosen.
 #' @param checked Bool. Show the item's indicator.
 #' @export
-bc_command_item <- function(label,
-                            ...,
-                            shortcut = NULL,
-                            icon = NULL,
-                            disabled = FALSE,
-                            href = NULL,
-                            filter = NULL,
-                            keywords = NULL,
-                            force = FALSE,
-                            keep_open = FALSE,
-                            checked = FALSE) {
+bc_command_item <- function(
+  label,
+  ...,
+  shortcut = NULL,
+  icon = NULL,
+  disabled = FALSE,
+  href = NULL,
+  filter = NULL,
+  keywords = NULL,
+  force = FALSE,
+  keep_open = FALSE,
+  checked = FALSE
+) {
   check_string(label, allow_empty = FALSE)
   check_string(shortcut, allow_null = TRUE, allow_empty = TRUE)
   check_bool(disabled)
   check_string(href, allow_null = TRUE, allow_empty = FALSE)
-  if (!is.null(filter)) check_string(filter, allow_empty = TRUE)
+  if (!is.null(filter)) {
+    check_string(filter, allow_empty = TRUE)
+  }
   check_string(keywords, allow_null = TRUE, allow_empty = TRUE)
   check_bool(force)
   check_bool(keep_open)
@@ -165,7 +177,10 @@ bc_command_item <- function(label,
 #' @export
 bc_command_group <- function(title, ...) {
   check_string(title, allow_empty = FALSE)
-  heading_id <- paste0("command-label-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+  heading_id <- paste0(
+    "command-label-",
+    paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+  )
 
   bc_tag(div(
     role = "group",
@@ -195,5 +210,3 @@ command_items <- function(items) {
     bc_command_item(as.character(item))
   })
 }
-
-

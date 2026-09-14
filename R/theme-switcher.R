@@ -4,7 +4,6 @@
 # that Basecoat does not ship, so the button attaches them as a head dependency
 # and stands no Tailwind build in the way of a page that uses it.
 
-
 #' Theme Switcher
 #'
 #' A button that flips the `dark` class on `<html>`, toggling the page theme.

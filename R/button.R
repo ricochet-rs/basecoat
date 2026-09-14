@@ -46,11 +46,13 @@ bc_button_sizes <- c(
 #' bc_button("Delete", variant = "destructive")
 #'
 #' bc_button("Snooze", variant = "outline", size = "sm")
-bc_button <- function(...,
-                      variant = "primary",
-                      size = "default",
-                      type = "button",
-                      aria_label = NULL) {
+bc_button <- function(
+  ...,
+  variant = "primary",
+  size = "default",
+  type = "button",
+  aria_label = NULL
+) {
   variant <- arg_match(variant, bc_button_variants)
   size <- arg_match(size, bc_button_sizes)
   check_string(type, allow_empty = FALSE)

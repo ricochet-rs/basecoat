@@ -19,22 +19,31 @@
 #'   htmltools::tags$p("Content that scrolls."),
 #'   class = "h-72"
 #' )
-bc_scroll_area <- function(...,
-                           size = "default",
-                           overflow = "auto",
-                           class = NULL,
-                           aria_label = NULL) {
+bc_scroll_area <- function(
+  ...,
+  size = "default",
+  overflow = "auto",
+  class = NULL,
+  aria_label = NULL
+) {
   size <- arg_match(size, c("default", "sm"))
   overflow <- arg_match(overflow, c("auto", "x", "y"))
   check_string(class, allow_null = TRUE, allow_empty = TRUE)
   check_string(aria_label, allow_null = TRUE, allow_empty = FALSE)
 
   bc_tag(div(
-    class = paste(c(
-      if (size == "sm") "scrollbar-sm" else "scrollbar",
-      if (overflow == "auto") "overflow-auto" else paste0("overflow-", overflow),
-      class
-    ), collapse = " "),
+    class = paste(
+      c(
+        if (size == "sm") "scrollbar-sm" else "scrollbar",
+        if (overflow == "auto") {
+          "overflow-auto"
+        } else {
+          paste0("overflow-", overflow)
+        },
+        class
+      ),
+      collapse = " "
+    ),
     role = if (!is.null(aria_label)) "region",
     `aria-label` = aria_label,
     ...

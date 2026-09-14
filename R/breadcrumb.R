@@ -27,16 +27,23 @@
 #' )
 #'
 #' bc_breadcrumb_separator("dot")
-bc_breadcrumb <- function(..., label = "Breadcrumb", separator = "chevron-right") {
+bc_breadcrumb <- function(
+  ...,
+  label = "Breadcrumb",
+  separator = "chevron-right"
+) {
   separator <- arg_match(separator, c("chevron-right", "dot"))
   check_string(label, allow_empty = FALSE)
 
   items <- list(...)
   if (length(items) > 1) {
     items <- c(
-      unlist(lapply(seq_len(length(items) - 1), function(i) {
-        list(items[[i]], bc_breadcrumb_separator(separator))
-      }), recursive = FALSE),
+      unlist(
+        lapply(seq_len(length(items) - 1), function(i) {
+          list(items[[i]], bc_breadcrumb_separator(separator))
+        }),
+        recursive = FALSE
+      ),
       items[length(items)]
     )
   }
@@ -85,7 +92,8 @@ breadcrumb_icon <- function(icon) {
 
   # data-rtl-flip is what turns the chevron around under dir="rtl".
   HTML(sub(
-    "<svg ", '<svg data-rtl-flip ',
+    "<svg ",
+    '<svg data-rtl-flip ',
     as.character(bc_icon("caret-right")),
     fixed = TRUE
   ))

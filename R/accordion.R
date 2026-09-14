@@ -16,15 +16,15 @@
 #'   bc_accordion_item("First section", "First section content.", open = TRUE),
 #'   bc_accordion_item("Second section", "Second section content.")
 #' )
-bc_accordion <- function(...,
-                         id = NULL,
-                         multiple = FALSE,
-                         class = NULL) {
+bc_accordion <- function(..., id = NULL, multiple = FALSE, class = NULL) {
   check_bool(multiple)
   check_string(class, allow_null = TRUE, allow_empty = TRUE)
 
   if (is.null(id)) {
-    id <- paste0("accordion-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+    id <- paste0(
+      "accordion-",
+      paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+    )
   }
 
   bc_tag(htmltools::attachDependencies(
@@ -45,12 +45,14 @@ bc_accordion <- function(...,
 #' @param icon Tag. Replaces the caret in the summary, such as one from the
 #'   phosphoricons package. `NULL` for the default.
 #' @export
-bc_accordion_item <- function(title,
-                              ...,
-                              open = FALSE,
-                              disabled = FALSE,
-                              id = NULL,
-                              icon = NULL) {
+bc_accordion_item <- function(
+  title,
+  ...,
+  open = FALSE,
+  disabled = FALSE,
+  id = NULL,
+  icon = NULL
+) {
   check_string(title, allow_empty = FALSE)
   check_bool(open)
   check_bool(disabled)
@@ -76,4 +78,3 @@ accordion_items <- function(items) {
     bc_accordion_item(item, "")
   })
 }
-

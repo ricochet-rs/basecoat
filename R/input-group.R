@@ -3,9 +3,12 @@
 # placement; a vertical group uses `header` and `footer` rows.
 
 bc_input_group_aligns <- c(
-  "start", "end",
-  "inline-start", "inline-end",
-  "block-start", "block-end"
+  "start",
+  "end",
+  "inline-start",
+  "inline-end",
+  "block-start",
+  "block-end"
 )
 
 #' Input Group
@@ -39,10 +42,12 @@ bc_input_group_aligns <- c(
 #'   ),
 #'   orientation = "vertical"
 #' )
-bc_input_group <- function(...,
-                           orientation = "default",
-                           aria_label = NULL,
-                           class = NULL) {
+bc_input_group <- function(
+  ...,
+  orientation = "default",
+  aria_label = NULL,
+  class = NULL
+) {
   orientation <- arg_match(orientation, c("default", "vertical"))
   check_string(aria_label, allow_null = TRUE, allow_empty = FALSE)
   check_string(class, allow_null = TRUE, allow_empty = TRUE)

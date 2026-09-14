@@ -1,19 +1,31 @@
 bc_token_groups <- list(
   "Primary" = c("background", "foreground", "primary", "primary-foreground"),
   "Secondary and accent" = c(
-    "secondary", "secondary-foreground", "accent", "accent-foreground"
+    "secondary",
+    "secondary-foreground",
+    "accent",
+    "accent-foreground"
   ),
   "Surfaces" = c(
-    "card", "card-foreground", "popover", "popover-foreground",
-    "muted", "muted-foreground"
+    "card",
+    "card-foreground",
+    "popover",
+    "popover-foreground",
+    "muted",
+    "muted-foreground"
   ),
   "Form" = c("border", "input", "ring"),
   "Status" = c("destructive", "destructive-foreground"),
   "Charts" = paste0("chart-", 1:5),
   "Sidebar" = c(
-    "sidebar", "sidebar-foreground", "sidebar-primary",
-    "sidebar-primary-foreground", "sidebar-accent", "sidebar-accent-foreground",
-    "sidebar-border", "sidebar-ring"
+    "sidebar",
+    "sidebar-foreground",
+    "sidebar-primary",
+    "sidebar-primary-foreground",
+    "sidebar-accent",
+    "sidebar-accent-foreground",
+    "sidebar-border",
+    "sidebar-ring"
   )
 )
 
@@ -31,10 +43,12 @@ bc_token_groups <- list(
 #' @export
 #' @examples
 #' bc_theme_builder(browse = FALSE, file = tempfile(fileext = ".html"))
-bc_theme_builder <- function(style = NULL,
-                             back = "https://github.com/ricochet-rs/basecoat",
-                             file = tempfile("basecoat-theme-", fileext = ".html"),
-                             browse = interactive()) {
+bc_theme_builder <- function(
+  style = NULL,
+  back = "https://github.com/ricochet-rs/basecoat",
+  file = tempfile("basecoat-theme-", fileext = ".html"),
+  browse = interactive()
+) {
   style <- style %||% "ricochet"
   style <- arg_match(style, bc_builder_starts)
   check_string(back, allow_null = TRUE, allow_empty = FALSE)
@@ -64,15 +78,21 @@ bc_theme_builder <- function(style = NULL,
     tags$style(id = "theme-overrides"),
     bc_page_sidebar(
       theme_builder_preview(),
-      sidebar = do.call(bc_sidebar, c(
-        list(id = "tokens", footer = theme_builder_footer(back)),
-        lapply(names(bc_token_groups), function(name) {
-          do.call(bc_sidebar_group, c(
-            list(name),
-            lapply(bc_token_groups[[name]], theme_builder_field)
-          ))
-        })
-      )),
+      sidebar = do.call(
+        bc_sidebar,
+        c(
+          list(id = "tokens", footer = theme_builder_footer(back)),
+          lapply(names(bc_token_groups), function(name) {
+            do.call(
+              bc_sidebar_group,
+              c(
+                list(name),
+                lapply(bc_token_groups[[name]], theme_builder_field)
+              )
+            )
+          })
+        )
+      ),
       title = "Theme builder",
       header = theme_builder_actions(style)
     ),
@@ -99,17 +119,31 @@ bc_builder_starts <- c("ricochet", bc_styles)
 theme_builder_links <- function(assets, style) {
   pack <- if (style == "ricochet") "lyra" else style
 
-  links <- vapply(bc_styles, function(s) {
-    sprintf(
-      '<link rel="stylesheet" data-pack="%s" media="%s" href="%s/basecoat-%s.min.css">',
-      s, if (s == pack) "all" else "not all", assets, s
-    )
-  }, character(1))
+  links <- vapply(
+    bc_styles,
+    function(s) {
+      sprintf(
+        '<link rel="stylesheet" data-pack="%s" media="%s" href="%s/basecoat-%s.min.css">',
+        s,
+        if (s == pack) "all" else "not all",
+        assets,
+        s
+      )
+    },
+    character(1)
+  )
 
-  HTML(paste(c(links, sprintf(
-    '<link rel="stylesheet" data-overlay="ricochet" media="%s" href="%s/ricochet.css">',
-    if (style == "ricochet") "all" else "not all", assets
-  )), collapse = "\n"))
+  HTML(paste(
+    c(
+      links,
+      sprintf(
+        '<link rel="stylesheet" data-overlay="ricochet" media="%s" href="%s/ricochet.css">',
+        if (style == "ricochet") "all" else "not all",
+        assets
+      )
+    ),
+    collapse = "\n"
+  ))
 }
 
 theme_builder_head <- function() {
@@ -137,29 +171,32 @@ theme_builder_field <- function(token) {
 }
 
 theme_builder_packs <- function(style) {
-  do.call(bc_dropdown_menu, c(
-    list(bc_dropdown_group("Start from")),
-    lapply(bc_builder_starts, function(s) {
-      tags$button(
-        type = "button",
-        role = "menuitemradio",
-        `aria-checked` = tolower(s == style),
-        `data-pack-option` = s,
-        span(`data-indicator` = NA, bc_icon("check")),
-        span(s)
+  do.call(
+    bc_dropdown_menu,
+    c(
+      list(bc_dropdown_group("Start from")),
+      lapply(bc_builder_starts, function(s) {
+        tags$button(
+          type = "button",
+          role = "menuitemradio",
+          `aria-checked` = tolower(s == style),
+          `data-pack-option` = s,
+          span(`data-indicator` = NA, bc_icon("check")),
+          span(s)
+        )
+      }),
+      list(
+        trigger = bc_button(
+          variant = "outline",
+          size = "sm",
+          "Pack: ",
+          span(id = "pack-label", class = "font-medium", style),
+          bc_icon("caret-down", size = 14)
+        ),
+        align = "start"
       )
-    }),
-    list(
-      trigger = bc_button(
-        variant = "outline",
-        size = "sm",
-        "Pack: ",
-        span(id = "pack-label", class = "font-medium", style),
-        bc_icon("caret-down", size = 14)
-      ),
-      align = "start"
     )
-  ))
+  )
 }
 
 theme_builder_footer <- function(back) {
@@ -194,7 +231,10 @@ theme_builder_account <- function() {
       div(
         class = "flex min-w-0 flex-col items-start",
         span(class = "truncate text-xs font-medium", "Ada Lovelace"),
-        span(class = "text-muted-foreground truncate text-xs", "ada@example.com")
+        span(
+          class = "text-muted-foreground truncate text-xs",
+          "ada@example.com"
+        )
       )
     ),
     side = "top",
@@ -207,10 +247,20 @@ theme_builder_actions <- function(style) {
     class = "flex flex-wrap items-center gap-2",
     theme_builder_packs(style),
     bc_button_group(
-      bc_button("Light", variant = "outline", size = "sm",
-                `data-mode` = "light", `aria-pressed` = "true"),
-      bc_button("Dark", variant = "outline", size = "sm",
-                `data-mode` = "dark", `aria-pressed` = "false"),
+      bc_button(
+        "Light",
+        variant = "outline",
+        size = "sm",
+        `data-mode` = "light",
+        `aria-pressed` = "true"
+      ),
+      bc_button(
+        "Dark",
+        variant = "outline",
+        size = "sm",
+        `data-mode` = "dark",
+        `aria-pressed` = "false"
+      ),
       aria_label = "Colour scheme"
     ),
     bc_button_group(
@@ -336,9 +386,24 @@ theme_builder_preview <- function() {
         bc_card_header(tags$h2("Form")),
         bc_card_body(
           class = "flex flex-col gap-3",
-          bc_input(id = "tb-email", label = "Email", placeholder = "ada@example.com"),
-          bc_textarea(id = "tb-bio", label = "Bio", placeholder = "A short bio", rows = "2"),
-          bc_select("Apple", "Banana", "Cherry", id = "tb-fruit", placeholder = "Fruit"),
+          bc_input(
+            id = "tb-email",
+            label = "Email",
+            placeholder = "ada@example.com"
+          ),
+          bc_textarea(
+            id = "tb-bio",
+            label = "Bio",
+            placeholder = "A short bio",
+            rows = "2"
+          ),
+          bc_select(
+            "Apple",
+            "Banana",
+            "Cherry",
+            id = "tb-fruit",
+            placeholder = "Fruit"
+          ),
           bc_combobox(
             "tb-framework",
             bc_combobox_option("Next.js"),
@@ -383,7 +448,11 @@ theme_builder_preview <- function() {
         bc_card_body(
           class = "flex flex-col gap-3",
           bc_accordion(
-            bc_accordion_item("What is a token?", "A CSS custom property.", open = TRUE),
+            bc_accordion_item(
+              "What is a token?",
+              "A CSS custom property.",
+              open = TRUE
+            ),
             bc_accordion_item("Where do they live?", "In :root and .dark.")
           ),
           div(
@@ -431,10 +500,13 @@ theme_builder_preview <- function() {
 
 theme_builder_script <- function() {
   tokens <- paste0(
-    "[", toString(paste0('"', unlist(bc_token_groups, use.names = FALSE), '"')), "]"
+    "[",
+    toString(paste0('"', unlist(bc_token_groups, use.names = FALSE), '"')),
+    "]"
   )
 
-  HTML(sprintf('
+  HTML(sprintf(
+    '
 const TOKENS = %s;
 const theme = { light: {}, dark: {} };
 let mode = "light";
@@ -674,5 +746,7 @@ document.getElementById("download").addEventListener("click", () => {
 
 readPack();
 render();
-', tokens))
+',
+    tokens
+  ))
 }

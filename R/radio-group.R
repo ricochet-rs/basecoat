@@ -26,7 +26,14 @@
 #'   bc_radio("yearly", "Yearly"),
 #'   bc_radio("lifetime", "Lifetime")
 #' )
-bc_radio_group <- function(..., name, label = name, id = name, disabled = FALSE, invalid = FALSE) {
+bc_radio_group <- function(
+  ...,
+  name,
+  label = name,
+  id = name,
+  disabled = FALSE,
+  invalid = FALSE
+) {
   check_string(name, allow_empty = FALSE)
   check_string(label, allow_empty = FALSE)
   check_string(id, allow_empty = FALSE)
@@ -77,14 +84,16 @@ radio_group_set_name <- function(tag, name) {
 #' bc_radio("default", "Default")
 #'
 #' bc_radio("comfortable", "Comfortable", checked = TRUE, disabled = TRUE)
-bc_radio <- function(id,
-                     label,
-                     ...,
-                     checked = FALSE,
-                     disabled = FALSE,
-                     invalid = FALSE,
-                     description = NULL,
-                     name = id) {
+bc_radio <- function(
+  id,
+  label,
+  ...,
+  checked = FALSE,
+  disabled = FALSE,
+  invalid = FALSE,
+  description = NULL,
+  name = id
+) {
   check_string(id, allow_empty = FALSE)
   check_bool(checked)
   check_bool(disabled)

@@ -2,33 +2,32 @@
 #
 # Run with:
 #
-#   plumber2::api(
-#     system.file("examples", "plumber2-htmx-toast.R", package = "basecoat")
+# plumber2::api(
+#   system.file("examples", "plumber2-htmx-toast.R", package = "basecoat")
+# ) |>
+#   htmxr::hx_serve_assets() |>
+#   plumber2::api_statics(
+#     at = "/basecoat/",
+#     path = system.file("basecoat", package = "basecoat")
 #   ) |>
-#     htmxr::hx_serve_assets() |>
-#     plumber2::api_statics(
-#       at = "/basecoat/",
-#       path = system.file("basecoat", package = "basecoat")
-#     ) |>
-#     plumber2::api_run()
-#
+#   plumber2::api_run()
 library(htmxr)
 library(basecoat)
 
 style <- "lyra"
+htmx <- htmltools::tags$script(
+  src = "/htmxr/assets/htmx/2.0.8/htmx.min.js",
+  defer = NA
+)
 
 #* @get /
 #* @parser none
 #* @serializer html
 function() {
-  hx_page(
-    hx_head(
-      title = "Basecoat toasts with htmxr",
-      htmltools::renderDependencies(
-        list(bc_deps(style = style, js = TRUE, source = "/basecoat/")),
-        "href"
-      )
-    ),
+  bc_page(
+    title = "Basecoat toasts with htmxr",
+    style = style,
+    head = htmx,
     tags$main(
       class = "prose mx-auto flex max-w-2xl flex-col items-start gap-6 p-10",
       tags$h1("Toasts from the server"),

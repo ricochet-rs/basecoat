@@ -24,42 +24,52 @@
 #'   variant = "line",
 #'   id = "workspace"
 #' )
-bc_tabs <- function(...,
-                    variant = "default",
-                    orientation = "horizontal",
-                    id = NULL,
-                    aria_label = NULL) {
+bc_tabs <- function(
+  ...,
+  variant = "default",
+  orientation = "horizontal",
+  id = NULL,
+  aria_label = NULL
+) {
   check_string(variant, allow_empty = FALSE)
   check_string(orientation, allow_empty = FALSE)
   check_string(aria_label, allow_null = TRUE, allow_empty = FALSE)
 
   # Validate variant
   if (!(variant %in% c("default", "line"))) {
-    cli::cli_abort("Variant must be 'default' or 'line'", call = rlang::caller_env())
+    cli::cli_abort(
+      "Variant must be 'default' or 'line'",
+      call = rlang::caller_env()
+    )
   }
-  
+
   # Validate orientation
   if (!(orientation %in% c("horizontal", "vertical"))) {
-    cli::cli_abort("Orientation must be 'horizontal' or 'vertical'", call = rlang::caller_env())
+    cli::cli_abort(
+      "Orientation must be 'horizontal' or 'vertical'",
+      call = rlang::caller_env()
+    )
   }
-  
+
   tabs_list <- list(...)
-  
+
   # Generate IDs if not provided
   if (is.null(id)) {
     id <- paste0("tabs-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
   }
-  
+
   tablist_id <- paste0(id, "-tablist")
   tab_ids <- lapply(seq_along(tabs_list), function(i) paste0(id, "-tab-", i))
-  panel_ids <- lapply(seq_along(tabs_list), function(i) paste0(id, "-panel-", i))
-  
+  panel_ids <- lapply(seq_along(tabs_list), function(i) {
+    paste0(id, "-panel-", i)
+  })
+
   # Create tab buttons
   tab_buttons <- lapply(seq_along(tabs_list), function(i) {
     tab_data <- tabs_list[[i]]
     is_active <- i == 1
     disabled <- !is.null(tab_data$disabled) && tab_data$disabled
-    
+
     tags$button(
       type = "button",
       role = "tab",
@@ -71,13 +81,13 @@ bc_tabs <- function(...,
       tab_data$label
     )
   })
-  
+
   # Create panels
   panels <- lapply(seq_along(tabs_list), function(i) {
     tab_data <- tabs_list[[i]]
     is_active <- i == 1
     disabled <- !is.null(tab_data$disabled) && tab_data$disabled
-    
+
     div(
       role = "tabpanel",
       id = panel_ids[[i]],
@@ -89,7 +99,7 @@ bc_tabs <- function(...,
       tab_data$content
     )
   })
-  
+
   # Create the tablist nav
   nav <- tags$nav(
     role = "tablist",
@@ -99,7 +109,7 @@ bc_tabs <- function(...,
     class = "w-full",
     tab_buttons
   )
-  
+
   # Create the main tabs container
   bc_tag(htmltools::attachDependencies(
     div(
@@ -133,7 +143,7 @@ bc_tabs <- function(...,
 bc_tab <- function(..., id = NULL, label, disabled = FALSE) {
   check_string(label, allow_empty = FALSE)
   check_bool(disabled)
-  
+
   list(
     id = id,
     label = label,

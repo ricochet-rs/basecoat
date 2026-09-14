@@ -31,10 +31,12 @@ bc_field_orientations <- c("default", "horizontal", "responsive")
 #'   htmltools::tags$label(`for` = "sync", "Sync folders"),
 #'   orientation = "horizontal"
 #' )
-bc_field <- function(...,
-                     orientation = "default",
-                     disabled = FALSE,
-                     invalid = FALSE) {
+bc_field <- function(
+  ...,
+  orientation = "default",
+  disabled = FALSE,
+  invalid = FALSE
+) {
   orientation <- arg_match(orientation, bc_field_orientations)
   check_bool(disabled)
   check_bool(invalid)

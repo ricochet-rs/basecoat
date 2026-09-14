@@ -45,18 +45,25 @@
 #'   ),
 #'   trigger_label = "View"
 #' )
-bc_dropdown_menu <- function(...,
-                             id = NULL,
-                             trigger_label = "Menu",
-                             trigger = NULL,
-                             variant = "outline",
-                             side = NULL,
-                             align = NULL,
-                             class = NULL) {
-  if (is.null(trigger)) check_string(trigger_label, allow_empty = FALSE)
+bc_dropdown_menu <- function(
+  ...,
+  id = NULL,
+  trigger_label = "Menu",
+  trigger = NULL,
+  variant = "outline",
+  side = NULL,
+  align = NULL,
+  class = NULL
+) {
+  if (is.null(trigger)) {
+    check_string(trigger_label, allow_empty = FALSE)
+  }
   variant <- arg_match(variant, bc_button_variants)
   if (!is.null(side)) {
-    side <- arg_match(side, c("top", "right", "bottom", "left", "inline-start", "inline-end"))
+    side <- arg_match(
+      side,
+      c("top", "right", "bottom", "left", "inline-start", "inline-end")
+    )
   }
   if (!is.null(align)) {
     align <- arg_match(align, c("start", "center", "end"))
@@ -64,7 +71,10 @@ bc_dropdown_menu <- function(...,
   check_string(class, allow_null = TRUE, allow_empty = TRUE)
 
   if (is.null(id)) {
-    id <- paste0("dropdown-menu-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+    id <- paste0(
+      "dropdown-menu-",
+      paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+    )
   }
 
   popover <- div(
@@ -108,12 +118,14 @@ bc_dropdown_menu <- function(...,
 #' @param icon A tag. An icon before the label.
 #' @param disabled Bool. Mark the item as disabled.
 #' @export
-bc_dropdown_item <- function(label,
-                             ...,
-                             shortcut = NULL,
-                             icon = NULL,
-                             disabled = FALSE,
-                             variant = NULL) {
+bc_dropdown_item <- function(
+  label,
+  ...,
+  shortcut = NULL,
+  icon = NULL,
+  disabled = FALSE,
+  variant = NULL
+) {
   check_string(label, allow_empty = FALSE)
   check_string(shortcut, allow_null = TRUE, allow_empty = TRUE)
   check_bool(disabled)
@@ -137,9 +149,7 @@ bc_dropdown_item <- function(label,
 #' @param heading_id String. The heading's `id` and the group's
 #'   `aria-labelledby`.
 #' @export
-bc_dropdown_group <- function(title = NULL,
-                              ...,
-                              heading_id = NULL) {
+bc_dropdown_group <- function(title = NULL, ..., heading_id = NULL) {
   if (is.null(title)) {
     return(bc_tag(div(role = "group", dropdown_items(list(...)))))
   }
@@ -147,7 +157,10 @@ bc_dropdown_group <- function(title = NULL,
   check_string(title, allow_empty = FALSE)
 
   if (is.null(heading_id)) {
-    heading_id <- paste0("dropdown-label-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+    heading_id <- paste0(
+      "dropdown-label-",
+      paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+    )
   }
 
   bc_tag(div(
@@ -167,11 +180,13 @@ bc_dropdown_separator <- function() {
 #' @rdname bc_dropdown_menu
 #' @param checked Bool. Whether the item starts checked.
 #' @export
-bc_dropdown_checkbox <- function(label,
-                                 ...,
-                                 checked = FALSE,
-                                 disabled = FALSE,
-                                 icon = NULL) {
+bc_dropdown_checkbox <- function(
+  label,
+  ...,
+  checked = FALSE,
+  disabled = FALSE,
+  icon = NULL
+) {
   check_string(label, allow_empty = FALSE)
   check_bool(checked)
   check_bool(disabled)
@@ -189,11 +204,13 @@ bc_dropdown_checkbox <- function(label,
 
 #' @rdname bc_dropdown_menu
 #' @export
-bc_dropdown_radio <- function(label,
-                              ...,
-                              checked = FALSE,
-                              disabled = FALSE,
-                              icon = NULL) {
+bc_dropdown_radio <- function(
+  label,
+  ...,
+  checked = FALSE,
+  disabled = FALSE,
+  icon = NULL
+) {
   check_string(label, allow_empty = FALSE)
   check_bool(checked)
   check_bool(disabled)
@@ -223,4 +240,3 @@ dropdown_items <- function(items) {
     bc_dropdown_item(as.character(item))
   })
 }
-

@@ -26,14 +26,16 @@
 #'   checked = TRUE,
 #'   description = "Unsubscribe at any time."
 #' )
-bc_checkbox <- function(id,
-                        label,
-                        ...,
-                        checked = FALSE,
-                        disabled = FALSE,
-                        invalid = FALSE,
-                        description = NULL,
-                        name = id) {
+bc_checkbox <- function(
+  id,
+  label,
+  ...,
+  checked = FALSE,
+  disabled = FALSE,
+  invalid = FALSE,
+  description = NULL,
+  name = id
+) {
   check_string(id, allow_empty = FALSE)
   check_bool(checked)
   check_bool(disabled)

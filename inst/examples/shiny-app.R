@@ -1,6 +1,6 @@
 # Every Basecoat input wired to Shiny, inside a `bc_page_navbar()` shell.
 #
-#   shiny::runApp(system.file("examples", "shiny-app.R", package = "basecoat"))
+# shiny::runApp(system.file("examples", "shiny-app.R", package = "basecoat"))
 
 library(shiny)
 library(basecoat)

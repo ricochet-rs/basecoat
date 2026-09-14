@@ -26,12 +26,14 @@
 #'   action = bc_button("Retry", variant = "outline", size = "sm"),
 #'   variant = "destructive"
 #' )
-bc_alert <- function(...,
-                     title = NULL,
-                     description = NULL,
-                     icon = NULL,
-                     action = NULL,
-                     variant = "default") {
+bc_alert <- function(
+  ...,
+  title = NULL,
+  description = NULL,
+  icon = NULL,
+  action = NULL,
+  variant = "default"
+) {
   variant <- arg_match(variant, c("default", "destructive"))
 
   bc_tag(div(

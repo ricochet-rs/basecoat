@@ -40,16 +40,18 @@ bc_alert_dialog_sizes <- c("default", "sm")
 #'   confirm = list(label = "Delete", variant = "destructive"),
 #'   trigger = "Delete Chat"
 #' )
-bc_alert_dialog <- function(...,
-                            id = NULL,
-                            title = NULL,
-                            description = NULL,
-                            icon = NULL,
-                            cancel = "Cancel",
-                            confirm = "Continue",
-                            size = "default",
-                            open = FALSE,
-                            trigger = NULL) {
+bc_alert_dialog <- function(
+  ...,
+  id = NULL,
+  title = NULL,
+  description = NULL,
+  icon = NULL,
+  cancel = "Cancel",
+  confirm = "Continue",
+  size = "default",
+  open = FALSE,
+  trigger = NULL
+) {
   size <- arg_match(size, bc_alert_dialog_sizes)
   check_string(id, allow_null = TRUE, allow_empty = FALSE)
   check_string(title, allow_null = TRUE, allow_empty = FALSE)
@@ -62,8 +64,12 @@ bc_alert_dialog <- function(...,
       paste0(sample(1:9, 8, replace = TRUE), collapse = "")
     )
   }
-  if (!is.null(cancel)) cancel <- alert_dialog_action(cancel, "outline")
-  if (!is.null(confirm)) confirm <- alert_dialog_action(confirm, "primary")
+  if (!is.null(cancel)) {
+    cancel <- alert_dialog_action(cancel, "outline")
+  }
+  if (!is.null(confirm)) {
+    confirm <- alert_dialog_action(confirm, "primary")
+  }
 
   title_id <- if (!is.null(title)) paste0(id, "-title")
   desc_id <- if (!is.null(description)) paste0(id, "-description")

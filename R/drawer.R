@@ -41,14 +41,16 @@
 #'     bc_dialog_close("Accept all")
 #'   )
 #' )
-bc_drawer <- function(...,
-                      id = NULL,
-                      side = "bottom",
-                      trigger = "Open Drawer",
-                      title = NULL,
-                      description = NULL,
-                      actions = NULL,
-                      class = NULL) {
+bc_drawer <- function(
+  ...,
+  id = NULL,
+  side = "bottom",
+  trigger = "Open Drawer",
+  title = NULL,
+  description = NULL,
+  actions = NULL,
+  class = NULL
+) {
   side <- arg_match(side, c("bottom", "top", "right", "left"))
   check_string(trigger, allow_null = TRUE, allow_empty = FALSE)
   check_string(title, allow_null = TRUE, allow_empty = FALSE)
@@ -56,7 +58,10 @@ bc_drawer <- function(...,
   check_string(class, allow_null = TRUE, allow_empty = TRUE)
 
   if (is.null(id)) {
-    id <- paste0("drawer-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+    id <- paste0(
+      "drawer-",
+      paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+    )
   }
 
   title_id <- paste0(id, "-title")
@@ -90,7 +95,10 @@ bc_drawer <- function(...,
   )
 
   if (is.null(trigger)) {
-    return(bc_tag(htmltools::attachDependencies(dialog, bc_script_dep("drawer"))))
+    return(bc_tag(htmltools::attachDependencies(
+      dialog,
+      bc_script_dep("drawer")
+    )))
   }
 
   bc_tag(htmltools::attachDependencies(

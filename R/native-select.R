@@ -42,16 +42,18 @@ bc_native_select_sizes <- c("default", "sm")
 #'   label = "Food",
 #'   placeholder = "Select food"
 #' )
-bc_native_select <- function(...,
-                             label = NULL,
-                             id = NULL,
-                             aria_label = NULL,
-                             placeholder = NULL,
-                             size = "default",
-                             description = NULL,
-                             name = id,
-                             disabled = FALSE,
-                             invalid = FALSE) {
+bc_native_select <- function(
+  ...,
+  label = NULL,
+  id = NULL,
+  aria_label = NULL,
+  placeholder = NULL,
+  size = "default",
+  description = NULL,
+  name = id,
+  disabled = FALSE,
+  invalid = FALSE
+) {
   size <- arg_match(size, bc_native_select_sizes)
   check_string(id, allow_null = TRUE, allow_empty = FALSE)
   check_string(aria_label, allow_null = TRUE, allow_empty = FALSE)

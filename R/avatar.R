@@ -23,12 +23,14 @@ bc_avatar_sizes <- c("default", "sm", "lg")
 #' bc_avatar(src = "https://github.com/shadcn.png", alt = "@shadcn", fallback = "CN")
 #'
 #' bc_avatar(fallback = "JP", size = "lg")
-bc_avatar <- function(...,
-                      src = NULL,
-                      alt = NULL,
-                      fallback = NULL,
-                      size = "default",
-                      badge = NULL) {
+bc_avatar <- function(
+  ...,
+  src = NULL,
+  alt = NULL,
+  fallback = NULL,
+  size = "default",
+  badge = NULL
+) {
   size <- arg_match(size, bc_avatar_sizes)
   check_string(src, allow_null = TRUE, allow_empty = FALSE)
   check_string(alt, allow_null = TRUE)

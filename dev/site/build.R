@@ -14,13 +14,19 @@ suppressPackageStartupMessages(library(basecoat))
 library(htmltools)
 
 OUT <- commandArgs(trailingOnly = TRUE)[1]
-if (is.na(OUT)) OUT <- "_site"
+if (is.na(OUT)) {
+  OUT <- "_site"
+}
 WORK <- file.path(tempdir(), "basecoat-site")
 
 `%||%` <- function(x, y) if (is.null(x)) y else x
 
 read_config <- function(path = "_pkgdown.yml") {
-  if (requireNamespace("yaml12", quietly = TRUE)) yaml12::read_yaml(path) else yaml::read_yaml(path)
+  if (requireNamespace("yaml12", quietly = TRUE)) {
+    yaml12::read_yaml(path)
+  } else {
+    yaml::read_yaml(path)
+  }
 }
 
 DESC <- as.list(read.dcf("DESCRIPTION")[1, ])
@@ -31,9 +37,17 @@ REPO <- "https://github.com/ricochet-rs/basecoat"
 # Phosphor ships the raw SVGs, so an icon is the file inlined rather than a
 # webfont the page would have to fetch.
 icon <- function(name, size = "1.15rem", weight = "regular") {
-  path <- file.path("node_modules/@phosphor-icons/core/assets", weight, paste0(name, ".svg"))
+  path <- file.path(
+    "node_modules/@phosphor-icons/core/assets",
+    weight,
+    paste0(name, ".svg")
+  )
   svg <- paste(readLines(path, warn = FALSE), collapse = "")
-  svg <- sub("<svg ", sprintf('<svg width="%s" height="%s" aria-hidden="true" ', size, size), svg)
+  svg <- sub(
+    "<svg ",
+    sprintf('<svg width="%s" height="%s" aria-hidden="true" ', size, size),
+    svg
+  )
   HTML(svg)
 }
 
@@ -44,19 +58,27 @@ icon <- function(name, size = "1.15rem", weight = "regular") {
 list_tables_to_html <- function(md) {
   lines <- strsplit(md, "\n", fixed = TRUE)[[1]]
   open <- grep("^::: *\\{\\.list-table", lines)
-  if (!length(open)) return(md)
+  if (!length(open)) {
+    return(md)
+  }
 
   for (i in rev(open)) {
     close <- i + which(trimws(lines[(i + 1):length(lines)]) == ":::")[1]
     block <- lines[(i + 1):(close - 1)]
-    lines <- c(lines[seq_len(i - 1)], list_table_html(block), lines[-seq_len(close)])
+    lines <- c(
+      lines[seq_len(i - 1)],
+      list_table_html(block),
+      lines[-seq_len(close)]
+    )
   }
   paste(lines, collapse = "\n")
 }
 
 list_table_html <- function(block) {
   starts <- grep("^- - ", block)
-  if (!length(starts)) return("")
+  if (!length(starts)) {
+    return("")
+  }
 
   rows <- lapply(seq_along(starts), function(k) {
     from <- starts[k]
@@ -64,28 +86,58 @@ list_table_html <- function(block) {
     chunk <- block[from:to]
     chunk[1] <- sub("^- ", "  ", chunk[1])
     cell_at <- grep("^  - ", chunk)
-    vapply(seq_along(cell_at), function(j) {
-      lo <- cell_at[j]
-      hi <- if (j < length(cell_at)) cell_at[j + 1] - 1 else length(chunk)
-      inline_md(trimws(paste(trimws(sub("^  - ", "", chunk[lo:hi])), collapse = " ")))
-    }, character(1))
+    vapply(
+      seq_along(cell_at),
+      function(j) {
+        lo <- cell_at[j]
+        hi <- if (j < length(cell_at)) cell_at[j + 1] - 1 else length(chunk)
+        inline_md(trimws(paste(
+          trimws(sub("^  - ", "", chunk[lo:hi])),
+          collapse = " "
+        )))
+      },
+      character(1)
+    )
   })
 
   n <- max(lengths(rows))
   cell <- function(x, tag) paste0("<", tag, ">", x, "</", tag, ">")
-  head_row <- paste0("<tr>", paste(cell(rows[[1]], "th"), collapse = ""), "</tr>")
-  body_rows <- vapply(rows[-1], function(r) {
-    paste0("<tr>", paste(cell(c(r, rep("", n - length(r))), "td"), collapse = ""), "</tr>")
-  }, character(1))
+  head_row <- paste0(
+    "<tr>",
+    paste(cell(rows[[1]], "th"), collapse = ""),
+    "</tr>"
+  )
+  body_rows <- vapply(
+    rows[-1],
+    function(r) {
+      paste0(
+        "<tr>",
+        paste(cell(c(r, rep("", n - length(r))), "td"), collapse = ""),
+        "</tr>"
+      )
+    },
+    character(1)
+  )
 
-  c("", paste0(
-    '<div class="prose-table"><table class="table" data-size="sm"><thead>',
-    head_row, "</thead><tbody>", paste(body_rows, collapse = ""), "</tbody></table></div>"
-  ), "")
+  c(
+    "",
+    paste0(
+      '<div class="prose-table"><table class="table" data-size="sm"><thead>',
+      head_row,
+      "</thead><tbody>",
+      paste(body_rows, collapse = ""),
+      "</tbody></table></div>"
+    ),
+    ""
+  )
 }
 
 inline_md <- function(x) {
-  trimws(sub("</p>\\s*$", "", sub("^\\s*<p>", "", commonmark::markdown_html(x, extensions = TRUE))))
+  trimws(sub(
+    "</p>\\s*$",
+    "",
+    sub("^\\s*<p>", "", commonmark::markdown_html(x, extensions = TRUE))
+  ))
 }
 
 render_md <- function(md) {
@@ -94,7 +146,10 @@ render_md <- function(md) {
   # markdown, which wraps block elements in a <p> the browser then closes
   # early, and the rest of the page ends up nested inside the component.
   ex <- extractPreserveChunks(md)
-  html <- commonmark::markdown_html(list_tables_to_html(ex$value), extensions = TRUE)
+  html <- commonmark::markdown_html(
+    list_tables_to_html(ex$value),
+    extensions = TRUE
+  )
 
   # Anchored while the components are still tokens, so a heading belonging to
   # a card or a toast is never mistaken for a section of the page.
@@ -112,8 +167,10 @@ render_md <- function(md) {
   # downlit only touches `pre.sourceCode.r`, and commonmark puts the language
   # on the inner <code>.
   html <- gsub(
-    '<pre><code class="language-r">', '<pre class="sourceCode r"><code>',
-    html, fixed = TRUE
+    '<pre><code class="language-r">',
+    '<pre class="sourceCode r"><code>',
+    html,
+    fixed = TRUE
   )
 
   list(html = HTML(html), toc = anchored$toc)
@@ -144,18 +201,33 @@ anchor_headings <- function(html) {
     level <- sub("^<h([23])>.*$", "\\1", h)
     text <- sub("^<h[23]>(.*)</h[23]>$", "\\1", h)
     id <- slugify(text)
-    if (id == "") id <- "section"
-    while (id %in% seen) id <- paste0(id, "-")
+    if (id == "") {
+      id <- "section"
+    }
+    while (id %in% seen) {
+      id <- paste0(id, "-")
+    }
     seen <- c(seen, id)
-    toc[[length(toc) + 1]] <- list(level = as.integer(level), id = id, text = text)
-    rebuilt <- sub(h, sprintf('<h%s id="%s">%s</h%s>', level, id, text, level), rebuilt, fixed = TRUE)
+    toc[[length(toc) + 1]] <- list(
+      level = as.integer(level),
+      id = id,
+      text = text
+    )
+    rebuilt <- sub(
+      h,
+      sprintf('<h%s id="%s">%s</h%s>', level, id, text, level),
+      rebuilt,
+      fixed = TRUE
+    )
   }
 
   list(html = HTML(rebuilt), toc = toc)
 }
 
 toc_rail <- function(toc) {
-  if (length(toc) < 2) return(NULL)
+  if (length(toc) < 2) {
+    return(NULL)
+  }
   tags$nav(
     class = "rail-block",
     `aria-label` = "On this page",
@@ -191,16 +263,22 @@ knit_to_md <- function(path) {
 }
 
 strip_frontmatter <- function(lines) {
-  if (!length(lines) || !grepl("^---\\s*$", lines[1])) return(lines)
+  if (!length(lines) || !grepl("^---\\s*$", lines[1])) {
+    return(lines)
+  }
   close <- which(grepl("^---\\s*$", lines))[2]
   if (is.na(close)) lines else lines[-seq_len(close)]
 }
 
 frontmatter <- function(path) {
   lines <- readLines(path, warn = FALSE)
-  if (!length(lines) || !grepl("^---\\s*$", lines[1])) return(list())
+  if (!length(lines) || !grepl("^---\\s*$", lines[1])) {
+    return(list())
+  }
   close <- which(grepl("^---\\s*$", lines))[2]
-  if (is.na(close)) return(list())
+  if (is.na(close)) {
+    return(list())
+  }
   yaml::yaml.load(paste(lines[2:(close - 1)], collapse = "\n"))
 }
 
@@ -209,13 +287,19 @@ frontmatter <- function(path) {
 description_of <- function(md) {
   lines <- strsplit(md, "\n", fixed = TRUE)[[1]]
   at <- grep("^## Description\\s*$", lines)
-  if (!length(at)) return("")
+  if (!length(at)) {
+    return("")
+  }
   rest <- lines[(at[1] + 1):length(lines)]
   rest <- rest[cumsum(nzchar(rest)) > 0]
   stop_at <- which(grepl("^## ", rest))
-  if (length(stop_at)) rest <- rest[seq_len(stop_at[1] - 1)]
+  if (length(stop_at)) {
+    rest <- rest[seq_len(stop_at[1] - 1)]
+  }
   blank <- which(!nzchar(rest))
-  if (length(blank)) rest <- rest[seq_len(blank[1] - 1)]
+  if (length(blank)) {
+    rest <- rest[seq_len(blank[1] - 1)]
+  }
   inline_md(paste(rest, collapse = " "))
 }
 
@@ -232,9 +316,17 @@ copy_styles <- function(out) {
 
   from <- system.file("basecoat", package = "basecoat")
   for (s in bc_styles) {
-    file.copy(file.path(from, paste0("basecoat-", s, ".min.css")), dir, overwrite = TRUE)
+    file.copy(
+      file.path(from, paste0("basecoat-", s, ".min.css")),
+      dir,
+      overwrite = TRUE
+    )
   }
-  file.copy("dev/site/theme.css", file.path(dir, "ricochet.css"), overwrite = TRUE)
+  file.copy(
+    "dev/site/theme.css",
+    file.path(dir, "ricochet.css"),
+    overwrite = TRUE
+  )
 }
 
 # Every pack is on the page, switched with `media` rather than `disabled`. The
@@ -245,21 +337,32 @@ style_links <- function(depth) {
   root <- strrep("../", depth)
   media <- function(on) if (on) "all" else "not all"
 
-  packs <- vapply(bc_styles, function(s) {
-    sprintf(
-      '<link rel="stylesheet" data-style="%s" media="%s" href="%sdeps/styles/basecoat-%s.min.css">',
-      s, media(s == "lyra"), root, s
-    )
-  }, character(1))
+  packs <- vapply(
+    bc_styles,
+    function(s) {
+      sprintf(
+        '<link rel="stylesheet" data-style="%s" media="%s" href="%sdeps/styles/basecoat-%s.min.css">',
+        s,
+        media(s == "lyra"),
+        root,
+        s
+      )
+    },
+    character(1)
+  )
 
-  c(packs, sprintf(
-    '<link rel="stylesheet" data-style="ricochet" media="all" href="%sdeps/styles/ricochet.css">',
-    root
-  ))
+  c(
+    packs,
+    sprintf(
+      '<link rel="stylesheet" data-style="ricochet" media="all" href="%sdeps/styles/ricochet.css">',
+      root
+    )
+  )
 }
 
 # Applied before first paint, so a stored choice never flashes the default.
-style_script <- HTML(sprintf('
+style_script <- HTML(sprintf(
+  '
 (function () {
   var STYLES = %s;
   var PACK = { ricochet: "lyra" };
@@ -281,33 +384,40 @@ style_script <- HTML(sprintf('
   try { stored = localStorage.getItem("basecoatStyle"); } catch (e) {}
   apply(stored || "%s");
 })();
-', jsonlite::toJSON(SITE_STYLES), DEFAULT_STYLE, DEFAULT_STYLE))
+',
+  yyjsonr::write_json_str(SITE_STYLES),
+  DEFAULT_STYLE,
+  DEFAULT_STYLE
+))
 
 style_menu <- function() {
-  do.call(bc_dropdown_menu, c(
-    lapply(SITE_STYLES, function(s) {
-      tags$button(
-        type = "button",
-        role = "menuitemradio",
-        `aria-checked` = tolower(s == DEFAULT_STYLE),
-        `data-style-option` = s,
-        onclick = sprintf("window.basecoatSite.setStyle('%s')", s),
-        span(`data-indicator` = NA, icon("check", size = "1rem")),
-        span(s)
+  do.call(
+    bc_dropdown_menu,
+    c(
+      lapply(SITE_STYLES, function(s) {
+        tags$button(
+          type = "button",
+          role = "menuitemradio",
+          `aria-checked` = tolower(s == DEFAULT_STYLE),
+          `data-style-option` = s,
+          onclick = sprintf("window.basecoatSite.setStyle('%s')", s),
+          span(`data-indicator` = NA, icon("check", size = "1rem")),
+          span(s)
+        )
+      }),
+      list(
+        trigger = tags$button(
+          class = "btn",
+          `data-variant` = "ghost",
+          `data-size` = "sm",
+          type = "button",
+          "Style",
+          icon("caret-down", size = ".8rem")
+        ),
+        align = "end"
       )
-    }),
-    list(
-      trigger = tags$button(
-        class = "btn",
-        `data-variant` = "ghost",
-        `data-size` = "sm",
-        type = "button",
-        "Style",
-        icon("caret-down", size = ".8rem")
-      ),
-      align = "end"
     )
-  ))
+  )
 }
 
 # ---- page shell -------------------------------------------------------------
@@ -321,53 +431,69 @@ navbar <- function(depth, active = NA, articles = list()) {
       class = "btn",
       `data-variant` = if (identical(active, key)) "secondary" else "ghost",
       `data-size` = "sm",
-      href = paste0(root, href), label
+      href = paste0(root, href),
+      label
     )
   }
 
   tags$header(
     class = "site-header",
     tags$div(
-    class = "site-container",
-    tags$div(
-      class = "site-brand",
-      tags$a(href = paste0(root, "index.html"), "basecoat"),
-      bc_badge(DESC$Version, variant = "secondary")
-    ),
-    tags$nav(
-      class = "site-nav",
-      link("reference/index.html", "Reference", "reference"),
-      do.call(bc_dropdown_menu, c(
-        list(tags$a(role = "menuitem", href = paste0(root, "articles/index.html"), "All articles")),
-        list(bc_dropdown_separator()),
-        lapply(articles, function(a) {
-          tags$a(role = "menuitem", href = paste0(root, "articles/", a$slug, ".html"), a$title)
-        }),
-        list(
-          trigger = tags$button(
-            class = "btn",
-            `data-variant` = if (identical(active, "articles")) "secondary" else "ghost",
-            `data-size` = "sm",
-            type = "button",
-            "Articles",
-            icon("caret-down", size = ".8rem")
-          ),
-          align = "end"
-        )
-      )),
-      link("theme/index.html", "Theme", "theme"),
-      style_menu(),
-      tags$a(
-        class = "btn",
-        `data-variant` = "ghost",
-        `data-size` = "icon",
-        href = REPO,
-        `aria-label` = "GitHub",
-        rel = "noreferrer",
-        icon("github-logo")
+      class = "site-container",
+      tags$div(
+        class = "site-brand",
+        tags$a(href = paste0(root, "index.html"), "basecoat"),
+        bc_badge(DESC$Version, variant = "secondary")
       ),
-      bc_theme_switcher()
-    )
+      tags$nav(
+        class = "site-nav",
+        link("reference/index.html", "Reference", "reference"),
+        do.call(
+          bc_dropdown_menu,
+          c(
+            list(tags$a(
+              role = "menuitem",
+              href = paste0(root, "articles/index.html"),
+              "All articles"
+            )),
+            list(bc_dropdown_separator()),
+            lapply(articles, function(a) {
+              tags$a(
+                role = "menuitem",
+                href = paste0(root, "articles/", a$slug, ".html"),
+                a$title
+              )
+            }),
+            list(
+              trigger = tags$button(
+                class = "btn",
+                `data-variant` = if (identical(active, "articles")) {
+                  "secondary"
+                } else {
+                  "ghost"
+                },
+                `data-size` = "sm",
+                type = "button",
+                "Articles",
+                icon("caret-down", size = ".8rem")
+              ),
+              align = "end"
+            )
+          )
+        ),
+        link("theme/index.html", "Theme", "theme"),
+        style_menu(),
+        tags$a(
+          class = "btn",
+          `data-variant` = "ghost",
+          `data-size` = "icon",
+          href = REPO,
+          `aria-label` = "GitHub",
+          rel = "noreferrer",
+          icon("github-logo")
+        ),
+        bc_theme_switcher()
+      )
     )
   )
 }
@@ -376,7 +502,10 @@ navbar <- function(depth, active = NA, articles = list()) {
 # link, no citation and no copyright holder.
 links_rail <- function() {
   authors <- eval(parse(text = DESC$`Authors@R`))
-  creators <- Filter(function(p) any(c("aut", "cre") %in% p$role), as.list(authors))
+  creators <- Filter(
+    function(p) any(c("aut", "cre") %in% p$role),
+    as.list(authors)
+  )
 
   tagList(
     tags$nav(
@@ -384,9 +513,21 @@ links_rail <- function() {
       tags$p(class = "rail-title", "Links"),
       tags$ul(
         class = "rail-list",
-        tags$li(tags$a(href = REPO, icon("code", size = "1rem"), "Browse source code")),
-        tags$li(tags$a(href = paste0(REPO, "/issues"), icon("bug", size = "1rem"), "Report a bug")),
-        tags$li(tags$a(href = "https://basecoatui.com", icon("book-open", size = "1rem"), "Basecoat UI"))
+        tags$li(tags$a(
+          href = REPO,
+          icon("code", size = "1rem"),
+          "Browse source code"
+        )),
+        tags$li(tags$a(
+          href = paste0(REPO, "/issues"),
+          icon("bug", size = "1rem"),
+          "Report a bug"
+        )),
+        tags$li(tags$a(
+          href = "https://basecoatui.com",
+          icon("book-open", size = "1rem"),
+          "Basecoat UI"
+        ))
       )
     ),
     tags$nav(
@@ -400,17 +541,34 @@ links_rail <- function() {
     tags$nav(
       class = "rail-block",
       tags$p(class = "rail-title", "Developers"),
-      tags$ul(class = "rail-list", lapply(creators, function(p) {
-        tags$li(
-          tags$span(class = "rail-name", format(p, include = c("given", "family"))),
-          tags$span(class = "rail-role", if ("cre" %in% p$role) "Author, maintainer" else "Author")
-        )
-      }))
+      tags$ul(
+        class = "rail-list",
+        lapply(creators, function(p) {
+          tags$li(
+            tags$span(
+              class = "rail-name",
+              format(p, include = c("given", "family"))
+            ),
+            tags$span(
+              class = "rail-role",
+              if ("cre" %in% p$role) "Author, maintainer" else "Author"
+            )
+          )
+        })
+      )
     )
   )
 }
 
-write_page <- function(path, title, body, depth, rail = NULL, active = NA, articles = list()) {
+write_page <- function(
+  path,
+  title,
+  body,
+  depth,
+  rail = NULL,
+  active = NA,
+  articles = list()
+) {
   page <- tagList(
     navbar(depth, active, articles),
     tags$div(
@@ -439,15 +597,27 @@ write_page <- function(path, title, body, depth, rail = NULL, active = NA, artic
 
   root <- strrep("../", depth)
   dep_html <- paste(renderDependencies(deps, "file"), collapse = "\n")
-  dep_html <- gsub('href="deps/', paste0('href="', root, "deps/"), dep_html, fixed = TRUE)
-  dep_html <- gsub('src="deps/', paste0('src="', root, "deps/"), dep_html, fixed = TRUE)
+  dep_html <- gsub(
+    'href="deps/',
+    paste0('href="', root, "deps/"),
+    dep_html,
+    fixed = TRUE
+  )
+  dep_html <- gsub(
+    'src="deps/',
+    paste0('src="', root, "deps/"),
+    dep_html,
+    fixed = TRUE
+  )
 
   # Assembled by hand rather than with tags$head(): htmltools hoists head
   # content into a slot of its own that as.character() then drops.
   dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
   writeLines(
     c(
-      "<!doctype html>", '<html lang="en">', "<head>",
+      "<!doctype html>",
+      '<html lang="en">',
+      "<head>",
       '<meta charset="utf-8">',
       '<meta name="viewport" content="width=device-width, initial-scale=1">',
       as.character(tags$title(title)),
@@ -455,7 +625,11 @@ write_page <- function(path, title, body, depth, rail = NULL, active = NA, artic
       dep_html,
       as.character(tags$style(HTML(paste(site_css, collapse = "\n")))),
       as.character(tags$script(style_script)),
-      "</head>", "<body>", as.character(page), "</body>", "</html>"
+      "</head>",
+      "<body>",
+      as.character(page),
+      "</body>",
+      "</html>"
     ),
     path
   )
@@ -471,7 +645,13 @@ build_reference <- function(articles) {
   unlink(ref, recursive = TRUE)
   dir.create(ref, recursive = TRUE, showWarnings = FALSE)
 
-  if (system2("rd2qmd", c("convert", "man/", "-o", shQuote(ref), "-r", "--frontmatter", "-q")) != 0) {
+  if (
+    system2(
+      "rd2qmd",
+      c("convert", "man/", "-o", shQuote(ref), "-r", "--frontmatter", "-q")
+    ) !=
+      0
+  ) {
     stop("rd2qmd failed")
   }
 
@@ -506,10 +686,16 @@ build_reference <- function(articles) {
 # ---- articles ---------------------------------------------------------------
 
 article_stubs <- function() {
-  lapply(list.files("vignettes/articles", pattern = "\\.qmd$", full.names = TRUE), function(f) {
-    list(path = f, slug = sub("\\.qmd$", "", basename(f)),
-         title = frontmatter(f)$title %||% sub("\\.qmd$", "", basename(f)))
-  })
+  lapply(
+    list.files("vignettes/articles", pattern = "\\.qmd$", full.names = TRUE),
+    function(f) {
+      list(
+        path = f,
+        slug = sub("\\.qmd$", "", basename(f)),
+        title = frontmatter(f)$title %||% sub("\\.qmd$", "", basename(f))
+      )
+    }
+  )
 }
 
 build_articles <- function(articles) {
@@ -537,7 +723,9 @@ build_articles <- function(articles) {
 # Rd description sentence indented under them.
 # Data and S3 methods are named as they are; only functions take parentheses.
 topic_label <- function(name) {
-  obj <- mget(name, envir = asNamespace("basecoat"), ifnotfound = list(NULL))[[1]]
+  obj <- mget(name, envir = asNamespace("basecoat"), ifnotfound = list(NULL))[[
+    1
+  ]]
   if (is.function(obj) && !grepl("\\.", name)) paste0(name, "()") else name
 }
 
@@ -552,14 +740,19 @@ reference_index <- function(cfg, topics, articles) {
     seen <- character()
     rows <- lapply(sec$contents, function(name) {
       t <- find_topic(name)
-      if (is.null(t) || t$slug %in% seen) return(NULL)
+      if (is.null(t) || t$slug %in% seen) {
+        return(NULL)
+      }
       seen <<- c(seen, t$slug)
 
       tags$li(
         class = "ref-row",
-        tags$p(class = "ref-names", lapply(t$aliases, function(n) {
-          tags$a(href = paste0(t$slug, ".html"), tags$code(topic_label(n)))
-        })),
+        tags$p(
+          class = "ref-names",
+          lapply(t$aliases, function(n) {
+            tags$a(href = paste0(t$slug, ".html"), tags$code(topic_label(n)))
+          })
+        ),
         tags$p(class = "ref-desc", HTML(t$description))
       )
     })
@@ -582,12 +775,18 @@ reference_index <- function(cfg, topics, articles) {
 articles_index <- function(articles) {
   tagList(
     tags$h1("Articles"),
-    tags$ul(class = "ref-list", lapply(articles, function(a) {
-      tags$li(
-        class = "ref-row",
-        tags$p(class = "ref-names", tags$a(href = paste0(a$slug, ".html"), a$title))
-      )
-    }))
+    tags$ul(
+      class = "ref-list",
+      lapply(articles, function(a) {
+        tags$li(
+          class = "ref-row",
+          tags$p(
+            class = "ref-names",
+            tags$a(href = paste0(a$slug, ".html"), a$title)
+          )
+        )
+      })
+    )
   )
 }
 
@@ -609,15 +808,32 @@ main <- function() {
   topics <- build_reference(articles)
   build_articles(articles)
 
-  write_page(file.path(OUT, "index.html"), "basecoat", home_body(),
-             depth = 0, rail = links_rail(), articles = articles)
+  write_page(
+    file.path(OUT, "index.html"),
+    "basecoat",
+    home_body(),
+    depth = 0,
+    rail = links_rail(),
+    articles = articles
+  )
   ref_index <- reference_index(cfg, topics, articles)
-  write_page(file.path(OUT, "reference", "index.html"), "Reference — basecoat",
-             ref_index$body, depth = 1, rail = toc_rail(ref_index$toc),
-             active = "reference", articles = articles)
-  write_page(file.path(OUT, "articles", "index.html"), "Articles — basecoat",
-             articles_index(articles), depth = 1,
-             active = "articles", articles = articles)
+  write_page(
+    file.path(OUT, "reference", "index.html"),
+    "Reference — basecoat",
+    ref_index$body,
+    depth = 1,
+    rail = toc_rail(ref_index$toc),
+    active = "reference",
+    articles = articles
+  )
+  write_page(
+    file.path(OUT, "articles", "index.html"),
+    "Articles — basecoat",
+    articles_index(articles),
+    depth = 1,
+    active = "articles",
+    articles = articles
+  )
 
   # The builder owns a whole viewport, sidebar and all, so it is written as a
   # page of its own rather than poured into the docs shell.
@@ -628,7 +844,12 @@ main <- function() {
     browse = FALSE
   )
 
-  message(sprintf("Built %s: %d topics, %d articles.", OUT, length(topics), length(articles)))
+  message(sprintf(
+    "Built %s: %d topics, %d articles.",
+    OUT,
+    length(topics),
+    length(articles)
+  ))
 }
 
 main()

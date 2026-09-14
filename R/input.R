@@ -31,18 +31,20 @@
 #'   placeholder = "m@example.com",
 #'   description = "Enter your email address."
 #' )
-bc_input <- function(...,
-                     label = NULL,
-                     id = NULL,
-                     type = "text",
-                     placeholder = NULL,
-                     description = NULL,
-                     value = NULL,
-                     name = id,
-                     required = FALSE,
-                     disabled = FALSE,
-                     invalid = FALSE,
-                     aria_label = NULL) {
+bc_input <- function(
+  ...,
+  label = NULL,
+  id = NULL,
+  type = "text",
+  placeholder = NULL,
+  description = NULL,
+  value = NULL,
+  name = id,
+  required = FALSE,
+  disabled = FALSE,
+  invalid = FALSE,
+  aria_label = NULL
+) {
   check_string(id, allow_null = TRUE, allow_empty = FALSE)
   check_string(type, allow_empty = FALSE)
   check_string(placeholder, allow_null = TRUE)

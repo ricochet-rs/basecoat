@@ -112,7 +112,9 @@ bc_deps <- function(
 ) {
   style <- style %||% "vega"
   style <- arg_match(style, bc_style_choices)
-  if (length(source) > 1) source <- source[[1]]
+  if (length(source) > 1) {
+    source <- source[[1]]
+  }
   check_string(source, allow_empty = FALSE)
   check_bool(viewport)
   check_string(version, allow_empty = FALSE)
@@ -142,7 +144,11 @@ bc_deps <- function(
       source,
       local = c(file = "basecoat"),
       cdn = c(
-        href = paste0("https://cdn.jsdelivr.net/npm/basecoat-css@", version, "/dist")
+        href = paste0(
+          "https://cdn.jsdelivr.net/npm/basecoat-css@",
+          version,
+          "/dist"
+        )
       )
     )
   }
@@ -211,7 +217,10 @@ bc_theme <- function(path) {
   # paths from one. The warning is aimed at paths baked in at build time, and
   # this one is the caller's own, given at run time.
   local(htmltools::htmlDependency(
-    name = paste0("basecoat-theme-", sub("\\.css$", "", file, ignore.case = TRUE)),
+    name = paste0(
+      "basecoat-theme-",
+      sub("\\.css$", "", file, ignore.case = TRUE)
+    ),
     version = "1.0.0",
     src = c(file = dirname(path)),
     stylesheet = file,

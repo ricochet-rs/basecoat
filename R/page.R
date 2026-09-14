@@ -43,12 +43,14 @@ bc_panel_icon <- paste0(
 #'   title = "Dashboard",
 #'   header = bc_theme_switcher()
 #' )
-bc_page_sidebar <- function(...,
-                            sidebar,
-                            title = NULL,
-                            header = NULL,
-                            toggle = TRUE,
-                            toggle_label = "Toggle sidebar") {
+bc_page_sidebar <- function(
+  ...,
+  sidebar,
+  title = NULL,
+  header = NULL,
+  toggle = TRUE,
+  toggle_label = "Toggle sidebar"
+) {
   check_bool(toggle)
   check_string(toggle_label, allow_empty = FALSE)
 
@@ -67,7 +69,9 @@ bc_page_sidebar <- function(...,
       class = "flex items-center gap-3 border-b px-4 py-3",
       if (toggle) bc_sidebar_toggle(sidebar_id, toggle_label),
       if (!is.null(title)) tags$h1(class = "text-lg font-semibold", title),
-      if (!is.null(header)) tags$div(class = "ms-auto flex items-center gap-2", header)
+      if (!is.null(header)) {
+        tags$div(class = "ms-auto flex items-center gap-2", header)
+      }
     )
   }
 
@@ -128,12 +132,14 @@ bc_sidebar_toggle <- function(id, label = "Toggle sidebar") {
 #'   ),
 #'   end = bc_theme_switcher()
 #' )
-bc_page_navbar <- function(...,
-                           title = NULL,
-                           nav = NULL,
-                           end = NULL,
-                           href = NULL,
-                           aria_label = "Main navigation") {
+bc_page_navbar <- function(
+  ...,
+  title = NULL,
+  nav = NULL,
+  end = NULL,
+  href = NULL,
+  aria_label = "Main navigation"
+) {
   check_string(href, allow_null = TRUE, allow_empty = FALSE)
   check_string(aria_label, allow_empty = FALSE)
 
@@ -152,10 +158,15 @@ bc_page_navbar <- function(...,
       if (!is.null(nav)) {
         tags$nav(
           `aria-label` = aria_label,
-          tags$ul(class = "flex list-none items-center gap-1", lapply(nav, tags$li))
+          tags$ul(
+            class = "flex list-none items-center gap-1",
+            lapply(nav, tags$li)
+          )
         )
       },
-      if (!is.null(end)) tags$div(class = "ms-auto flex items-center gap-2", end)
+      if (!is.null(end)) {
+        tags$div(class = "ms-auto flex items-center gap-2", end)
+      }
     ),
     tags$main(...)
   ))
@@ -169,11 +180,13 @@ bc_page_navbar <- function(...,
 #' @examples
 #'
 #' bc_nav_item("Reports", href = "/reports", current = TRUE)
-bc_nav_item <- function(label,
-                        href = NULL,
-                        ...,
-                        current = FALSE,
-                        disabled = FALSE) {
+bc_nav_item <- function(
+  label,
+  href = NULL,
+  ...,
+  current = FALSE,
+  disabled = FALSE
+) {
   check_string(href, allow_null = TRUE, allow_empty = FALSE)
   check_bool(current)
   check_bool(disabled)
@@ -204,4 +217,76 @@ bc_nav_item <- function(label,
     ...,
     label
   ))
+}
+
+#' A complete HTML page
+#'
+#' A whole document as a string, with the stylesheet and every component
+#' script already in the head. For servers that write their own HTML.
+#'
+#' @param ... Tag attributes and children for the `<body>`.
+#' @param title String. The page title.
+#' @param assets String. The URL prefix the bundled directory is served from.
+#' @param style String or `NULL`. A style pack, as in [bc_deps()].
+#' @param head Tag or `NULL`. Extra content for the `<head>`.
+#' @param lang String. The `lang` attribute on `<html>`.
+#' @return A single string.
+#' @details
+#' Serve `system.file("basecoat", package = "basecoat")` at `assets`. Every
+#' dependency the components ask for is rewritten to that prefix.
+#' @seealso [bc_deps()], [bc_page_sidebar()], [bc_page_navbar()]
+#' @export
+#' @examples
+#' cat(substr(bc_page(bc_button("Save"), title = "Demo"), 1, 80))
+bc_page <- function(
+  ...,
+  title = NULL,
+  assets = "/basecoat/",
+  style = NULL,
+  head = NULL,
+  lang = "en"
+) {
+  check_string(title, allow_null = TRUE, allow_empty = FALSE)
+  check_string(assets, allow_empty = FALSE)
+  check_string(lang, allow_empty = FALSE)
+
+  body <- tagList(...)
+
+  deps <- c(
+    list(bc_deps(style = style, source = assets)),
+    htmltools::findDependencies(body)
+  )
+  deps <- lapply(deps, bc_page_remount, assets = assets)
+  deps <- htmltools::resolveDependencies(deps, resolvePackageDir = FALSE)
+
+  paste0(
+    "<!doctype html>\n<html lang=\"",
+    lang,
+    "\">\n<head>\n",
+    paste(
+      c(
+        '<meta charset="utf-8">',
+        if (!is.null(title)) as.character(tags$title(title)),
+        htmltools::renderDependencies(deps, "href"),
+        if (!is.null(head)) as.character(head)
+      ),
+      collapse = "\n"
+    ),
+    "\n</head>\n<body>\n",
+    as.character(body),
+    "\n</body>\n</html>"
+  )
+}
+
+# A dependency shipped by this package points at files inside it, which no
+# server can reach. Everything it owns lives under one directory, so one
+# prefix stands in for all of them.
+bc_page_remount <- function(dep, assets) {
+  if (!identical(dep$package, "basecoat")) {
+    return(dep)
+  }
+
+  dep$src <- c(href = sub("/+$", "", assets))
+  dep$package <- NULL
+  dep
 }

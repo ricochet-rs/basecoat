@@ -29,21 +29,29 @@
 #'   title = "Dimensions",
 #'   trigger_label = "Resize"
 #' )
-bc_popover <- function(...,
-                       id = NULL,
-                       title = NULL,
-                       description = NULL,
-                       trigger_label = "Open popover",
-                       trigger = NULL,
-                       side = "bottom",
-                       align = "center",
-                       class = NULL) {
-  side <- arg_match(side, c("top", "right", "bottom", "left", "inline-start", "inline-end"))
+bc_popover <- function(
+  ...,
+  id = NULL,
+  title = NULL,
+  description = NULL,
+  trigger_label = "Open popover",
+  trigger = NULL,
+  side = "bottom",
+  align = "center",
+  class = NULL
+) {
+  side <- arg_match(
+    side,
+    c("top", "right", "bottom", "left", "inline-start", "inline-end")
+  )
   align <- arg_match(align, c("start", "center", "end"))
   check_character(class, allow_null = TRUE, allow_empty = TRUE)
 
   if (is.null(id)) {
-    id <- paste0("popover-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+    id <- paste0(
+      "popover-",
+      paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+    )
   }
 
   trigger <- popover_trigger(trigger, trigger_label)

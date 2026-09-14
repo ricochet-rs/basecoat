@@ -21,18 +21,20 @@
 #'   placeholder = "Type your message here",
 #'   description = "Write a short message."
 #' )
-bc_textarea <- function(...,
-                        label = NULL,
-                        id = NULL,
-                        placeholder = NULL,
-                        value = NULL,
-                        rows = NULL,
-                        description = NULL,
-                        name = id,
-                        required = FALSE,
-                        disabled = FALSE,
-                        invalid = FALSE,
-                        aria_label = NULL) {
+bc_textarea <- function(
+  ...,
+  label = NULL,
+  id = NULL,
+  placeholder = NULL,
+  value = NULL,
+  rows = NULL,
+  description = NULL,
+  name = id,
+  required = FALSE,
+  disabled = FALSE,
+  invalid = FALSE,
+  aria_label = NULL
+) {
   check_string(id, allow_null = TRUE, allow_empty = FALSE)
   check_string(placeholder, allow_null = TRUE)
   check_string(value, allow_null = TRUE)

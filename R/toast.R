@@ -28,14 +28,16 @@
 #'   bc_toast("Upload failed", category = "error"),
 #'   align = "start"
 #' )
-bc_toast <- function(title,
-                     ...,
-                     description = NULL,
-                     category = "info",
-                     duration = NULL,
-                     action = NULL,
-                     cancel = NULL,
-                     icon = NULL) {
+bc_toast <- function(
+  title,
+  ...,
+  description = NULL,
+  category = "info",
+  duration = NULL,
+  action = NULL,
+  cancel = NULL,
+  icon = NULL
+) {
   check_string(title, allow_empty = FALSE)
   check_string(description, allow_null = TRUE, allow_empty = TRUE)
   category <- arg_match(category, c("info", "success", "warning", "error"))
@@ -111,12 +113,14 @@ bc_toaster <- function(..., id = "toaster", align = "end") {
 #'   "Toast from backend (with HTMX)",
 #'   get = "/fragments/toast/success"
 #' )
-bc_toast_trigger <- function(label,
-                             ...,
-                             get,
-                             toaster = "#toaster",
-                             variant = "outline",
-                             size = "default") {
+bc_toast_trigger <- function(
+  label,
+  ...,
+  get,
+  toaster = "#toaster",
+  variant = "outline",
+  size = "default"
+) {
   check_string(label, allow_empty = FALSE)
   check_string(get, allow_empty = FALSE)
   check_string(toaster, allow_empty = FALSE)
@@ -140,7 +144,10 @@ bc_toast_trigger <- function(label,
 
 toast_action <- function(action) {
   if (is.null(action$label)) {
-    cli::cli_abort("Toast actions need a {.arg label}.", call = rlang::caller_env())
+    cli::cli_abort(
+      "Toast actions need a {.arg label}.",
+      call = rlang::caller_env()
+    )
   }
 
   tag <- if (!is.null(action$href)) tags$a else tags$button

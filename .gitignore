@@ -7,3 +7,5 @@ docs
 **/*.quarto_ipynb
 _site/
 *_files/
+
+.DS_Store

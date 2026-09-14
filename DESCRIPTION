@@ -18,7 +18,7 @@ Suggests:
     knitr,
     prismatic,
     testthat (>= 3.0.0)
-Config/Needs/website: commonmark, downlit, knitr, xml2, yaml
+Config/Needs/website: commonmark, downlit, knitr, xml2, yaml, yyjsonr
 Config/roxygen2/version: 8.1.0.9000
 Config/testthat/edition: 3
 Encoding: UTF-8

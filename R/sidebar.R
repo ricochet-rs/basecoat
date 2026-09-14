@@ -50,15 +50,17 @@ bc_sidebar_id <- function(prefix) {
 #'     bc_sidebar_item("Billing", href = "#")
 #'   )
 #' )
-bc_sidebar <- function(id = NULL,
-                       ...,
-                       side = "left",
-                       header = NULL,
-                       footer = NULL,
-                       aria_label = "Sidebar navigation",
-                       initial_open = NULL,
-                       initial_mobile_open = NULL,
-                       breakpoint = NULL) {
+bc_sidebar <- function(
+  id = NULL,
+  ...,
+  side = "left",
+  header = NULL,
+  footer = NULL,
+  aria_label = "Sidebar navigation",
+  initial_open = NULL,
+  initial_mobile_open = NULL,
+  breakpoint = NULL
+) {
   side <- arg_match(side, c("left", "right"))
   check_string(aria_label, allow_empty = FALSE)
   check_bool(initial_open, allow_null = TRUE)
@@ -71,7 +73,9 @@ bc_sidebar <- function(id = NULL,
       class = "sidebar",
       `data-side` = side,
       `data-initial-open` = if (!is.null(initial_open)) tolower(initial_open),
-      `data-initial-mobile-open` = if (!is.null(initial_mobile_open)) tolower(initial_mobile_open),
+      `data-initial-mobile-open` = if (!is.null(initial_mobile_open)) {
+        tolower(initial_mobile_open)
+      },
       `data-breakpoint` = breakpoint,
       tags$nav(
         `aria-label` = aria_label,
@@ -134,16 +138,18 @@ bc_sidebar_group <- function(title, ..., id = NULL) {
 #' @examples
 #'
 #' bc_sidebar_item("Profile", href = "/profile", aria_current = TRUE)
-bc_sidebar_item <- function(label,
-                            href = NULL,
-                            ...,
-                            icon = NULL,
-                            variant = "default",
-                            size = "default",
-                            active = FALSE,
-                            disabled = FALSE,
-                            aria_current = FALSE,
-                            keep_mobile_open = FALSE) {
+bc_sidebar_item <- function(
+  label,
+  href = NULL,
+  ...,
+  icon = NULL,
+  variant = "default",
+  size = "default",
+  active = FALSE,
+  disabled = FALSE,
+  aria_current = FALSE,
+  keep_mobile_open = FALSE
+) {
   variant <- arg_match(variant, bc_sidebar_variants)
   size <- arg_match(size, bc_sidebar_sizes)
   check_string(label, allow_empty = FALSE)
@@ -179,14 +185,16 @@ bc_sidebar_item <- function(label,
 #'   "Settings",
 #'   bc_sidebar_item("General", href = "#")
 #' )
-bc_sidebar_submenu <- function(label,
-                               ...,
-                               id = NULL,
-                               icon = NULL,
-                               variant = "default",
-                               size = "default",
-                               active = FALSE,
-                               keep_mobile_open = FALSE) {
+bc_sidebar_submenu <- function(
+  label,
+  ...,
+  id = NULL,
+  icon = NULL,
+  variant = "default",
+  size = "default",
+  active = FALSE,
+  keep_mobile_open = FALSE
+) {
   check_string(label, allow_empty = FALSE)
   check_string(id, allow_null = TRUE, allow_empty = FALSE)
   variant <- arg_match(variant, bc_sidebar_variants)

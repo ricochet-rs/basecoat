@@ -26,16 +26,18 @@
 #'   label = "Temperature",
 #'   description = "Adjust the temperature setting"
 #' )
-bc_slider <- function(min,
-                      max,
-                      value,
-                      ...,
-                      disabled = FALSE,
-                      id = NULL,
-                      label = NULL,
-                      description = NULL,
-                      oninput = NULL,
-                      aria_label = NULL) {
+bc_slider <- function(
+  min,
+  max,
+  value,
+  ...,
+  disabled = FALSE,
+  id = NULL,
+  label = NULL,
+  description = NULL,
+  oninput = NULL,
+  aria_label = NULL
+) {
   check_number_whole(min)
   check_number_whole(max)
   check_number_whole(value)
@@ -43,7 +45,10 @@ bc_slider <- function(min,
   check_string(aria_label, allow_null = TRUE, allow_empty = FALSE)
 
   if (is.null(id)) {
-    id <- paste0("slider-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+    id <- paste0(
+      "slider-",
+      paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+    )
   }
 
   described_by <- if (!is.null(description)) paste0(id, "-description")
@@ -69,7 +74,9 @@ bc_slider <- function(min,
     return(bc_tag(input))
   }
 
-  label_tag <- if (!is.null(label)) tags$label(class = "label", `for` = id, label)
+  label_tag <- if (!is.null(label)) {
+    tags$label(class = "label", `for` = id, label)
+  }
 
   body <- if (is.null(description)) {
     label_tag

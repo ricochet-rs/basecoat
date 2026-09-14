@@ -45,15 +45,17 @@ bc_item_sizes <- c("default", "sm", "xs")
 #'   bc_item(title = "Playground", role = "listitem"),
 #'   bc_item(title = "Models", role = "listitem")
 #' )
-bc_item <- function(...,
-                    title = NULL,
-                    description = NULL,
-                    media = NULL,
-                    actions = NULL,
-                    href = NULL,
-                    variant = "default",
-                    size = "default",
-                    role = NULL) {
+bc_item <- function(
+  ...,
+  title = NULL,
+  description = NULL,
+  media = NULL,
+  actions = NULL,
+  href = NULL,
+  variant = "default",
+  size = "default",
+  role = NULL
+) {
   variant <- arg_match(variant, bc_item_variants)
   size <- arg_match(size, bc_item_sizes)
   check_string(href, allow_null = TRUE, allow_empty = FALSE)

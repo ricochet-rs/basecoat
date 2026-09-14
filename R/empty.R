@@ -29,11 +29,13 @@
 #'   ),
 #'   class = "border border-dashed"
 #' )
-bc_empty <- function(title = NULL,
-                     description = NULL,
-                     icon = NULL,
-                     actions = NULL,
-                     ...) {
+bc_empty <- function(
+  title = NULL,
+  description = NULL,
+  icon = NULL,
+  actions = NULL,
+  ...
+) {
   check_string(title, allow_null = TRUE, allow_empty = FALSE)
   check_string(description, allow_null = TRUE, allow_empty = FALSE)
 

@@ -25,14 +25,16 @@
 #'     bc_dialog_close("Save changes")
 #'   )
 #' )
-bc_dialog <- function(id,
-                      title = NULL,
-                      description = NULL,
-                      content = NULL,
-                      actions = NULL,
-                      ...,
-                      open = FALSE,
-                      close_on_click = TRUE) {
+bc_dialog <- function(
+  id,
+  title = NULL,
+  description = NULL,
+  content = NULL,
+  actions = NULL,
+  ...,
+  open = FALSE,
+  close_on_click = TRUE
+) {
   check_string(id, allow_empty = FALSE)
   check_bool(open)
   check_bool(close_on_click)
@@ -50,7 +52,9 @@ bc_dialog <- function(id,
     ),
     # The panel is a capped flex column with no overflow of its own, so tall
     # content pushes the footer past the bottom edge unless the body scrolls.
-    if (!is.null(content)) tags$section(class = "min-h-0 overflow-y-auto", content),
+    if (!is.null(content)) {
+      tags$section(class = "min-h-0 overflow-y-auto", content)
+    },
     if (!is.null(actions)) tags$footer(actions),
     # Close button
     tags$button(
@@ -70,7 +74,9 @@ bc_dialog <- function(id,
     class = "dialog",
     `aria-labelledby` = if (!is.null(title)) title_id,
     `aria-describedby` = if (!is.null(description)) desc_id,
-    onclick = if (close_on_click) paste0("if (event.target === this) this.close()"),
+    onclick = if (close_on_click) {
+      paste0("if (event.target === this) this.close()")
+    },
     dialog_content
   )
 

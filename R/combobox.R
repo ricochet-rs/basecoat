@@ -38,19 +38,24 @@
 #'   placeholder = "Select a framework",
 #'   class = "w-60"
 #' )
-bc_combobox <- function(id,
-                        ...,
-                        placeholder = "",
-                        name = id,
-                        selected = "",
-                        empty = "No items found.",
-                        multiple = FALSE,
-                        auto_highlight = FALSE,
-                        disabled = FALSE,
-                        class = NULL,
-                        aria_label = NULL) {
+bc_combobox <- function(
+  id,
+  ...,
+  placeholder = "",
+  name = id,
+  selected = "",
+  empty = "No items found.",
+  multiple = FALSE,
+  auto_highlight = FALSE,
+  disabled = FALSE,
+  class = NULL,
+  aria_label = NULL
+) {
   if (is.null(id)) {
-    id <- paste0("combobox-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+    id <- paste0(
+      "combobox-",
+      paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+    )
   }
   if (is.null(name)) {
     name <- id
@@ -79,45 +84,48 @@ bc_combobox <- function(id,
     if (length(selected)) selected[[1]] else ""
   }
 
-  bc_tag(htmltools::attachDependencies(div(
-    class = c("combobox", class),
-    id = id,
-    `data-auto-highlight` = if (auto_highlight) "true",
-    tags$input(
-      type = "text",
-      role = "combobox",
-      id = paste0(id, "-input"),
-      placeholder = placeholder,
-      autocomplete = "off",
-      autocorrect = "off",
-      spellcheck = "false",
-      `aria-autocomplete` = "list",
-      `aria-expanded` = "false",
-      `aria-controls` = listbox_id,
-      `aria-label` = aria_label,
-      disabled = if (disabled) NA
-    ),
-    HTML(paste0(
-      '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" ',
-      'height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" ',
-      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ',
-      'class="combobox-trigger-icon"><path d="m6 9 6 6 6-6" /></svg>'
-    )),
+  bc_tag(htmltools::attachDependencies(
     div(
-      id = paste0(id, "-popover"),
-      `data-popover` = NA,
-      `aria-hidden` = "true",
+      class = c("combobox", class),
+      id = id,
+      `data-auto-highlight` = if (auto_highlight) "true",
+      tags$input(
+        type = "text",
+        role = "combobox",
+        id = paste0(id, "-input"),
+        placeholder = placeholder,
+        autocomplete = "off",
+        autocorrect = "off",
+        spellcheck = "false",
+        `aria-autocomplete` = "list",
+        `aria-expanded` = "false",
+        `aria-controls` = listbox_id,
+        `aria-label` = aria_label,
+        disabled = if (disabled) NA
+      ),
+      HTML(paste0(
+        '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" ',
+        'height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" ',
+        'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ',
+        'class="combobox-trigger-icon"><path d="m6 9 6 6 6-6" /></svg>'
+      )),
       div(
-        role = "listbox",
-        id = listbox_id,
-        `aria-orientation` = "vertical",
-        `aria-multiselectable` = if (multiple) "true",
-        `data-empty` = empty,
-        options
-      )
+        id = paste0(id, "-popover"),
+        `data-popover` = NA,
+        `aria-hidden` = "true",
+        div(
+          role = "listbox",
+          id = listbox_id,
+          `aria-orientation` = "vertical",
+          `aria-multiselectable` = if (multiple) "true",
+          `data-empty` = empty,
+          options
+        )
+      ),
+      tags$input(type = "hidden", name = name, value = hidden_value)
     ),
-    tags$input(type = "hidden", name = name, value = hidden_value)
-  ), bc_script_dep("combobox", popover = TRUE)))
+    bc_script_dep("combobox", popover = TRUE)
+  ))
 }
 
 #' Combobox option
@@ -182,7 +190,10 @@ bc_combobox_option <- function(value, ..., label = NULL, filter = NULL) {
 #' )
 bc_combobox_group <- function(title, ...) {
   check_string(title, allow_empty = FALSE)
-  heading_id <- paste0("combobox-group-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+  heading_id <- paste0(
+    "combobox-group-",
+    paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+  )
   bc_tag(div(
     role = "group",
     `aria-labelledby` = heading_id,
@@ -204,13 +215,16 @@ bc_combobox_separator <- function() {
 }
 
 combobox_items <- function(args) {
-  unlist(lapply(args, function(a) {
-    if (is.character(a)) {
-      lapply(a, combobox_option_tag)
-    } else {
-      list(a)
-    }
-  }), recursive = FALSE)
+  unlist(
+    lapply(args, function(a) {
+      if (is.character(a)) {
+        lapply(a, combobox_option_tag)
+      } else {
+        list(a)
+      }
+    }),
+    recursive = FALSE
+  )
 }
 
 combobox_option_tag <- function(value) {

@@ -50,17 +50,19 @@
 #'   selected = c("tank", "healer"),
 #'   class = "w-full"
 #' )
-bc_select <- function(...,
-                      placeholder = NULL,
-                      name = NULL,
-                      id = NULL,
-                      selected = NULL,
-                      disabled = FALSE,
-                      invalid = FALSE,
-                      multiple = FALSE,
-                      close_on_select = !multiple,
-                      class = NULL,
-                      aria_label = NULL) {
+bc_select <- function(
+  ...,
+  placeholder = NULL,
+  name = NULL,
+  id = NULL,
+  selected = NULL,
+  disabled = FALSE,
+  invalid = FALSE,
+  multiple = FALSE,
+  close_on_select = !multiple,
+  class = NULL,
+  aria_label = NULL
+) {
   check_string(placeholder, allow_null = TRUE, allow_empty = TRUE)
   check_string(name, allow_null = TRUE, allow_empty = FALSE)
   check_string(id, allow_null = TRUE, allow_empty = FALSE)
@@ -73,7 +75,10 @@ bc_select <- function(...,
   check_string(aria_label, allow_null = TRUE, allow_empty = FALSE)
 
   if (is.null(id)) {
-    id <- paste0("select-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
+    id <- paste0(
+      "select-",
+      paste0(sample(1:9, 8, replace = TRUE), collapse = "")
+    )
   }
 
   name <- name %||% id
@@ -94,34 +99,37 @@ bc_select <- function(...,
     bc_icon("caret-down", class = "text-muted-foreground opacity-50 shrink-0")
   )
 
-  bc_tag(htmltools::attachDependencies(div(
-    class = "select",
-    id = id,
-    `data-placeholder` = placeholder,
-    `data-close-on-select` = tolower(close_on_select),
-    `data-disabled` = if (disabled) NA,
-    `data-invalid` = if (invalid) NA,
-    trigger,
+  bc_tag(htmltools::attachDependencies(
     div(
-      id = paste0(id, "-popover"),
-      `data-popover` = NA,
-      `aria-hidden` = "true",
+      class = "select",
+      id = id,
+      `data-placeholder` = placeholder,
+      `data-close-on-select` = tolower(close_on_select),
+      `data-disabled` = if (disabled) NA,
+      `data-invalid` = if (invalid) NA,
+      trigger,
       div(
-        role = "listbox",
-        id = paste0(id, "-listbox"),
-        `aria-orientation` = "vertical",
-        `aria-labelledby` = paste0(id, "-trigger"),
-        # The script reads multiple from here, not from the root.
-        `aria-multiselectable` = if (multiple) "true",
-        options
+        id = paste0(id, "-popover"),
+        `data-popover` = NA,
+        `aria-hidden` = "true",
+        div(
+          role = "listbox",
+          id = paste0(id, "-listbox"),
+          `aria-orientation` = "vertical",
+          `aria-labelledby` = paste0(id, "-trigger"),
+          # The script reads multiple from here, not from the root.
+          `aria-multiselectable` = if (multiple) "true",
+          options
+        )
+      ),
+      tags$input(
+        type = "hidden",
+        name = name,
+        value = select_value(chosen, multiple)
       )
     ),
-    tags$input(
-      type = "hidden",
-      name = name,
-      value = select_value(chosen, multiple)
-    )
-  ), bc_script_dep("select", popover = TRUE)))
+    bc_script_dep("select", popover = TRUE)
+  ))
 }
 
 # A string, a `bc_select_option()`, a tag that already is an option, or a list
@@ -206,7 +214,7 @@ select_value <- function(chosen, multiple) {
 #' )
 bc_select_option <- function(value, label = NULL) {
   check_string(value, allow_empty = FALSE)
-  
+
   list(
     value = value,
     label = if (is.null(label)) value else label

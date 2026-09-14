@@ -100,4 +100,3 @@ bc_pagination_next <- function(label = "Next", href = "#") {
     )
   ))
 }
-

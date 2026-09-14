@@ -16,11 +16,13 @@
 #' if (rlang::is_installed("prismatic")) {
 #'   cat(substr(bc_create_theme("#7c3aed"), 1, 120))
 #' }
-bc_create_theme <- function(primary,
-                          background = "#ffffff",
-                          dark_background = "#0a0a0a",
-                          destructive = "#e5484d",
-                          file = NULL) {
+bc_create_theme <- function(
+  primary,
+  background = "#ffffff",
+  dark_background = "#0a0a0a",
+  destructive = "#e5484d",
+  file = NULL
+) {
   check_installed("prismatic", reason = "to derive a palette.")
   check_string(primary, allow_empty = FALSE)
   check_string(background, allow_empty = FALSE)
@@ -31,7 +33,10 @@ bc_create_theme <- function(primary,
   css <- paste0(
     theme_block(":root", theme_tokens(primary, background, destructive, 0.03)),
     "\n\n",
-    theme_block(".dark", theme_tokens(primary, dark_background, destructive, 0.06))
+    theme_block(
+      ".dark",
+      theme_tokens(primary, dark_background, destructive, 0.06)
+    )
   )
 
   if (is.null(file)) {
@@ -92,7 +97,11 @@ theme_tokens <- function(primary, page, destructive, tint) {
 
 # Black or white, whichever the colour can carry.
 contrast_ink <- function(colour) {
-  if (prismatic::clr_extract_luminance(colour)[[1]] > 60) "#0a0a0a" else "#fafafa"
+  if (prismatic::clr_extract_luminance(colour)[[1]] > 60) {
+    "#0a0a0a"
+  } else {
+    "#fafafa"
+  }
 }
 
 # prismatic returns 8 digits. The alpha is always FF here and a colour input
@@ -103,7 +112,8 @@ as_hex <- function(colour) {
 
 theme_block <- function(selector, tokens) {
   paste0(
-    selector, " {\n",
+    selector,
+    " {\n",
     paste0("  --", names(tokens), ": ", unname(tokens), ";", collapse = "\n"),
     "\n}"
   )
