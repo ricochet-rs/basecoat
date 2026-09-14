@@ -10,9 +10,6 @@
 #' @param label String. Text on the key, such as `"⌘K"`.
 #' @param ... Tag attributes for the `<kbd>`.
 #' @return A `<kbd>` tag.
-#' @details
-#' Group keys in a flex wrapper with a gap between them. Give a shortcut beside
-#' button text `data-icon = "inline-end"` for spacing.
 #' @export
 #' @examples
 #' bc_kbd("⌘K")

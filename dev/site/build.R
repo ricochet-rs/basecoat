@@ -355,6 +355,7 @@ navbar <- function(depth, active = NA, articles = list()) {
           align = "end"
         )
       )),
+      link("theme/index.html", "Theme", "theme"),
       style_menu(),
       tags$a(
         class = "btn",
@@ -617,6 +618,15 @@ main <- function() {
   write_page(file.path(OUT, "articles", "index.html"), "Articles — basecoat",
              articles_index(articles), depth = 1,
              active = "articles", articles = articles)
+
+  # The builder owns a whole viewport, sidebar and all, so it is written as a
+  # page of its own rather than poured into the docs shell.
+  dir.create(file.path(OUT, "theme"), recursive = TRUE, showWarnings = FALSE)
+  bc_theme_builder(
+    back = "../index.html",
+    file = file.path(OUT, "theme", "index.html"),
+    browse = FALSE
+  )
 
   message(sprintf("Built %s: %d topics, %d articles.", OUT, length(topics), length(articles)))
 }

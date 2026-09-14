@@ -15,14 +15,8 @@ inputs Shiny cannot already: \code{\link[=bc_radio_group]{bc_radio_group()}}, \c
 \code{\link[=bc_select]{bc_select()}} and \code{\link[=bc_combobox]{bc_combobox()}}.
 }
 \details{
-Every other basecoat input, \code{\link[=bc_checkbox]{bc_checkbox()}}, \code{\link[=bc_switch]{bc_switch()}}, \code{\link[=bc_input]{bc_input()}},
-\code{\link[=bc_textarea]{bc_textarea()}} and \code{\link[=bc_native_select]{bc_native_select()}}, is a plain native element with an
-\code{id}, so Shiny's own input bindings already read and update it as
-\code{input$id}. Nothing from this package is needed for those.
-
-Attach this beside \code{\link[=bc_deps]{bc_deps()}} in a Shiny UI, in addition to it rather than
-instead of it. Outside a Shiny app the script it loads does nothing, since
-it checks for \code{Shiny} before registering anything.
+Add beside \code{\link[=bc_deps]{bc_deps()}}, not instead of it. Every other input is native, so
+Shiny already reads it as \code{input$id}.
 }
 \examples{
 bc_shiny_deps()

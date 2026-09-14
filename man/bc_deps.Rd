@@ -17,10 +17,8 @@ bc_deps(
 \item{style}{String or \code{NULL}. A style pack, one of vega, nova, maia, lyra, mira, luma, sera, rhea,
 or \code{"base"} for tokens and structure with no visual style at all.}
 
-\item{js}{\code{FALSE} by default, since a component function attaches its own
-script the moment it appears in the page. \code{TRUE} for every script, or a
-character vector of component names to load beside the runtime, for
-markup written by hand rather than with one of this package's functions.}
+\item{js}{Bool or character vector. \code{FALSE} by default; components attach
+their own scripts. \code{TRUE} for all of them, or name the ones to load.}
 
 \item{theme}{String or \code{NULL}. Path to a CSS file of your own, loaded after
 the style pack so its tokens win. See \code{\link[=bc_theme]{bc_theme()}}.}
@@ -45,55 +43,17 @@ placed in the page \verb{<head>}. Served from the files bundled with this packag
 by default, or from jsDelivr.
 }
 \details{
-Attach it with \code{\link[htmltools:attachDependencies]{htmltools::attachDependencies()}}, or return it in a
-\code{\link[htmltools:tagList]{htmltools::tagList()}} beside your markup. Call it once per page: a second
-call with another style is de-duplicated by name and only one wins.
+Call once per page. Components attach their own scripts, so \code{js} is only
+needed for hand-written markup.
 
-Every component function that needs a script, such as \code{\link[=bc_select]{bc_select()}} or
-\code{\link[=bc_sidebar]{bc_sidebar()}}, attaches its own alongside the shared runtime when it is
-called, so \code{bc_deps()} only has to carry the stylesheet. \code{js} stays around
-for markup copied from Basecoat's docs and written by hand, which carries no
-such dependency.
-
-\code{theme} is the whole of custom theming, and it is returned after the
-stylesheet rather than beside it so its token values win.
-
-A style pack still owns component visuals, so a theme changes tokens rather
-than layout. Every corner radius follows \code{--radius}, including the toast
-surface and the badge, which Tailwind would otherwise fix at a literal size.
-
-\code{style = "base"} drops the visual style entirely, leaving tokens and component
-structure. That is a starting point for writing a style pack, not a way to
-theme one, since it carries no surfaces, padding or type scale.
-
-Basecoat is authored for Tailwind. Load any other Tailwind build before this
-dependency, never after, or that build resets borders and inputs to their
-own defaults.
+Load any other Tailwind build before this one, never after.
 }
-\section{Why not the CDN}{
-
-Basecoat is authored for Tailwind, and its published stylesheets carry only
-the utilities Basecoat's own source uses. Several components are documented in
-plain Tailwind, so from those files a pagination row does not lay out and a
-spinner does not turn. The bundled stylesheets are built here against the
-markup these functions write, which is why \code{source = "local"} is the default.
-}
-
 \section{Serving the files yourself}{
 
-A server that writes its own HTML, such as plumber2 or ambiorix, never runs
-htmltools' dependency machinery, so the files have to be put on the wire by
-hand. Serve the directory \code{system.file("basecoat", package = "basecoat")}
-under a path of your own, and name that path as \code{source}. The dependency
-then carries the bundled filenames under that prefix, and nothing in the
-page hardcodes them.
+Serve \code{system.file("basecoat", package = "basecoat")} under a path, then
+name that path as \code{source}.
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{plumber2::api_statics(
-  api,
-  at = "/basecoat/",
-  path = system.file("basecoat", package = "basecoat")
-)
-
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{plumber2::api_statics(api, at = "/basecoat/", path = system.file("basecoat", package = "basecoat"))
 htmltools::renderDependencies(list(bc_deps(source = "/basecoat/")), "href")
 }\if{html}{\out{</div>}}
 }

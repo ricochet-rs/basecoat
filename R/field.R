@@ -16,10 +16,8 @@ bc_field_orientations <- c("default", "horizontal", "responsive")
 #' @param disabled Bool. Whether to mark the field as disabled.
 #' @return A tag.
 #' @details
-#' Children are the `<label>`, the control and an optional `<section>` or `<p>`
-#' of helper text, in document order. A horizontal field takes the control, or
-#' a `<section>` of label and text, first so the CSS places the text beside the
-#' control.
+#' Children render in order: label, control, helper text. A horizontal field
+#' takes the control first.
 #' @export
 #' @examples
 #' bc_field(

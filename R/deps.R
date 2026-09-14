@@ -59,19 +59,10 @@ bc_scripts <- c(
 #' placed in the page `<head>`. Served from the files bundled with this package
 #' by default, or from jsDelivr.
 #'
-#' @section Why not the CDN:
-#' Basecoat is authored for Tailwind, and its published stylesheets carry only
-#' the utilities Basecoat's own source uses. Several components are documented in
-#' plain Tailwind, so from those files a pagination row does not lay out and a
-#' spinner does not turn. The bundled stylesheets are built here against the
-#' markup these functions write, which is why `source = "local"` is the default.
-#'
 #' @param style String or `NULL`. A style pack, one of `r toString(bc_styles)`,
 #'   or `"base"` for tokens and structure with no visual style at all.
-#' @param js `FALSE` by default, since a component function attaches its own
-#'   script the moment it appears in the page. `TRUE` for every script, or a
-#'   character vector of component names to load beside the runtime, for
-#'   markup written by hand rather than with one of this package's functions.
+#' @param js Bool or character vector. `FALSE` by default; components attach
+#'   their own scripts. `TRUE` for all of them, or name the ones to load.
 #' @param theme String or `NULL`. Path to a CSS file of your own, loaded after
 #'   the style pack so its tokens win. See [bc_theme()].
 #' @param source String. `"local"` to serve the bundled files, `"cdn"` to serve
@@ -84,46 +75,17 @@ bc_scripts <- c(
 #' @return An [htmltools::htmlDependency()], or a list of two when `theme` is
 #'   given.
 #' @details
-#' Attach it with [htmltools::attachDependencies()], or return it in a
-#' [htmltools::tagList()] beside your markup. Call it once per page: a second
-#' call with another style is de-duplicated by name and only one wins.
+#' Call once per page. Components attach their own scripts, so `js` is only
+#' needed for hand-written markup.
 #'
-#' Every component function that needs a script, such as [bc_select()] or
-#' [bc_sidebar()], attaches its own alongside the shared runtime when it is
-#' called, so `bc_deps()` only has to carry the stylesheet. `js` stays around
-#' for markup copied from Basecoat's docs and written by hand, which carries no
-#' such dependency.
-#'
-#' `theme` is the whole of custom theming, and it is returned after the
-#' stylesheet rather than beside it so its token values win.
-#'
-#' A style pack still owns component visuals, so a theme changes tokens rather
-#' than layout. Every corner radius follows `--radius`, including the toast
-#' surface and the badge, which Tailwind would otherwise fix at a literal size.
-#'
-#' `style = "base"` drops the visual style entirely, leaving tokens and component
-#' structure. That is a starting point for writing a style pack, not a way to
-#' theme one, since it carries no surfaces, padding or type scale.
-#'
-#' Basecoat is authored for Tailwind. Load any other Tailwind build before this
-#' dependency, never after, or that build resets borders and inputs to their
-#' own defaults.
+#' Load any other Tailwind build before this one, never after.
 #'
 #' @section Serving the files yourself:
-#' A server that writes its own HTML, such as plumber2 or ambiorix, never runs
-#' htmltools' dependency machinery, so the files have to be put on the wire by
-#' hand. Serve the directory `system.file("basecoat", package = "basecoat")`
-#' under a path of your own, and name that path as `source`. The dependency
-#' then carries the bundled filenames under that prefix, and nothing in the
-#' page hardcodes them.
+#' Serve `system.file("basecoat", package = "basecoat")` under a path, then
+#' name that path as `source`.
 #'
 #' ```r
-#' plumber2::api_statics(
-#'   api,
-#'   at = "/basecoat/",
-#'   path = system.file("basecoat", package = "basecoat")
-#' )
-#'
+#' plumber2::api_statics(api, at = "/basecoat/", path = system.file("basecoat", package = "basecoat"))
 #' htmltools::renderDependencies(list(bc_deps(source = "/basecoat/")), "href")
 #' ```
 #' @export
@@ -224,34 +186,11 @@ bc_deps <- function(
 #' @param path String. Path to a `.css` file defining Basecoat's tokens.
 #' @return An [htmltools::htmlDependency()].
 #' @details
-#' This is the piece on its own, for a page whose [bc_deps()] call lives
-#' somewhere else. It has to render after that dependency for its tokens to win.
+#' Must render after [bc_deps()]. The file needs only the tokens it changes,
+#' in `:root` and `.dark`.
 #'
-#' The style pack still owns component visuals, so the file only restates the
-#' tokens it changes. Basecoat reads shadcn/ui token names, such as
-#' `--background`, `--foreground`, `--primary`, `--border` and `--ring`, from
-#' `:root` and from `.dark`. A Tailwind `@theme` block is ignored by the browser
-#' and is not needed, since the bundled stylesheet already maps those tokens.
-#'
-#' The dependency is named after the file, so two different files both load.
-#'
-#' @section Themes from tweakcn:
-#' A tweakcn export works unedited. Its `:root` and `.dark` blocks are the whole
-#' of the theme, and they are plain CSS, so a browser reads them and their
-#' unlayered declarations beat the style pack's.
-#'
-#' The rest of the file is Tailwind build syntax that a browser ignores:
-#' `@import "tailwindcss"`, `@custom-variant`, `@theme inline` and any
-#' `@layer base` block of `@apply` rules. Nothing is lost by that. The bundled
-#' stylesheet already maps `--color-primary` to `--primary` and its siblings, and
-#' already paints the page background, so the `@theme inline` and `@layer base`
-#' blocks would only restate what is there. Deleting them, and the `@import`
-#' line that resolves to nothing, saves the browser a failed request.
-#'
-#' Two things do need doing by hand. A theme that names a web font, such as
-#' `--font-sans: DM Sans`, has to load it, since the file only names it. And
-#' `letter-spacing` from `--tracking-normal` is applied by an `@apply` rule, so
-#' restate it as `body { letter-spacing: var(--tracking-normal) }` to keep it.
+#' A tweakcn export works unedited. Web fonts it names still need loading.
+#' @seealso [bc_create_theme()], [bc_theme_builder()]
 #' @export
 #' @examples
 #' css <- tempfile(fileext = ".css")
@@ -342,8 +281,7 @@ bc_script_dep <- function(name = NULL, popover = FALSE) {
 #'   initialised, which also clears open menus and focus.
 #' @return A `<script>` tag.
 #' @details
-#' An htmx history restore is the case this exists for: the browser puts back
-#' DOM that was already initialised, and only `force` rebuilds it.
+#' For htmx history restores, where DOM comes back already initialised.
 #' @export
 #' @examples
 #' bc_init(force = TRUE)
@@ -365,14 +303,8 @@ bc_init <- function(force = FALSE) {
 #'
 #' @return An [htmltools::htmlDependency()].
 #' @details
-#' Every other basecoat input, [bc_checkbox()], [bc_switch()], [bc_input()],
-#' [bc_textarea()] and [bc_native_select()], is a plain native element with an
-#' `id`, so Shiny's own input bindings already read and update it as
-#' `input$id`. Nothing from this package is needed for those.
-#'
-#' Attach this beside [bc_deps()] in a Shiny UI, in addition to it rather than
-#' instead of it. Outside a Shiny app the script it loads does nothing, since
-#' it checks for `Shiny` before registering anything.
+#' Add beside [bc_deps()], not instead of it. Every other input is native, so
+#' Shiny already reads it as `input$id`.
 #' @export
 #' @examples
 #' bc_shiny_deps()

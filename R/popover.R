@@ -17,8 +17,6 @@
 #'   default `w-72`.
 #' @return A `<div class="popover">` with a trigger button and the popover
 #'   content.
-#' @details
-#' The script toggles the popover's `data-popover` content next to its trigger.
 #' @export
 #' @examples
 #' bc_popover(

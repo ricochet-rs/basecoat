@@ -13,9 +13,6 @@
 #' @param class String. Extra classes for the dialog.
 #' @return A trigger button and a `<dialog class="drawer">`, or just the dialog
 #'   when `trigger = NULL` and no opener is wanted.
-#' @details
-#' The trigger calls the native `HTMLDialogElement.showModal()`. The script
-#' closes the drawer on backdrop click and waits for the exit animation.
 #' @export
 #' @examples
 #' bc_drawer(

@@ -6,72 +6,15 @@ knitr:
     comment: '#>'
 ---
 
-```{r}
-#| label: setup
-#| include: false
-library(basecoat)
-```
-
-## Pick a pack
+{basecoat} ships with a handful of great themes out of the box.
+The built in styles are found in the `bc_styles` object.
 
 ```{r}
 bc_styles
 ```
 
-```{r}
-#| eval: false
-bc_deps(style = "maia")
-```
+Basecoat uses a hadful of specific tailwind css utility classes to drive the theme itself.
 
-**Once per page.** A second call is deduplicated and one wins.
+The R package ships with a [theme builder](/theme/index.html) available online or via `basecoat::bc_theme_builder()`.
 
-## Dark mode
-
-```{r results="asis"}
-bc_theme_switcher()
-```
-
-**Flips the `dark` class on `<html>`.** The choice survives a reload.
-
-## Override tokens
-
-```css
-:root { --primary: oklch(0.54 0.16 320); --radius: 0.25rem; }
-.dark { --primary: oklch(0.72 0.14 320); }
-```
-
-```{r}
-#| eval: false
-bc_deps(style = "vega", theme = "my-theme.css")
-```
-
-**Loads after the pack, so it wins.** Names are shadcn/ui: `--background`, `--foreground`, `--primary`, `--border`, `--ring`, `--radius`.
-
-**`--radius` drives every corner.** The pack still owns layout.
-
-## tweakcn
-
-**Paste an export in unedited.** Its `:root` and `.dark` blocks beat the pack. The rest is Tailwind build syntax a browser ignores.
-
-## By hand
-
-**Web fonts.** A theme names the font. You load it.
-
-**Letter spacing.**
-
-```css
-body { letter-spacing: var(--tracking-normal); }
-```
-
-## base
-
-```{r}
-#| eval: false
-bc_deps(style = "base")
-```
-
-**Tokens and structure, no visuals.** Where you start a pack, not where you theme one.
-
-## Your own Tailwind
-
-**Load it before `bc_deps()`.** After resets borders and inputs.
+Alternatively, any theme created at [tweakcn](https://tweakcn.com/) will work wodnerfully.

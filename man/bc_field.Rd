@@ -38,10 +38,8 @@ A tag.
 A single form control wrapped with its label and helper text.
 }
 \details{
-Children are the \verb{<label>}, the control and an optional \verb{<section>} or \verb{<p>}
-of helper text, in document order. A horizontal field takes the control, or
-a \verb{<section>} of label and text, first so the CSS places the text beside the
-control.
+Children render in order: label, control, helper text. A horizontal field
+takes the control first.
 }
 \examples{
 bc_field(

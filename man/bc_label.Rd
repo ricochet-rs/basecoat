@@ -17,9 +17,7 @@ A \verb{<label>} tag.
 A \verb{<label>} carrying the Basecoat \code{label} class.
 }
 \details{
-The class is already a flex row with a gap, so a wrapped control needs no
-layout of its own. \code{\link[=bc_checkbox]{bc_checkbox()}} and \code{\link[=bc_switch]{bc_switch()}} write that pairing
-along with the control's \code{id}, and are what a form usually wants.
+\code{\link[=bc_checkbox]{bc_checkbox()}} and \code{\link[=bc_switch]{bc_switch()}} write this pairing already.
 }
 \examples{
 bc_label("Your email address", `for` = "email")

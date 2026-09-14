@@ -48,7 +48,9 @@ bc_dialog <- function(id,
       tags$h2(id = title_id, title),
       if (!is.null(description)) p(id = desc_id, description)
     ),
-    if (!is.null(content)) tags$section(content),
+    # The panel is a capped flex column with no overflow of its own, so tall
+    # content pushes the footer past the bottom edge unless the body scrolls.
+    if (!is.null(content)) tags$section(class = "min-h-0 overflow-y-auto", content),
     if (!is.null(actions)) tags$footer(actions),
     # Close button
     tags$button(

@@ -21,8 +21,7 @@
 #'   outside the control already labels it.
 #' @return A `<div>` tag of class `select`.
 #' @details
-#' The hidden input holds the chosen value as a string in single mode and as a
-#' JSON array in multiple mode.
+#' Submits a string, or a JSON array when `multiple = TRUE`.
 #' @seealso [bc_select_option()]
 #' @export
 #' @examples

@@ -56,9 +56,7 @@ A native \verb{<select>} carrying the Basecoat \code{select} class, optionally w
 with a label in a \code{field}.
 }
 \details{
-A select needs an accessible name: give a \code{label} or an \code{aria_label}. Options
-come from \code{\link[=bc_native_select_option]{bc_native_select_option()}} and groups from
-\code{\link[=bc_native_select_group]{bc_native_select_group()}}.
+Needs a \code{label} or an \code{aria_label}.
 }
 \examples{
 bc_native_select(

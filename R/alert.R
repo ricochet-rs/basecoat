@@ -16,10 +16,6 @@
 #'   Basecoat aligns to the inline end.
 #' @param variant String. `"destructive"` for an error alert, or `"default"`.
 #' @return A `<div>` tag.
-#' @details
-#' The order the elements are written in is the order Basecoat lays them out,
-#' so passing them as arguments is the same markup a hand-written alert has.
-#' Anything else goes through `...`.
 #' @export
 #' @examples
 #' bc_alert(title = "Account updated", description = "Your changes are live.")

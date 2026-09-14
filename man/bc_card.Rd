@@ -29,11 +29,8 @@ A tag.
 A titled container, built from a header, a body and a footer.
 }
 \details{
-The parts are ordered by where they are written, not by an argument: an
-\verb{<img>} before \code{\link[=bc_card_header]{bc_card_header()}} is a card with a cover image.
-
-\code{\link[=bc_card_header]{bc_card_header()}} takes a heading, an optional \verb{<p>} description and an
-optional \code{\link[=bc_card_action]{bc_card_action()}}, in that order.
+Parts render in the order written. An \verb{<img>} before \code{\link[=bc_card_header]{bc_card_header()}}
+becomes a cover image.
 }
 \examples{
 bc_card(

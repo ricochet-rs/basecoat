@@ -25,8 +25,7 @@
 #'   placeholder alone is not one.
 #' @return A `<div>` tag of class `combobox`.
 #' @details
-#' The visible input filters the list; the hidden input stores the submitted
-#' value as a string in single mode and as a JSON array in multiple mode.
+#' Submits a string, or a JSON array when `multiple = TRUE`.
 #' @seealso [bc_combobox_option()], [bc_combobox_group()],
 #'   [bc_combobox_separator()]
 #' @export
@@ -132,8 +131,7 @@ bc_combobox <- function(id,
 #' @param filter String. Extra text searched beyond the label.
 #' @return A `<div>` tag of class `option` role.
 #' @details
-#' Options can carry custom HTML in `...`. Give `data-label` when the input
-#' should display different text than the rendered content.
+#' `data-label` sets the input text when it differs from the content.
 #' @export
 #' @examples
 #' bc_combobox_option("Next.js")

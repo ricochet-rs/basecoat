@@ -54,8 +54,7 @@ An \verb{<article>} or \verb{<a>} tag.
 A display or navigation row in a semantic \verb{<article>} or \verb{<a>} element.
 }
 \details{
-Use \code{field} for form controls and validation and \code{item} for content, actions
-and navigation rows. List related items in \code{\link[=bc_item_group]{bc_item_group()}}.
+Use \code{\link[=bc_field]{bc_field()}} for form controls; \code{item} is for content and navigation.
 }
 \examples{
 bc_item(

@@ -88,9 +88,6 @@ popover.
 \description{
 A menu of actions in an inline popover beside its trigger.
 }
-\details{
-The script binds menu item navigation under the \code{.dropdown-menu} wrapper.
-}
 \examples{
 bc_dropdown_menu(
   bc_dropdown_group(

@@ -40,10 +40,6 @@ when \code{trigger = NULL} and no opener is wanted.
 \description{
 A modal side panel built on a native \verb{<dialog>} element.
 }
-\details{
-The trigger calls the native \code{HTMLDialogElement.showModal()}. The script
-closes the drawer on backdrop click and waits for the exit animation.
-}
 \examples{
 bc_drawer(
   bc_switch(

@@ -54,8 +54,7 @@ A \verb{<div>} tag of class \code{select}.
 A dropdown of options, with a hidden input carrying what was chosen.
 }
 \details{
-The hidden input holds the chosen value as a string in single mode and as a
-JSON array in multiple mode.
+Submits a string, or a JSON array when \code{multiple = TRUE}.
 }
 \examples{
 bc_select(

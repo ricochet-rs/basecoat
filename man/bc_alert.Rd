@@ -35,11 +35,6 @@ A \verb{<div>} tag.
 \description{
 A short message with an optional icon, title, body and action.
 }
-\details{
-The order the elements are written in is the order Basecoat lays them out,
-so passing them as arguments is the same markup a hand-written alert has.
-Anything else goes through \code{...}.
-}
 \examples{
 bc_alert(title = "Account updated", description = "Your changes are live.")
 

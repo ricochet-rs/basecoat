@@ -128,3 +128,35 @@
 
   .prose > :is(img, video) { max-width: 100%; height: auto; }
 }
+
+@layer components {
+  .input[type="color"] {
+    aspect-ratio: 1;
+    height: calc(var(--spacing) * 8);
+    width: calc(var(--spacing) * 8);
+    padding: calc(var(--spacing) * 0.5);
+    border: 1px solid var(--color-input);
+    border-radius: var(--radius);
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  .input[type="color"][data-size="sm"] {
+    height: calc(var(--spacing) * 7);
+    width: calc(var(--spacing) * 7);
+  }
+
+  .input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+
+  .input[type="color"]::-webkit-color-swatch {
+    border: 0;
+    border-radius: calc(var(--radius) * 0.5);
+  }
+
+  .input[type="color"]::-moz-color-swatch {
+    border: 0;
+    border-radius: calc(var(--radius) * 0.5);
+  }
+}

@@ -18,8 +18,6 @@
 #' @param class String. Extra classes for the popover.
 #' @return A `<div class="dropdown-menu">` with a trigger button and the menu
 #'   popover.
-#' @details
-#' The script binds menu item navigation under the `.dropdown-menu` wrapper.
 #' @export
 #' @examples
 #' bc_dropdown_menu(

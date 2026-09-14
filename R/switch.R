@@ -13,9 +13,6 @@ bc_switch_sizes <- c("default", "sm")
 #' @param ... Tag attributes for the `<input>`.
 #' @param size String. One of `default` or `sm`. `sm` writes `data-size="sm"`.
 #' @return A `<div>` tag.
-#' @details
-#' A field wrapper with the switch first makes room for a `<section>` of label
-#' and description beside the control.
 #' @export
 #' @examples
 #' bc_switch("airplane-mode", "Airplane Mode")

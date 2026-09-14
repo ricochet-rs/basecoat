@@ -54,8 +54,7 @@ A \verb{<div>} tag of class \code{combobox}.
 A searchable select with an editable text input and a hidden value input.
 }
 \details{
-The visible input filters the list; the hidden input stores the submitted
-value as a string in single mode and as a JSON array in multiple mode.
+Submits a string, or a JSON array when \code{multiple = TRUE}.
 }
 \examples{
 bc_combobox(

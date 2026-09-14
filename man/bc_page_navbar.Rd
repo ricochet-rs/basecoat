@@ -42,14 +42,6 @@ A \code{\link[htmltools:tagList]{htmltools::tagList()}} of the \verb{<header>} a
 \description{
 A sticky top navigation bar over a \verb{<main>} region.
 }
-\details{
-Navigation is links rather than tab panels, since a page built this way is
-usually served per route. \code{\link[=bc_tabs]{bc_tabs()}} is the one to reach for when the
-panels live in a single document.
-
-This is the page body, not a whole document. \code{\link[=bc_deps]{bc_deps()}} still belongs in
-the head.
-}
 \examples{
 bc_page_navbar(
   htmltools::h2("Overview"),

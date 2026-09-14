@@ -23,9 +23,7 @@ bc_input_group_aligns <- c(
 #' @param class String. Extra classes for the shell.
 #' @return A `<div>` tag.
 #' @details
-#' The shell leaves native controls semantic and borderless. `header` and
-#' `footer` rows need `orientation = "vertical"`, and custom controls take
-#' `data-control`.
+#' `header` and `footer` rows need `orientation = "vertical"`.
 #' @export
 #' @examples
 #' bc_input_group(

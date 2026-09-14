@@ -20,10 +20,6 @@
 Prints a component to the viewer with the Basecoat stylesheet and scripts
 attached, or writes its HTML when there is nowhere to show it.
 }
-\details{
-The dependency is \code{\link[=bc_deps]{bc_deps()}} with its defaults, so a preview is always the
-Vega pack. Wrap the component yourself to see another one.
-}
 \examples{
 print(bc_badge("stable"), browse = FALSE)
 }

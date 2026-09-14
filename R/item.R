@@ -25,8 +25,7 @@ bc_item_sizes <- c("default", "sm", "xs")
 #' @param role String. ARIA role, such as `"listitem"` inside an `item-group`.
 #' @return An `<article>` or `<a>` tag.
 #' @details
-#' Use `field` for form controls and validation and `item` for content, actions
-#' and navigation rows. List related items in [bc_item_group()].
+#' Use [bc_field()] for form controls; `item` is for content and navigation.
 #' @export
 #' @examples
 #' bc_item(

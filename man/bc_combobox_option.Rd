@@ -23,8 +23,7 @@ A \verb{<div>} tag of class \code{option} role.
 A selectable entry in a combobox listbox.
 }
 \details{
-Options can carry custom HTML in \code{...}. Give \code{data-label} when the input
-should display different text than the rendered content.
+\code{data-label} sets the input text when it differs from the content.
 }
 \examples{
 bc_combobox_option("Next.js")

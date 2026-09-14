@@ -38,8 +38,7 @@ bc_button_sizes <- c(
 #'   visible text such as an icon-only button.
 #' @return A `<button>` tag.
 #' @details
-#' An inline icon beside text takes `data-icon = "inline-start"` or
-#' `"inline-end"` for spacing.
+#' An icon beside text takes `data-icon = "inline-start"` or `"inline-end"`.
 #' @export
 #' @examples
 #' bc_button("Save")

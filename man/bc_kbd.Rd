@@ -17,10 +17,6 @@ A \verb{<kbd>} tag.
 \description{
 A single key label in an inline \verb{<kbd>}.
 }
-\details{
-Group keys in a flex wrapper with a gap between them. Give a shortcut beside
-button text \code{data-icon = "inline-end"} for spacing.
-}
 \examples{
 bc_kbd("⌘K")
 

@@ -9,9 +9,7 @@
 #'   another control.
 #' @return A `<label>` tag.
 #' @details
-#' The class is already a flex row with a gap, so a wrapped control needs no
-#' layout of its own. [bc_checkbox()] and [bc_switch()] write that pairing
-#' along with the control's `id`, and are what a form usually wants.
+#' [bc_checkbox()] and [bc_switch()] write this pairing already.
 #' @seealso [bc_checkbox()], [bc_switch()], [bc_field()]
 #' @export
 #' @examples

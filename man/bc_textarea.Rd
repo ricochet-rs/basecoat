@@ -53,10 +53,6 @@ A \verb{<textarea>} tag or, with a \code{label}, a \verb{<div>} tag.
 A multiline \verb{<textarea>} carrying the Basecoat \code{textarea} class, optionally
 wrapped with a label in a \code{field}.
 }
-\details{
-The value is rendered as the textarea's text content, and a textarea inside a
-\code{field} is styled by the field without needing the \code{textarea} class.
-}
 \examples{
 bc_textarea(placeholder = "Type your message here", aria_label = "Message")
 

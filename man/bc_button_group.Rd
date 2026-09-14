@@ -26,9 +26,8 @@ A \verb{<div>} tag.
 Joins related controls into a single \code{button-group} shell.
 }
 \details{
-Wrap controls in \code{\link[=bc_button]{bc_button()}} or another styled control. A \verb{<span>},
-\verb{<label>} or \verb{<output>} child is a non-interactive segment, an \verb{<hr>} is a
-divider, and a \verb{<div>} is left unstyled for custom layouts.
+A \verb{<span>}, \verb{<label>} or \verb{<output>} child is a static segment; an \verb{<hr>} is
+a divider.
 }
 \examples{
 bc_button_group(

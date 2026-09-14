@@ -106,10 +106,6 @@ An \verb{<aside>} tag.
 \description{
 A fixed navigation panel beside the page content.
 }
-\details{
-The desktop margin of the sibling \verb{<main>} is Basecoat's own styling; the
-toggle button that opens and closes the sidebar is a page control.
-}
 \examples{
 bc_sidebar(
   id = "sidebar",

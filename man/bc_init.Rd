@@ -18,8 +18,7 @@ Basecoat initialises its components on load and when new DOM is inserted, so
 this is only wanted where markup is restored from a cache rather than parsed.
 }
 \details{
-An htmx history restore is the case this exists for: the browser puts back
-DOM that was already initialised, and only \code{force} rebuilds it.
+For htmx history restores, where DOM comes back already initialised.
 }
 \examples{
 bc_init(force = TRUE)

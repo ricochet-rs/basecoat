@@ -43,10 +43,6 @@ A \verb{<div>} tag.
 A binary toggle built on a native checkbox with \code{role="switch"}, paired with
 its label in a horizontal \code{field}.
 }
-\details{
-A field wrapper with the switch first makes room for a \verb{<section>} of label
-and description beside the control.
-}
 \examples{
 bc_switch("airplane-mode", "Airplane Mode")
 

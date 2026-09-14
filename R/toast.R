@@ -14,8 +14,7 @@
 #' @param icon A tag. An icon before the text, replacing the category default.
 #' @return A `<div class="toast">` ready to append to a toaster.
 #' @details
-#' Append the returned markup to a [bc_toaster()], or create toasts from
-#' JavaScript with `toaster.toast(config)`.
+#' Append to a [bc_toaster()].
 #' @export
 #' @examples
 #' bc_toast(
@@ -79,8 +78,7 @@ bc_toast <- function(title,
 #'   `end`.
 #' @return A `<div id="...">` of class `toaster` ready to hold toasts.
 #' @details
-#' Add one toaster near the end of the page body and append [bc_toast()]
-#' markup to it.
+#' One per page, near the end of the body.
 #' @export
 bc_toaster <- function(..., id = "toaster", align = "end") {
   align <- arg_match(align, c("start", "center", "end"))
@@ -106,10 +104,7 @@ bc_toaster <- function(..., id = "toaster", align = "end") {
 #' @param size String. Button size, defaulting to `default`.
 #' @return A `<button>` tag that fetches a server-rendered toast fragment.
 #' @details
-#' The button fetches the fragment and appends it into the toaster with
-#' `hx-swap = "beforeend"`, so the Toast script mounts it. Serve the endpoint
-#' with htmxr's `htmx` serializer, for example a plumber2 route returning
-#' `bc_toast()`.
+#' The endpoint returns [bc_toast()] markup, appended into the toaster.
 #' @export
 #' @examples
 #' bc_toast_trigger(

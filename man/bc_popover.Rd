@@ -46,9 +46,6 @@ content.
 \description{
 An inline popover of content beside its trigger.
 }
-\details{
-The script toggles the popover's \code{data-popover} content next to its trigger.
-}
 \examples{
 bc_popover(
   title = "Dimensions",

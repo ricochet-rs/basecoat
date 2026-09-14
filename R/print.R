@@ -21,9 +21,6 @@ bc_tag <- function(x) {
 #' @param browse Bool. Show the rendered component rather than its HTML.
 #' @param ... Ignored.
 #' @return `x`, invisibly.
-#' @details
-#' The dependency is [bc_deps()] with its defaults, so a preview is always the
-#' Vega pack. Wrap the component yourself to see another one.
 #' @export
 #' @examples
 #' print(bc_badge("stable"), browse = FALSE)

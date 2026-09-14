@@ -32,9 +32,7 @@ A \verb{<div>} tag.
 A group shell for a native control with inline or block addons.
 }
 \details{
-The shell leaves native controls semantic and borderless. \code{header} and
-\code{footer} rows need \code{orientation = "vertical"}, and custom controls take
-\code{data-control}.
+\code{header} and \code{footer} rows need \code{orientation = "vertical"}.
 }
 \examples{
 bc_input_group(

@@ -30,9 +30,6 @@ bc_sidebar_id <- function(prefix) {
 #' @param breakpoint String or `NULL`. A viewport width below which the sidebar
 #'   becomes the mobile overlay, such as `"48rem"`.
 #' @return An `<aside>` tag.
-#' @details
-#' The desktop margin of the sibling `<main>` is Basecoat's own styling; the
-#' toggle button that opens and closes the sidebar is a page control.
 #' @export
 #' @examples
 #' bc_sidebar(

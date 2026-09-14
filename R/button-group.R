@@ -15,9 +15,8 @@ bc_button_group_orientations <- c("default", "vertical")
 #' @param class String. Extra classes for the shell.
 #' @return A `<div>` tag.
 #' @details
-#' Wrap controls in [bc_button()] or another styled control. A `<span>`,
-#' `<label>` or `<output>` child is a non-interactive segment, an `<hr>` is a
-#' divider, and a `<div>` is left unstyled for custom layouts.
+#' A `<span>`, `<label>` or `<output>` child is a static segment; an `<hr>` is
+#' a divider.
 #' @export
 #' @examples
 #' bc_button_group(

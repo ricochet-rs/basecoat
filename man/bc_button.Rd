@@ -35,8 +35,7 @@ A \verb{<button>} tag.
 A \verb{<button>} carrying the Basecoat \code{btn} class.
 }
 \details{
-An inline icon beside text takes \code{data-icon = "inline-start"} or
-\code{"inline-end"} for spacing.
+An icon beside text takes \code{data-icon = "inline-start"} or \code{"inline-end"}.
 }
 \examples{
 bc_button("Save")

@@ -17,9 +17,6 @@
 #' @param icon Tag. Replaces the search icon beside the input, such as one from
 #'   the phosphoricons package. `NULL` for the default.
 #' @return A `<div class="command">`, or a trigger button and `<dialog>` pair.
-#' @details
-#' The script filters `role="menuitem"` items by the input and manages keyboard
-#' selection.
 #' @export
 #' @examples
 #' bc_command(

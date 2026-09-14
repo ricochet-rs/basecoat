@@ -25,9 +25,7 @@ bc_alert_dialog_sizes <- c("default", "sm")
 #' @return A `<dialog>` tag or, with a `trigger`, a tag list of a button and
 #'   the dialog.
 #' @details
-#' Both actions close the dialog. Omit one by passing `NULL` when the user must
-#' pick a single explicit action. Cancel defaults to the outline variant and
-#' `confirm` to the primary variant.
+#' Both actions close the dialog. `NULL` omits one.
 #' @export
 #' @examples
 #' bc_alert_dialog(

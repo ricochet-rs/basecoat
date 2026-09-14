@@ -43,10 +43,6 @@ A \verb{<section class="accordion">} of \verb{<details>} items.
 A vertically stacked set of collapsible sections built on native
 \verb{<details>} elements.
 }
-\details{
-The script enforces single-item behavior and stops disabled items from
-toggling.
-}
 \examples{
 bc_accordion(
   bc_accordion_item("First section", "First section content.", open = TRUE),

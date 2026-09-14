@@ -84,10 +84,6 @@ A \verb{<div class="command">}, or a trigger button and \verb{<dialog>} pair.
 \description{
 A searchable command palette or standalone command list.
 }
-\details{
-The script filters \code{role="menuitem"} items by the input and manages keyboard
-selection.
-}
 \examples{
 bc_command(
   bc_command_group("Suggestions", "Calendar", "Search Emoji"),

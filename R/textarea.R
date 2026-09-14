@@ -11,9 +11,6 @@
 #' @param rows String. The `rows` attribute.
 #' @inheritParams bc_input id label placeholder value description required disabled invalid name aria_label
 #' @return A `<textarea>` tag or, with a `label`, a `<div>` tag.
-#' @details
-#' The value is rendered as the textarea's text content, and a textarea inside a
-#' `field` is styled by the field without needing the `textarea` class.
 #' @export
 #' @examples
 #' bc_textarea(placeholder = "Type your message here", aria_label = "Message")

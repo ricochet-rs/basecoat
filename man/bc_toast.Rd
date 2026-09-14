@@ -74,16 +74,11 @@ A \verb{<button>} tag that fetches a server-rendered toast fragment.
 A stack of transient notifications appended to a toaster.
 }
 \details{
-Append the returned markup to a \code{\link[=bc_toaster]{bc_toaster()}}, or create toasts from
-JavaScript with \code{toaster.toast(config)}.
+Append to a \code{\link[=bc_toaster]{bc_toaster()}}.
 
-Add one toaster near the end of the page body and append \code{\link[=bc_toast]{bc_toast()}}
-markup to it.
+One per page, near the end of the body.
 
-The button fetches the fragment and appends it into the toaster with
-\code{hx-swap = "beforeend"}, so the Toast script mounts it. Serve the endpoint
-with htmxr's \code{htmx} serializer, for example a plumber2 route returning
-\code{bc_toast()}.
+The endpoint returns \code{\link[=bc_toast]{bc_toast()}} markup, appended into the toaster.
 }
 \examples{
 bc_toast(

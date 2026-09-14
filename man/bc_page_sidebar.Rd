@@ -41,24 +41,6 @@ A \code{\link[htmltools:tagList]{htmltools::tagList()}} of the \verb{<aside>} an
 A collapsible \code{\link[=bc_sidebar]{bc_sidebar()}} beside a \verb{<main>} region, with a header
 carrying the sidebar toggle and a title.
 }
-\details{
-The desktop margin that keeps content clear of the sidebar is applied by
-Basecoat to the element immediately after it, so the two are returned as
-siblings in that order and nothing may be placed between them.
-
-The sidebar collapses to an overlay below \code{bc_sidebar(breakpoint = )}. The
-toggle drives both states, calling the \code{toggle()} method the sidebar script
-puts on the element, so the sidebar needs an \code{id}. One is generated when
-\code{\link[=bc_sidebar]{bc_sidebar()}} was not given one.
-
-This is the page body, not a whole document. \code{\link[=bc_deps]{bc_deps()}} still belongs in
-the head.
-
-Basecoat's reset zeroes every margin, which is right for components and
-wrong for the paragraphs between them. Pass \code{class = "prose"} for the
-stylesheet's vertical rhythm on headings, text and lists. It reaches only
-the direct children, so a component inside keeps its own styling.
-}
 \examples{
 bc_page_sidebar(
   class = "prose",

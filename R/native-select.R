@@ -20,9 +20,7 @@ bc_native_select_sizes <- c("default", "sm")
 #'   to it with `aria-describedby`.
 #' @return A `<select>` tag or, with a `label`, a `<div>` tag.
 #' @details
-#' A select needs an accessible name: give a `label` or an `aria_label`. Options
-#' come from [bc_native_select_option()] and groups from
-#' [bc_native_select_group()].
+#' Needs a `label` or an `aria_label`.
 #' @inheritParams bc_input disabled invalid name
 #' @export
 #' @examples

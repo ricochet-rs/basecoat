@@ -25,23 +25,6 @@ bc_panel_icon <- paste0(
 #' @param toggle Bool. Whether the header carries the sidebar toggle.
 #' @param toggle_label String. Accessible name for the toggle.
 #' @return A [htmltools::tagList()] of the `<aside>` and the `<main>`.
-#' @details
-#' The desktop margin that keeps content clear of the sidebar is applied by
-#' Basecoat to the element immediately after it, so the two are returned as
-#' siblings in that order and nothing may be placed between them.
-#'
-#' The sidebar collapses to an overlay below `bc_sidebar(breakpoint = )`. The
-#' toggle drives both states, calling the `toggle()` method the sidebar script
-#' puts on the element, so the sidebar needs an `id`. One is generated when
-#' [bc_sidebar()] was not given one.
-#'
-#' This is the page body, not a whole document. [bc_deps()] still belongs in
-#' the head.
-#'
-#' Basecoat's reset zeroes every margin, which is right for components and
-#' wrong for the paragraphs between them. Pass `class = "prose"` for the
-#' stylesheet's vertical rhythm on headings, text and lists. It reaches only
-#' the direct children, so a component inside keeps its own styling.
 #' @seealso [bc_page_navbar()]
 #' @export
 #' @examples
@@ -132,13 +115,6 @@ bc_sidebar_toggle <- function(id, label = "Toggle sidebar") {
 #' @param href String or `NULL`. Makes the brand a link.
 #' @param aria_label String. Accessible name for the `<nav>` landmark.
 #' @return A [htmltools::tagList()] of the `<header>` and the `<main>`.
-#' @details
-#' Navigation is links rather than tab panels, since a page built this way is
-#' usually served per route. [bc_tabs()] is the one to reach for when the
-#' panels live in a single document.
-#'
-#' This is the page body, not a whole document. [bc_deps()] still belongs in
-#' the head.
 #' @seealso [bc_page_sidebar()]
 #' @export
 #' @examples

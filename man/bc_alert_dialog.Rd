@@ -50,9 +50,7 @@ A modal that interrupts the user and expects an explicit response, built on a
 native \verb{<dialog class="alert-dialog">}.
 }
 \details{
-Both actions close the dialog. Omit one by passing \code{NULL} when the user must
-pick a single explicit action. Cancel defaults to the outline variant and
-\code{confirm} to the primary variant.
+Both actions close the dialog. \code{NULL} omits one.
 }
 \examples{
 bc_alert_dialog(

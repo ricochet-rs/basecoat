@@ -17,40 +17,17 @@ A CSS file of your own as an \code{\link[htmltools:htmlDependency]{htmltools::ht
 \code{bc_deps(theme = )} instead, which orders it against the style pack for you.
 }
 \details{
-This is the piece on its own, for a page whose \code{\link[=bc_deps]{bc_deps()}} call lives
-somewhere else. It has to render after that dependency for its tokens to win.
+Must render after \code{\link[=bc_deps]{bc_deps()}}. The file needs only the tokens it changes,
+in \verb{:root} and \code{.dark}.
 
-The style pack still owns component visuals, so the file only restates the
-tokens it changes. Basecoat reads shadcn/ui token names, such as
-\code{--background}, \code{--foreground}, \code{--primary}, \code{--border} and \code{--ring}, from
-\verb{:root} and from \code{.dark}. A Tailwind \verb{@theme} block is ignored by the browser
-and is not needed, since the bundled stylesheet already maps those tokens.
-
-The dependency is named after the file, so two different files both load.
+A tweakcn export works unedited. Web fonts it names still need loading.
 }
-\section{Themes from tweakcn}{
-
-A tweakcn export works unedited. Its \verb{:root} and \code{.dark} blocks are the whole
-of the theme, and they are plain CSS, so a browser reads them and their
-unlayered declarations beat the style pack's.
-
-The rest of the file is Tailwind build syntax that a browser ignores:
-\verb{@import "tailwindcss"}, \verb{@custom-variant}, \verb{@theme inline} and any
-\verb{@layer base} block of \verb{@apply} rules. Nothing is lost by that. The bundled
-stylesheet already maps \code{--color-primary} to \code{--primary} and its siblings, and
-already paints the page background, so the \verb{@theme inline} and \verb{@layer base}
-blocks would only restate what is there. Deleting them, and the \verb{@import}
-line that resolves to nothing, saves the browser a failed request.
-
-Two things do need doing by hand. A theme that names a web font, such as
-\verb{--font-sans: DM Sans}, has to load it, since the file only names it. And
-\code{letter-spacing} from \code{--tracking-normal} is applied by an \verb{@apply} rule, so
-restate it as \verb{body \{ letter-spacing: var(--tracking-normal) \}} to keep it.
-}
-
 \examples{
 css <- tempfile(fileext = ".css")
 writeLines(":root { --primary: oklch(0.54 0.16 320); }", css)
 
 bc_theme(css)
+}
+\seealso{
+\code{\link[=bc_create_theme]{bc_create_theme()}}, \code{\link[=bc_theme_builder]{bc_theme_builder()}}
 }

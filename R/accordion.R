@@ -10,9 +10,6 @@
 #'   default, so opening one item closes the others.
 #' @param class String. Extra classes for the accordion root.
 #' @return A `<section class="accordion">` of `<details>` items.
-#' @details
-#' The script enforces single-item behavior and stops disabled items from
-#' toggling.
 #' @export
 #' @examples
 #' bc_accordion(

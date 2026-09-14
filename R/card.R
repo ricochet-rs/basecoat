@@ -12,11 +12,8 @@
 #'   [bc_card()] for a denser card.
 #' @return A tag.
 #' @details
-#' The parts are ordered by where they are written, not by an argument: an
-#' `<img>` before [bc_card_header()] is a card with a cover image.
-#'
-#' [bc_card_header()] takes a heading, an optional `<p>` description and an
-#' optional [bc_card_action()], in that order.
+#' Parts render in the order written. An `<img>` before [bc_card_header()]
+#' becomes a cover image.
 #' @export
 #' @examples
 #' bc_card(
