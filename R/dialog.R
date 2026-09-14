@@ -13,25 +13,16 @@
 #' @return A dialog element with proper structure and behavior.
 #' @export
 #' @examples
+#' bc_dialog_trigger("profile-dialog", class = "btn", "Edit profile")
+#'
 #' bc_dialog(
 #'   id = "profile-dialog",
 #'   title = "Edit profile",
 #'   description = "Make changes to your profile here.",
-#'   content = htmltools::tagList(
-#'     htmltools::tags$div(class = "grid gap-3",
-#'       htmltools::tags$label(class = "label", `for` = "name", "Name"),
-#'       htmltools::tags$input(class = "input", type = "text", id = "name", value = "Pedro Duarte")
-#'     )
-#'   ),
+#'   content = bc_input(id = "name", label = "Name", value = "Pedro Duarte"),
 #'   actions = htmltools::tagList(
-#'     htmltools::tags$button(
-#'       class = "btn", data_variant = "outline",
-#'       onclick = "this.closest('dialog').close()", "Cancel"
-#'     ),
-#'     htmltools::tags$button(
-#'       class = "btn",
-#'       onclick = "this.closest('dialog').close()", "Save changes"
-#'     )
+#'     bc_dialog_close("Cancel", variant = "outline"),
+#'     bc_dialog_close("Save changes")
 #'   )
 #' )
 bc_dialog <- function(id,
@@ -100,7 +91,13 @@ bc_dialog <- function(id,
 #' @return A button that opens the specified dialog.
 #' @export
 #' @examples
-#' bc_dialog_trigger("profile-dialog", "Open Dialog")
+#' bc_dialog_trigger("terms-dialog", class = "btn", "Open Dialog")
+#'
+#' bc_dialog(
+#'   id = "terms-dialog",
+#'   title = "Terms",
+#'   description = "The dialog the button above opens."
+#' )
 bc_dialog_trigger <- function(dialog_id, ..., aria_label = NULL) {
   check_string(dialog_id, allow_empty = FALSE)
   check_string(aria_label, allow_null = TRUE, allow_empty = FALSE)
@@ -111,4 +108,19 @@ bc_dialog_trigger <- function(dialog_id, ..., aria_label = NULL) {
     onclick = paste0("document.getElementById('", dialog_id, "').showModal()"),
     ...
   ))
+}
+#' @rdname bc_dialog
+#' @param label String or tag. The button's label.
+#' @param variant String. The button variant, as in [bc_button()].
+#' @export
+#' @examples
+#'
+#' bc_dialog_close("Cancel", variant = "outline")
+bc_dialog_close <- function(label = "Close", ..., variant = "primary") {
+  bc_button(
+    label,
+    ...,
+    variant = variant,
+    onclick = "this.closest('dialog').close()"
+  )
 }

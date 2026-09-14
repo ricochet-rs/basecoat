@@ -16,12 +16,19 @@ A \verb{<label>} tag.
 \description{
 A \verb{<label>} carrying the Basecoat \code{label} class.
 }
+\details{
+The class is already a flex row with a gap, so a wrapped control needs no
+layout of its own. \code{\link[=bc_checkbox]{bc_checkbox()}} and \code{\link[=bc_switch]{bc_switch()}} write that pairing
+along with the control's \code{id}, and are what a form usually wants.
+}
 \examples{
 bc_label("Your email address", `for` = "email")
 
 bc_label(
-  "Accept terms and conditions",
-  class = "gap-2",
-  htmltools::tags$input(type = "checkbox", class = "input")
+  htmltools::tags$input(type = "checkbox", class = "input"),
+  "Accept terms and conditions"
 )
+}
+\seealso{
+\code{\link[=bc_checkbox]{bc_checkbox()}}, \code{\link[=bc_switch]{bc_switch()}}, \code{\link[=bc_field]{bc_field()}}
 }

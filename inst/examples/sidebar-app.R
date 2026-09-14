@@ -1,25 +1,22 @@
-# A complete application shell: a collapsible navigation sidebar, a `<main>`
-# that takes the desktop margin, and the controls that open and close it.
+# An application shell built with bc_page_sidebar().
 #
-#   source(system.file("examples", "sidebar-app.R", package = "basecoat"))
+# source(system.file("examples", "sidebar-app.R", package = "basecoat"))
 #
-# Below the breakpoint the sidebar becomes an overlay that closes when a link
-# inside it is clicked. Above it, the toggle in the toolbar collapses the panel
-# and `<main>` reclaims the width. Both are the Sidebar script's doing, and
-# `bc_sidebar()` attaches it itself, along with what `bc_dropdown_menu()`
-# needs for the header and footer controls.
-#
-#   sidebar_app()                       # the default pack
-#   sidebar_app("rhea")                 # another pack
-#   sidebar_app("vega", theme = "~/theme.css")   # under your own tokens
+# sidebar_app()
+# sidebar_app("rhea")
+# sidebar_app(
+#   "vega",
+#   theme = system.file(
+#     "examples/tweakcn-theme.css",
+#     package = "basecoat"
+#   )
+# )
 
 library(basecoat)
 library(htmltools)
 library(phosphoricons)
 
-# `ph()` returns inline SVG, so these still pull nothing over the network.
 icons <- list(
-  panel = ph("sidebar-simple", title = NULL),
   terminal = ph("terminal-window", title = NULL),
   bot = ph("robot", title = NULL),
   book = ph("book-open", title = NULL),
@@ -27,22 +24,8 @@ icons <- list(
   life = ph("lifebuoy", title = NULL)
 )
 
-# The id the toggle reaches for. The Sidebar script puts `open()`, `close()` and
-# `toggle()` on the element itself, so a plain onclick is the whole wiring.
 sidebar_id <- "app-sidebar"
 
-sidebar_toggle <- function(label = "Toggle sidebar") {
-  bc_button(
-    icons$panel,
-    variant = "ghost",
-    size = "icon",
-    aria_label = label,
-    `aria-controls` = sidebar_id,
-    onclick = paste0("document.getElementById('", sidebar_id, "')?.toggle()")
-  )
-}
-
-# Branding and a workspace switcher, pinned above the scrolling nav.
 app_header <- bc_dropdown_menu(
   bc_dropdown_group(
     "Workspaces",
@@ -56,7 +39,6 @@ app_header <- bc_dropdown_menu(
   align = "start"
 )
 
-# The account control, pinned below it. Opening upwards keeps it on screen.
 app_footer <- bc_dropdown_menu(
   bc_dropdown_group(
     "Signed in",
@@ -108,22 +90,15 @@ app_sidebar <- bc_sidebar(
   )
 )
 
-# The toolbar above the page content. The toggle lives here rather than in the
-# sidebar so it stays reachable once the panel is collapsed.
-app_toolbar <- tags$header(
-  class = "flex items-center gap-2 border-b p-3",
-  sidebar_toggle(),
-  bc_breadcrumb(
-    bc_breadcrumb_item("Acme Inc", href = "#"),
-    bc_breadcrumb_item("Platform", href = "#"),
-    bc_breadcrumb_item("Playground", current = TRUE)
-  ),
-  div(class = "ml-auto flex items-center gap-2", bc_theme_switcher())
+app_crumbs <- bc_breadcrumb(
+  bc_breadcrumb_item("Acme Inc", href = "#"),
+  bc_breadcrumb_item("Platform", href = "#"),
+  bc_breadcrumb_item("Playground", current = TRUE)
 )
 
 app_content <- div(
   class = "flex flex-col gap-6 p-6",
-  tags$h1(class = "text-2xl font-semibold", "Playground"),
+  app_crumbs,
   div(
     class = "grid gap-4 sm:grid-cols-2",
     bc_card(
@@ -146,19 +121,15 @@ app_content <- div(
   ),
   bc_item_group(
     bc_item(
-      tags$section(
-        tags$h3("Collapse the sidebar"),
-        tags$p("The toolbar toggle calls toggle() on the aside element.")
-      ),
-      tags$aside(sidebar_toggle("Collapse from the content area")),
+      title = "Collapse the sidebar",
+      description = "The header toggle calls toggle() on the aside element.",
+      actions = bc_sidebar_toggle(sidebar_id, "Collapse from the content area"),
       variant = "outline",
       role = "listitem"
     ),
     bc_item(
-      tags$section(
-        tags$h3("Narrow the window"),
-        tags$p("Below 48rem the sidebar becomes an overlay.")
-      ),
+      title = "Narrow the window",
+      description = "Below 48rem the sidebar becomes an overlay.",
       variant = "outline",
       role = "listitem"
     )
@@ -171,11 +142,11 @@ sidebar_app <- function(
   file = tempfile("basecoat-sidebar-", fileext = ".html"),
   browse = TRUE
 ) {
-  page <- tagList(
-    app_sidebar,
-    # The desktop margin lands on the sibling immediately after the sidebar, so
-    # `<main>` has to come next.
-    tags$main(app_toolbar, app_content)
+  page <- bc_page_sidebar(
+    app_content,
+    sidebar = app_sidebar,
+    title = "Playground",
+    header = bc_theme_switcher()
   )
 
   save_html(
@@ -184,8 +155,6 @@ sidebar_app <- function(
     background = "var(--background)"
   )
 
-  # A page under `tempfile()` lives only as long as the session, so pass `file`
-  # to keep one, and `browse = FALSE` when nothing should open.
   if (browse) {
     utils::browseURL(file)
   }

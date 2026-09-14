@@ -425,7 +425,14 @@ write_page <- function(path, title, body, depth, rail = NULL, active = NA, artic
   # The stylesheets are handled by style_links() rather than bc_deps(), since
   # the switcher needs all nine on the page at once and a dependency named
   # "basecoat" would be de-duplicated down to one.
-  deps <- resolveDependencies(findDependencies(page))
+  #
+  # knit_print.bc_tag attaches bc_deps() to every component, so a page with
+  # rendered examples carries that dependency and would pin the default pack
+  # on top of whatever the switcher chose. Only the scripts are wanted here.
+  deps <- Filter(
+    function(d) !identical(d$name, "basecoat"),
+    resolveDependencies(findDependencies(page))
+  )
   deps <- lapply(deps, copyDependencyToDir, file.path(OUT, "deps"), FALSE)
   deps <- lapply(deps, makeDependencyRelative, OUT, FALSE)
 

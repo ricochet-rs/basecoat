@@ -7,6 +7,8 @@
 bc_popover(
   ...,
   id = NULL,
+  title = NULL,
+  description = NULL,
   trigger_label = "Open popover",
   trigger = NULL,
   side = "bottom",
@@ -18,6 +20,10 @@ bc_popover(
 \item{...}{Content for the popover.}
 
 \item{id}{String. The ID for the popover wrapper.}
+
+\item{title}{String or tag. A heading for the popover.}
+
+\item{description}{String or tag. Text shown under the heading.}
 
 \item{trigger_label}{String or tag. The trigger button's label.}
 
@@ -45,9 +51,13 @@ The script toggles the popover's \code{data-popover} content next to its trigger
 }
 \examples{
 bc_popover(
-  htmltools::tags$header(
-    htmltools::tags$h4("Title"),
-    htmltools::tags$p("A short description.")
-  )
+  title = "Dimensions",
+  description = "Set the dimensions for the layer."
+)
+
+bc_popover(
+  bc_input(id = "width", label = "Width", value = "100\%"),
+  title = "Dimensions",
+  trigger_label = "Resize"
 )
 }

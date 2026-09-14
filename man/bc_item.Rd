@@ -5,13 +5,33 @@
 \alias{bc_item_group}
 \title{Item}
 \usage{
-bc_item(..., href = NULL, variant = "default", size = "default", role = NULL)
+bc_item(
+  ...,
+  title = NULL,
+  description = NULL,
+  media = NULL,
+  actions = NULL,
+  href = NULL,
+  variant = "default",
+  size = "default",
+  role = NULL
+)
 
 bc_item_group(..., class = NULL, aria_label = NULL)
 }
 \arguments{
-\item{...}{Children: a \verb{<figure>}, a \verb{<section>} of heading and text, and an
-optional \verb{<aside>}, \verb{<header>} or \verb{<footer>}.}
+\item{...}{Tag attributes and any further children, such as a \verb{<header>} or
+\verb{<footer>}, placed after the parts written by the named arguments.}
+
+\item{title}{String or tag. The item's heading, as an \verb{<h3>}.}
+
+\item{description}{String or tag. Text under the heading.}
+
+\item{media}{Tag or \code{NULL}. An icon or image, placed in a leading
+\verb{<figure>}.}
+
+\item{actions}{Tag or \code{NULL}. A control or indicator, placed in a trailing
+\verb{<aside>}.}
 
 \item{href}{String. Link target; when given, the item renders as an \verb{<a>}.}
 
@@ -39,32 +59,20 @@ and navigation rows. List related items in \code{\link[=bc_item_group]{bc_item_g
 }
 \examples{
 bc_item(
-  htmltools::tags$section(
-    htmltools::tags$h3("Basic Item"),
-    htmltools::p("A simple item with title and description.")
-  ),
-  htmltools::tags$aside(
-    bc_button("Action", variant = "outline", size = "sm")
-  ),
+  title = "Basic Item",
+  description = "A simple item with title and description.",
+  actions = bc_button("Action", variant = "outline", size = "sm"),
   variant = "outline"
 )
 
 bc_item(
-  htmltools::tags$section(
-    htmltools::tags$h3("Visit our documentation"),
-    htmltools::p("Get started.")
-  ),
+  title = "Visit our documentation",
+  description = "Get started.",
   href = "#"
 )
 
 bc_item_group(
-  bc_item(
-    htmltools::tags$section(htmltools::tags$h3("Playground")),
-    role = "listitem"
-  ),
-  bc_item(
-    htmltools::tags$section(htmltools::tags$h3("Models")),
-    role = "listitem"
-  )
+  bc_item(title = "Playground", role = "listitem"),
+  bc_item(title = "Models", role = "listitem")
 )
 }

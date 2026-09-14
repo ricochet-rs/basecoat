@@ -74,8 +74,11 @@ bc_scripts <- c(
 #'   markup written by hand rather than with one of this package's functions.
 #' @param theme String or `NULL`. Path to a CSS file of your own, loaded after
 #'   the style pack so its tokens win. See [bc_theme()].
-#' @param source String. `"local"` to serve the bundled files, or `"cdn"` to
-#'   serve Basecoat's own from jsDelivr, which lays out several components wrong.
+#' @param source String. `"local"` to serve the bundled files, `"cdn"` to serve
+#'   Basecoat's own from jsDelivr, which lays out several components wrong, or a
+#'   URL prefix such as `"/basecoat/"` that the bundled directory is served
+#'   from.
+#' @param viewport Bool. Add the mobile viewport meta tag to the page head.
 #' @param version String. The `basecoat-css` release to serve. Only
 #'   `r bc_version` is bundled, so any other release needs `source = "cdn"`.
 #' @return An [htmltools::htmlDependency()], or a list of two when `theme` is
@@ -105,6 +108,24 @@ bc_scripts <- c(
 #' Basecoat is authored for Tailwind. Load any other Tailwind build before this
 #' dependency, never after, or that build resets borders and inputs to their
 #' own defaults.
+#'
+#' @section Serving the files yourself:
+#' A server that writes its own HTML, such as plumber2 or ambiorix, never runs
+#' htmltools' dependency machinery, so the files have to be put on the wire by
+#' hand. Serve the directory `system.file("basecoat", package = "basecoat")`
+#' under a path of your own, and name that path as `source`. The dependency
+#' then carries the bundled filenames under that prefix, and nothing in the
+#' page hardcodes them.
+#'
+#' ```r
+#' plumber2::api_statics(
+#'   api,
+#'   at = "/basecoat/",
+#'   path = system.file("basecoat", package = "basecoat")
+#' )
+#'
+#' htmltools::renderDependencies(list(bc_deps(source = "/basecoat/")), "href")
+#' ```
 #' @export
 #' @examples
 #' bc_deps()
@@ -112,6 +133,8 @@ bc_scripts <- c(
 #' bc_deps(style = "maia", js = c("select", "toast"))
 #'
 #' bc_deps(source = "cdn")
+#'
+#' bc_deps(style = "lyra", source = "/basecoat/")
 #'
 #' css <- tempfile(fileext = ".css")
 #' writeLines(":root { --primary: oklch(0.54 0.16 320); }", css)
@@ -122,14 +145,26 @@ bc_deps <- function(
   js = FALSE,
   theme = NULL,
   source = c("local", "cdn"),
+  viewport = TRUE,
   version = bc_version
 ) {
   style <- style %||% "vega"
   style <- arg_match(style, bc_style_choices)
-  source <- arg_match(source)
+  if (length(source) > 1) source <- source[[1]]
+  check_string(source, allow_empty = FALSE)
+  check_bool(viewport)
   check_string(version, allow_empty = FALSE)
 
-  if (source == "local" && !identical(version, bc_version)) {
+  mount <- !source %in% c("local", "cdn")
+
+  if (mount && !grepl("^(/|https?://)", source)) {
+    cli::cli_abort(c(
+      "{.arg source} must be {.val local}, {.val cdn}, or a URL prefix.",
+      i = "A prefix starts with {.val /} or {.val http}, as in {.val /basecoat/}."
+    ))
+  }
+
+  if (!mount && source == "local" && !identical(version, bc_version)) {
     cli::cli_abort(c(
       "Only {.val {bc_version}} of {.pkg basecoat-css} is bundled.",
       i = "Use {.code source = \"cdn\"} to serve {.val {version}}."
@@ -138,19 +173,23 @@ bc_deps <- function(
 
   # The bundled stylesheets are this package's own Tailwind build, so they carry
   # the utilities the component functions write and the CDN files do not.
-  src <- switch(
-    source,
-    local = c(file = "basecoat"),
-    cdn = c(
-      href = paste0("https://cdn.jsdelivr.net/npm/basecoat-css@", version, "/dist")
+  src <- if (mount) {
+    c(href = sub("/+$", "", source))
+  } else {
+    switch(
+      source,
+      local = c(file = "basecoat"),
+      cdn = c(
+        href = paste0("https://cdn.jsdelivr.net/npm/basecoat-css@", version, "/dist")
+      )
     )
-  )
+  }
 
-  stylesheet <- switch(
-    source,
-    local = paste0("basecoat-", style, ".min.css"),
-    cdn = paste0("basecoat-", style, ".cdn.min.css")
-  )
+  stylesheet <- if (!mount && source == "cdn") {
+    paste0("basecoat-", style, ".cdn.min.css")
+  } else {
+    paste0("basecoat-", style, ".min.css")
+  }
 
   scripts <- lapply(bc_script_files(js), function(file) {
     list(src = paste0("js/", file), defer = NA)
@@ -160,9 +199,12 @@ bc_deps <- function(
     name = "basecoat",
     version = version,
     src = src,
-    package = if (source == "local") "basecoat",
+    package = if (!mount && source == "local") "basecoat",
     stylesheet = stylesheet,
     script = if (length(scripts)) scripts,
+    head = if (viewport) {
+      '<meta name="viewport" content="width=device-width, initial-scale=1">'
+    },
     all_files = FALSE
   )
 

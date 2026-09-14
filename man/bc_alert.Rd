@@ -4,12 +4,28 @@
 \alias{bc_alert}
 \title{Alert}
 \usage{
-bc_alert(..., variant = "default")
+bc_alert(
+  ...,
+  title = NULL,
+  description = NULL,
+  icon = NULL,
+  action = NULL,
+  variant = "default"
+)
 }
 \arguments{
-\item{...}{Tag attributes and children. Children are a \verb{<svg>} icon, an
-\verb{<h2>} title, a \verb{<section>} body and a \verb{<footer>} action, in that order.
-Only the title is required.}
+\item{...}{Tag attributes and any further children, placed after the parts
+written by the named arguments.}
+
+\item{title}{String or tag. The alert's heading, as an \verb{<h2>}.}
+
+\item{description}{String or tag. The body, as a \verb{<section>}.}
+
+\item{icon}{Tag or \code{NULL}. An icon before the title, such as one from the
+phosphoricons package.}
+
+\item{action}{Tag or \code{NULL}. A button or link, placed in a \verb{<footer>} that
+Basecoat aligns to the inline end.}
 
 \item{variant}{String. \code{"destructive"} for an error alert, or \code{"default"}.}
 }
@@ -20,18 +36,17 @@ A \verb{<div>} tag.
 A short message with an optional icon, title, body and action.
 }
 \details{
-The \verb{<footer>} holds the action element, a button or a link, and Basecoat
-aligns it to the inline end.
+The order the elements are written in is the order Basecoat lays them out,
+so passing them as arguments is the same markup a hand-written alert has.
+Anything else goes through \code{...}.
 }
 \examples{
-bc_alert(
-  htmltools::h2("Account updated"),
-  htmltools::tags$section("Your changes are live.")
-)
+bc_alert(title = "Account updated", description = "Your changes are live.")
 
 bc_alert(
-  htmltools::h2("Payment failed"),
-  htmltools::tags$section("Check your card and try again."),
+  title = "Payment failed",
+  description = "Check your card and try again.",
+  action = bc_button("Retry", variant = "outline", size = "sm"),
   variant = "destructive"
 )
 }

@@ -2,6 +2,7 @@
 % Please edit documentation in R/dialog.R
 \name{bc_dialog}
 \alias{bc_dialog}
+\alias{bc_dialog_close}
 \title{Dialog}
 \usage{
 bc_dialog(
@@ -14,6 +15,8 @@ bc_dialog(
   open = FALSE,
   close_on_click = TRUE
 )
+
+bc_dialog_close(label = "Close", ..., variant = "primary")
 }
 \arguments{
 \item{id}{String. The dialog's unique ID.}
@@ -31,6 +34,10 @@ bc_dialog(
 \item{open}{Bool. Whether the dialog is initially open.}
 
 \item{close_on_click}{Bool. Whether to close the dialog when clicking outside.}
+
+\item{label}{String or tag. The button's label.}
+
+\item{variant}{String. The button variant, as in \code{\link[=bc_button]{bc_button()}}.}
 }
 \value{
 A dialog element with proper structure and behavior.
@@ -39,25 +46,18 @@ A dialog element with proper structure and behavior.
 A modal dialog component using native HTML dialog element.
 }
 \examples{
+bc_dialog_trigger("profile-dialog", class = "btn", "Edit profile")
+
 bc_dialog(
   id = "profile-dialog",
   title = "Edit profile",
   description = "Make changes to your profile here.",
-  content = htmltools::tagList(
-    htmltools::tags$div(class = "grid gap-3",
-      htmltools::tags$label(class = "label", `for` = "name", "Name"),
-      htmltools::tags$input(class = "input", type = "text", id = "name", value = "Pedro Duarte")
-    )
-  ),
+  content = bc_input(id = "name", label = "Name", value = "Pedro Duarte"),
   actions = htmltools::tagList(
-    htmltools::tags$button(
-      class = "btn", data_variant = "outline",
-      onclick = "this.closest('dialog').close()", "Cancel"
-    ),
-    htmltools::tags$button(
-      class = "btn",
-      onclick = "this.closest('dialog').close()", "Save changes"
-    )
+    bc_dialog_close("Cancel", variant = "outline"),
+    bc_dialog_close("Save changes")
   )
 )
+
+bc_dialog_close("Cancel", variant = "outline")
 }

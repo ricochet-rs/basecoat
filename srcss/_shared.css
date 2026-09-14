@@ -74,8 +74,8 @@
   .prose > :is(ul, ol) { padding-inline-start: calc(var(--spacing) * 5); }
   .prose > ul { list-style: disc; }
   .prose > ol { list-style: decimal; }
-  .prose :is(ul, ol) li { margin-block: calc(var(--spacing) * 1); }
-  .prose :is(ul, ol) :is(ul, ol) {
+  .prose > :is(ul, ol) li { margin-block: calc(var(--spacing) * 1); }
+  .prose > :is(ul, ol) :is(ul, ol) {
     margin-block: calc(var(--spacing) * 1);
     padding-inline-start: calc(var(--spacing) * 5);
   }
@@ -92,13 +92,20 @@
     border-top: 1px solid var(--color-border);
   }
 
-  .prose :is(p, li, blockquote) > a {
+  /* Anchored at `.prose >` like everything else. A bare descendant reaches
+     into components: a sidebar's links live in `li > a`, and underlining
+     those is not what a prose rule is for. */
+  .prose > p > a,
+  .prose > :is(ul, ol) li > a,
+  .prose > blockquote :is(p, li) > a {
     color: var(--color-primary);
     text-decoration: underline;
     text-underline-offset: 0.15em;
   }
 
-  .prose :is(p, li, h1, h2, h3, h4) > code {
+  .prose > :is(p, h1, h2, h3, h4) > code,
+  .prose > :is(ul, ol) li > code,
+  .prose > blockquote :is(p, li) > code {
     padding: 0.12em 0.36em;
     border-radius: var(--radius);
     background-color: var(--color-muted);

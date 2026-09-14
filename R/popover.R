@@ -3,6 +3,8 @@
 #' An inline popover of content beside its trigger.
 #'
 #' @param ... Content for the popover.
+#' @param title String or tag. A heading for the popover.
+#' @param description String or tag. Text shown under the heading.
 #' @param id String. The ID for the popover wrapper.
 #' @param trigger_label String or tag. The trigger button's label.
 #' @param trigger A tag. A whole trigger, usually a [bc_button()], in place of
@@ -20,13 +22,19 @@
 #' @export
 #' @examples
 #' bc_popover(
-#'   htmltools::tags$header(
-#'     htmltools::tags$h4("Title"),
-#'     htmltools::tags$p("A short description.")
-#'   )
+#'   title = "Dimensions",
+#'   description = "Set the dimensions for the layer."
+#' )
+#'
+#' bc_popover(
+#'   bc_input(id = "width", label = "Width", value = "100%"),
+#'   title = "Dimensions",
+#'   trigger_label = "Resize"
 #' )
 bc_popover <- function(...,
                        id = NULL,
+                       title = NULL,
+                       description = NULL,
                        trigger_label = "Open popover",
                        trigger = NULL,
                        side = "bottom",
@@ -58,6 +66,14 @@ bc_popover <- function(...,
     # The default width steps aside for a caller's own, since two width
     # utilities on one element are resolved by stylesheet order, not this one.
     class = c(if (is.null(class)) "w-72", class),
+    # The stylesheet finds the heading and the text through the <header>, so
+    # the pair is written here rather than left to every caller.
+    if (!is.null(title) || !is.null(description)) {
+      tags$header(
+        if (!is.null(title)) tags$h4(title),
+        if (!is.null(description)) tags$p(description)
+      )
+    },
     ...
   )
 

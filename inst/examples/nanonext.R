@@ -1,122 +1,108 @@
+# Basecoat served from a nanonext HTTP server, with the stylesheet and scripts
+# served out of the installed package rather than pulled from a CDN.
+#
+#   source(system.file("examples", "nanonext.R", package = "basecoat"))
+#
+# `bc_deps()` points at files inside the package, so a server that hands them
+# out needs a route of its own for `/basecoat/...`. That is the whole of the
+# integration: everything else is the same markup any other backend writes.
+# The CDN is deliberately not used here, since its stylesheets carry only the
+# utilities Basecoat's own source needs and several components lay out wrong
+# from them.
+#
+# The echo route below shows the other half, a component posting to the server
+# and rendering what comes back.
+
 library(nanonext)
+library(basecoat)
 library(htmltools)
 
-# Create a simple nanonext server that serves a page with basecoat components
-# This example demonstrates how to integrate nanonext with basecoat UI components
+assets <- system.file("basecoat", package = "basecoat")
+style <- "vega"
 
-# Create a basic HTTP server using nanonext
+page <- tagList(
+  tags$head(
+    tags$meta(charset = "utf-8"),
+    tags$meta(name = "viewport", content = "width=device-width, initial-scale=1"),
+    tags$title("Basecoat with nanonext"),
+    htmltools::renderDependencies(
+      list(bc_deps(style = style, js = TRUE, source = "/basecoat/")),
+      "href"
+    )
+  ),
+  tags$body(
+    tags$main(
+      class = "prose mx-auto flex max-w-2xl flex-col gap-6 p-8",
+      tags$h1("Basecoat with nanonext"),
+      tags$p("Every asset on this page is served from the installed R package."),
+      bc_card(
+        bc_card_header(
+          tags$h2("Echo"),
+          tags$p("Posts to /api/echo and renders the reply.")
+        ),
+        bc_card_body(
+          class = "flex flex-col gap-4",
+          bc_input(id = "name", label = "Your name", placeholder = "Ada Lovelace"),
+          bc_button("Send", id = "send"),
+          tags$pre(id = "reply")
+        )
+      )
+    ),
+    tags$script(HTML("
+      document.getElementById('send').addEventListener('click', async () => {
+        const res = await fetch('/api/echo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: document.getElementById('name').value })
+        });
+        document.getElementById('reply').textContent =
+          JSON.stringify(await res.json(), null, 2);
+      });
+    "))
+  )
+)
+
+# Anything under /basecoat/ comes straight out of the package directory.
+serve_asset <- function(req) {
+  file <- file.path(assets, sub("^/basecoat/", "", req$uri))
+  if (!file.exists(file)) {
+    return(list(status = 404L, body = "Not found"))
+  }
+
+  type <- if (grepl("\\.css$", file)) "text/css" else "application/javascript"
+  list(
+    status = 200L,
+    headers = list("Content-Type" = type),
+    body = readBin(file, "raw", file.size(file))
+  )
+}
+
 server <- http_server(
   url = "http://127.0.0.1:8080",
   handlers = list(
-    # Serve the main page with basecoat components
     handler("/", function(req) {
-      page <- tagList(
-        tags$head(
-          tags$title("Basecoat with nanonext"),
-          # Include basecoat CSS from CDN
-          tags$link(rel = "stylesheet", href = "https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/basecoat.cdn.min.css"),
-          # Include basecoat JS for interactive components
-          tags$script(src = "https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/all.min.js", defer = TRUE)
-        ),
-        tags$body(
-          tags$div(
-            style = "max-width:800px; margin: 0 auto; padding: 2rem;",
-            tags$h1("Basecoat with nanonext"),
-            tags$p("This page demonstrates a simple web server using nanonext that serves pages with Basecoat UI components."),
-            
-            # Example of a button component
-            bc_button("Click me", id = "my-button"),
-            
-            # Example of a card component
-            bc_card(
-              bc_card_header(h2("Example Card")),
-              bc_card_body(p("This is an example card using Basecoat components.")),
-              bc_card_footer(p("Footer content"))
-            ),
-            
-            # Example of a form with input and button
-            bc_field(
-              tags$label(`for` = "user-name", "Your Name"),
-              bc_input(id = "user-name", placeholder = "Enter your name")
-            ),
-            bc_button("Submit Form", id = "submit-form", variant = "outline"),
-            
-            # JavaScript to handle interactions with nanonext
-            tags$script(HTML("
-              document.addEventListener('DOMContentLoaded', function() {
-                const button = document.getElementById('my-button');
-                const submitButton = document.getElementById('submit-form');
-                
-                if (button) {
-                  button.addEventListener('click', function() {
-                    alert('Button clicked! This demonstrates interaction with nanonext.');
-                  });
-                }
-                
-                if (submitButton) {
-                  submitButton.addEventListener('click', async function() {
-                    const nameInput = document.getElementById('user-name');
-                    if (nameInput && nameInput.value) {
-                      // Send data to a nanonext endpoint
-                      try {
-                        // This would normally send to a nanonext endpoint
-                        console.log('Sending data to server:', nameInput.value);
-                        alert('Form submitted! Data would be sent to nanonext server.');
-                      } catch (error) {
-                        console.error('Error sending data:', error);
-                      }
-                    }
-                  });
-                }
-              });
-            "))
-          )
-        )
-      )
-      
       list(
         status = 200L,
         headers = list("Content-Type" = "text/html"),
-        body = as.character(page)
+        body = paste0("<!doctype html>", as.character(page))
       )
     }),
-    
-    # API endpoint for nanonext communication
+    handler("/basecoat/...", serve_asset),
     handler("/api/echo", function(req) {
-      # Simple echo endpoint that responds to POST requests
-      if (req$method == "POST") {
-        body <- req$body
-        response_data <- list(
-          message = "Echo from nanonext server",
-          received = body,
-          timestamp = Sys.time()
-        )
-        
-        list(
-          status = 200L,
-          headers = list("Content-Type" = "application/json"),
-          body = jsonlite::toJSON(response_data, auto_unbox = TRUE)
-        )
-      } else {
-        list(
-          status = 405L,
-          headers = list("Allow" = "POST"),
-          body = "Method not allowed"
-        )
+      if (!identical(req$method, "POST")) {
+        return(list(status = 405L, headers = list(Allow = "POST"), body = "Method not allowed"))
       }
+      list(
+        status = 200L,
+        headers = list("Content-Type" = "application/json"),
+        body = jsonlite::toJSON(
+          list(received = req$body, at = format(Sys.time())),
+          auto_unbox = TRUE
+        )
+      )
     })
   )
 )
 
-# Start the server
 server$start()
-
-cat("Server started at http://127.0.0.1:8080\n")
-cat("Try visiting the page or sending a POST request to /api/echo\n")
-
-# Keep the server running (in a real application, you'd have proper shutdown handling)
-# For this example, we'll just run for a while
-Sys.sleep(30)
-
-# Clean up
-server$close()
+cat("Serving http://127.0.0.1:8080 — call server$close() to stop.\n")

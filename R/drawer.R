@@ -19,13 +19,29 @@
 #' @export
 #' @examples
 #' bc_drawer(
-#'   "Use this panel for content that needs the full viewport width.",
-#'   title = "Move Goal",
-#'   description = "Set your daily activity goal.",
-#'   actions = htmltools::tags$button(
-#'     class = "btn",
-#'     onclick = "this.closest('dialog').close()",
-#'     "Submit"
+#'   bc_switch(
+#'     "cookies-essential",
+#'     "Essential",
+#'     checked = TRUE,
+#'     disabled = TRUE,
+#'     description = "Needed for the site to work. Always on."
+#'   ),
+#'   bc_switch(
+#'     "cookies-analytics",
+#'     "Analytics",
+#'     description = "Counts visits so we know which pages earn their keep."
+#'   ),
+#'   bc_switch(
+#'     "cookies-marketing",
+#'     "Marketing",
+#'     description = "Lets advertisers follow you between sites."
+#'   ),
+#'   title = "Cookies",
+#'   description = "Choose what this site may store on your device.",
+#'   trigger = "Cookie settings",
+#'   actions = htmltools::tagList(
+#'     bc_dialog_close("Reject non-essential", variant = "outline"),
+#'     bc_dialog_close("Accept all")
 #'   )
 #' )
 bc_drawer <- function(...,
@@ -67,7 +83,13 @@ bc_drawer <- function(...,
     `data-side` = if (side != "bottom") side,
     `aria-labelledby` = if (!is.null(title)) title_id,
     `aria-describedby` = if (!is.null(description)) desc_id,
-    tags$article(header, tags$section(class = "px-4", ...), footer)
+    tags$article(
+      header,
+      # The drawer runs the full width of the viewport, so the content centres
+      # itself on the same measure the header and footer already use.
+      tags$section(class = "px-4", div(class = "mx-auto w-full max-w-sm", ...)),
+      footer
+    )
   )
 
   if (is.null(trigger)) {

@@ -9,6 +9,7 @@ bc_deps(
   js = FALSE,
   theme = NULL,
   source = c("local", "cdn"),
+  viewport = TRUE,
   version = bc_version
 )
 }
@@ -24,8 +25,12 @@ markup written by hand rather than with one of this package's functions.}
 \item{theme}{String or \code{NULL}. Path to a CSS file of your own, loaded after
 the style pack so its tokens win. See \code{\link[=bc_theme]{bc_theme()}}.}
 
-\item{source}{String. \code{"local"} to serve the bundled files, or \code{"cdn"} to
-serve Basecoat's own from jsDelivr, which lays out several components wrong.}
+\item{source}{String. \code{"local"} to serve the bundled files, \code{"cdn"} to serve
+Basecoat's own from jsDelivr, which lays out several components wrong, or a
+URL prefix such as \code{"/basecoat/"} that the bundled directory is served
+from.}
+
+\item{viewport}{Bool. Add the mobile viewport meta tag to the page head.}
 
 \item{version}{String. The \code{basecoat-css} release to serve. Only
 1.0.2 is bundled, so any other release needs \code{source = "cdn"}.}
@@ -74,12 +79,33 @@ spinner does not turn. The bundled stylesheets are built here against the
 markup these functions write, which is why \code{source = "local"} is the default.
 }
 
+\section{Serving the files yourself}{
+
+A server that writes its own HTML, such as plumber2 or ambiorix, never runs
+htmltools' dependency machinery, so the files have to be put on the wire by
+hand. Serve the directory \code{system.file("basecoat", package = "basecoat")}
+under a path of your own, and name that path as \code{source}. The dependency
+then carries the bundled filenames under that prefix, and nothing in the
+page hardcodes them.
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{plumber2::api_statics(
+  api,
+  at = "/basecoat/",
+  path = system.file("basecoat", package = "basecoat")
+)
+
+htmltools::renderDependencies(list(bc_deps(source = "/basecoat/")), "href")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 bc_deps()
 
 bc_deps(style = "maia", js = c("select", "toast"))
 
 bc_deps(source = "cdn")
+
+bc_deps(style = "lyra", source = "/basecoat/")
 
 css <- tempfile(fileext = ".css")
 writeLines(":root { --primary: oklch(0.54 0.16 320); }", css)

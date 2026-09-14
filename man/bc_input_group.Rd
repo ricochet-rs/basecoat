@@ -38,9 +38,8 @@ The shell leaves native controls semantic and borderless. \code{header} and
 }
 \examples{
 bc_input_group(
-  htmltools::tags$input(type = "text", placeholder = "Search..."),
-  bc_input_group_addon("Ctrl K", align = "start"),
-  bc_input_group_addon("Search", align = "end")
+  bc_input(type = "search", placeholder = "Search...", aria_label = "Search"),
+  bc_input_group_addon(bc_kbd("⌘K"), align = "end")
 )
 
 bc_input_group(

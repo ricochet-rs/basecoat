@@ -44,20 +44,14 @@ bc_scroll_area(
 ```{r results="asis"}
 bc_item_group(
   bc_item(
-    htmltools::tags$section(
-      htmltools::tags$h3("Basic Item"),
-      htmltools::p("A simple item with title and description.")
-    ),
-    htmltools::tags$aside(
-      bc_button("Action", variant = "outline", size = "sm")
-    ),
+    title = "Basic Item",
+    description = "A simple item with title and description.",
+    actions = bc_button("Action", variant = "outline", size = "sm"),
     variant = "outline"
   ),
   bc_item(
-    htmltools::tags$section(
-      htmltools::tags$h3("Visit our documentation"),
-      htmltools::p("Get started.")
-    ),
+    title = "Visit our documentation",
+    description = "Get started.",
     href = "#",
     variant = "outline"
   )
@@ -163,9 +157,8 @@ bc_field_group(
 
 ```{r results="asis"}
 bc_label(
-  "Accept terms and conditions",
-  class = "gap-2",
-  htmltools::tags$input(type = "checkbox", class = "input")
+  htmltools::tags$input(type = "checkbox", class = "input"),
+  "Accept terms and conditions"
 )
 ```
 
@@ -185,9 +178,8 @@ bc_input(
 
 ```{r results="asis"}
 bc_input_group(
-  htmltools::tags$input(type = "text", placeholder = "Search..."),
-  bc_input_group_addon("Ctrl K", align = "start"),
-  bc_input_group_addon("Search", align = "end")
+  bc_input(type = "search", placeholder = "Search...", aria_label = "Search"),
+  bc_input_group_addon(bc_kbd("⌘K"), align = "end")
 )
 ```
 
@@ -340,22 +332,10 @@ htmltools::tagList(
     id = "profile-dialog",
     title = "Edit profile",
     description = "Make changes to your profile here.",
-    content = htmltools::tags$div(
-      class = "grid gap-3",
-      htmltools::tags$label(class = "label", `for` = "name", "Name"),
-      htmltools::tags$input(
-        class = "input", type = "text", id = "name", value = "Pedro Duarte"
-      )
-    ),
+    content = bc_input(id = "name", label = "Name", value = "Pedro Duarte"),
     actions = htmltools::tagList(
-      htmltools::tags$button(
-        class = "btn", `data-variant` = "outline",
-        onclick = "this.closest('dialog').close()", "Cancel"
-      ),
-      htmltools::tags$button(
-        class = "btn",
-        onclick = "this.closest('dialog').close()", "Save changes"
-      )
+      bc_dialog_close("Cancel", variant = "outline"),
+      bc_dialog_close("Save changes")
     )
   )
 )
@@ -376,13 +356,29 @@ bc_alert_dialog(
 
 ```{r results="asis"}
 bc_drawer(
-  "Use this panel for content that needs the full viewport width.",
-  title = "Move Goal",
-  description = "Set your daily activity goal.",
-  actions = htmltools::tags$button(
-    class = "btn",
-    onclick = "this.closest('dialog').close()",
-    "Submit"
+  bc_switch(
+    "cookies-essential",
+    "Essential",
+    checked = TRUE,
+    disabled = TRUE,
+    description = "Needed for the site to work. Always on."
+  ),
+  bc_switch(
+    "cookies-analytics",
+    "Analytics",
+    description = "Counts visits so we know which pages earn their keep."
+  ),
+  bc_switch(
+    "cookies-marketing",
+    "Marketing",
+    description = "Lets advertisers follow you between sites."
+  ),
+  title = "Cookies",
+  description = "Choose what this site may store on your device.",
+  trigger = "Cookie settings",
+  actions = htmltools::tagList(
+    bc_dialog_close("Reject non-essential", variant = "outline"),
+    bc_dialog_close("Accept all")
   )
 )
 ```
@@ -391,10 +387,8 @@ bc_drawer(
 
 ```{r results="asis"}
 bc_popover(
-  htmltools::tags$header(
-    htmltools::tags$h4("Title"),
-    htmltools::tags$p("A short description.")
-  )
+  title = "Dimensions",
+  description = "Set the dimensions for the layer."
 )
 ```
 
@@ -425,8 +419,9 @@ htmltools::div(
 
 ```{r results="asis"}
 bc_alert(
-  htmltools::h2("Payment failed"),
-  htmltools::tags$section("Check your card and try again."),
+  title = "Payment failed",
+  description = "Check your card and try again.",
+  action = bc_button("Retry", variant = "outline", size = "sm"),
   variant = "destructive"
 )
 ```

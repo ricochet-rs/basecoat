@@ -21,5 +21,11 @@ A button that opens the specified dialog.
 A button that opens a dialog.
 }
 \examples{
-bc_dialog_trigger("profile-dialog", "Open Dialog")
+bc_dialog_trigger("terms-dialog", class = "btn", "Open Dialog")
+
+bc_dialog(
+  id = "terms-dialog",
+  title = "Terms",
+  description = "The dialog the button above opens."
+)
 }

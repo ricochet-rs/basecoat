@@ -1,25 +1,18 @@
+# An application shell with a collapsible sidebar
+# shiny::runApp(system.file("examples", "shiny-sidebar-app.R", package = "basecoat"))
+
 library(shiny)
 library(basecoat)
 library(htmltools)
 library(phosphoricons)
 
 icons <- list(
-  panel = ph("sidebar-simple", title = NULL),
   terminal = ph("terminal-window", title = NULL),
   settings = ph("gear", title = NULL),
   book = ph("book-open", title = NULL)
 )
 
 sidebar_id <- "app-sidebar"
-
-sidebar_toggle <- bc_button(
-  icons$panel,
-  variant = "ghost",
-  size = "icon",
-  aria_label = "Toggle sidebar",
-  `aria-controls` = sidebar_id,
-  onclick = paste0("document.getElementById('", sidebar_id, "')?.toggle()")
-)
 
 app_header <- bc_dropdown_menu(
   bc_dropdown_group(
@@ -72,16 +65,6 @@ app_sidebar <- bc_sidebar(
   )
 )
 
-app_toolbar <- tags$header(
-  class = "flex items-center gap-2 border-b p-3",
-  sidebar_toggle,
-  bc_breadcrumb(
-    bc_breadcrumb_item("Acme Inc", href = "#"),
-    bc_breadcrumb_item("Settings", current = TRUE)
-  ),
-  div(class = "ml-auto flex items-center gap-2", bc_theme_switcher())
-)
-
 settings_form <- bc_card(
   bc_card_header(
     tags$h2("Profile"),
@@ -89,8 +72,17 @@ settings_form <- bc_card(
   ),
   bc_card_body(
     class = "flex flex-col gap-4",
-    bc_input(id = "display_name", label = "Display name", value = "Ada Lovelace"),
-    bc_textarea(id = "bio", label = "Bio", placeholder = "A short bio", rows = "3"),
+    bc_input(
+      id = "display_name",
+      label = "Display name",
+      value = "Ada Lovelace"
+    ),
+    bc_textarea(
+      id = "bio",
+      label = "Bio",
+      placeholder = "A short bio",
+      rows = "3"
+    ),
     bc_select(
       "utc",
       "est",
@@ -113,7 +105,13 @@ settings_form <- bc_card(
       bc_radio("monthly", "Monthly", checked = TRUE),
       bc_radio("yearly", "Yearly")
     ),
-    bc_slider(0, 100, 80, id = "storage_limit", label = "Storage alert threshold (%)"),
+    bc_slider(
+      0,
+      100,
+      80,
+      id = "storage_limit",
+      label = "Storage alert threshold (%)"
+    ),
     bc_switch("notify", "Email notifications", checked = TRUE)
   )
 )
@@ -124,8 +122,11 @@ values_card <- bc_card(
 )
 
 app_content <- div(
-  class = "flex flex-col gap-6 p-6 max-w-lg",
-  tags$h1(class = "text-2xl font-semibold", "Settings"),
+  class = "flex max-w-lg flex-col gap-6 p-6",
+  bc_breadcrumb(
+    bc_breadcrumb_item("Acme Inc", href = "#"),
+    bc_breadcrumb_item("Settings", current = TRUE)
+  ),
   settings_form,
   values_card
 )
@@ -133,8 +134,12 @@ app_content <- div(
 ui <- tagList(
   bc_deps(style = "lyra"),
   bc_shiny_deps(),
-  app_sidebar,
-  tags$main(app_toolbar, app_content)
+  bc_page_sidebar(
+    app_content,
+    sidebar = app_sidebar,
+    title = "Settings",
+    header = bc_theme_switcher()
+  )
 )
 
 server <- function(input, output) {
@@ -148,7 +153,12 @@ server <- function(input, output) {
       storage_limit = input$storage_limit,
       notify = input$notify
     )
-    paste(names(values), vapply(values, toString, character(1)), sep = ": ", collapse = "\n")
+    paste(
+      names(values),
+      vapply(values, toString, character(1)),
+      sep = ": ",
+      collapse = "\n"
+    )
   })
 }
 

@@ -9,8 +9,14 @@ bc_item_sizes <- c("default", "sm", "xs")
 #'
 #' A display or navigation row in a semantic `<article>` or `<a>` element.
 #'
-#' @param ... Children: a `<figure>`, a `<section>` of heading and text, and an
-#'   optional `<aside>`, `<header>` or `<footer>`.
+#' @param ... Tag attributes and any further children, such as a `<header>` or
+#'   `<footer>`, placed after the parts written by the named arguments.
+#' @param title String or tag. The item's heading, as an `<h3>`.
+#' @param description String or tag. Text under the heading.
+#' @param media Tag or `NULL`. An icon or image, placed in a leading
+#'   `<figure>`.
+#' @param actions Tag or `NULL`. A control or indicator, placed in a trailing
+#'   `<aside>`.
 #' @param href String. Link target; when given, the item renders as an `<a>`.
 #' @param variant String. One of `r toString(bc_item_variants)`. `default`
 #'   writes no attribute.
@@ -24,35 +30,27 @@ bc_item_sizes <- c("default", "sm", "xs")
 #' @export
 #' @examples
 #' bc_item(
-#'   htmltools::tags$section(
-#'     htmltools::tags$h3("Basic Item"),
-#'     htmltools::p("A simple item with title and description.")
-#'   ),
-#'   htmltools::tags$aside(
-#'     bc_button("Action", variant = "outline", size = "sm")
-#'   ),
+#'   title = "Basic Item",
+#'   description = "A simple item with title and description.",
+#'   actions = bc_button("Action", variant = "outline", size = "sm"),
 #'   variant = "outline"
 #' )
 #'
 #' bc_item(
-#'   htmltools::tags$section(
-#'     htmltools::tags$h3("Visit our documentation"),
-#'     htmltools::p("Get started.")
-#'   ),
+#'   title = "Visit our documentation",
+#'   description = "Get started.",
 #'   href = "#"
 #' )
 #'
 #' bc_item_group(
-#'   bc_item(
-#'     htmltools::tags$section(htmltools::tags$h3("Playground")),
-#'     role = "listitem"
-#'   ),
-#'   bc_item(
-#'     htmltools::tags$section(htmltools::tags$h3("Models")),
-#'     role = "listitem"
-#'   )
+#'   bc_item(title = "Playground", role = "listitem"),
+#'   bc_item(title = "Models", role = "listitem")
 #' )
 bc_item <- function(...,
+                    title = NULL,
+                    description = NULL,
+                    media = NULL,
+                    actions = NULL,
                     href = NULL,
                     variant = "default",
                     size = "default",
@@ -70,6 +68,14 @@ bc_item <- function(...,
     class = "item",
     `data-variant` = if (variant != "default") variant,
     `data-size` = if (size != "default") size,
+    if (!is.null(media)) tags$figure(media),
+    if (!is.null(title) || !is.null(description)) {
+      tags$section(
+        if (!is.null(title)) tags$h3(title),
+        if (!is.null(description)) tags$p(description)
+      )
+    },
+    if (!is.null(actions)) tags$aside(actions),
     ...
   ))
 }

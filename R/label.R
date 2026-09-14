@@ -8,14 +8,18 @@
 #' @param ... Content and attributes. A backticked `for` attribute names
 #'   another control.
 #' @return A `<label>` tag.
+#' @details
+#' The class is already a flex row with a gap, so a wrapped control needs no
+#' layout of its own. [bc_checkbox()] and [bc_switch()] write that pairing
+#' along with the control's `id`, and are what a form usually wants.
+#' @seealso [bc_checkbox()], [bc_switch()], [bc_field()]
 #' @export
 #' @examples
 #' bc_label("Your email address", `for` = "email")
 #'
 #' bc_label(
-#'   "Accept terms and conditions",
-#'   class = "gap-2",
-#'   htmltools::tags$input(type = "checkbox", class = "input")
+#'   htmltools::tags$input(type = "checkbox", class = "input"),
+#'   "Accept terms and conditions"
 #' )
 bc_label <- function(...) {
   bc_tag(tags$label(class = "label", ...))
