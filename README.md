@@ -30,6 +30,11 @@ It works for creating HTML templates or with server-side-rendering (SSR)
 with a framework like `{plumber2}` or `{ambiorix}` as well as an opt-in
 [`{shiny}`]() integration.
 
+## Examples:
+
+- [`{htmltools}` static html sidebar](./inst/examples/sidebar-app.R)
+- [`{shiny}` sidebar layout app](./inst/examples/shiny-sidebar-app.R)
+
 ## Page Layouts
 
 To help create full page applications, two page layout helps are
