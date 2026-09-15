@@ -13,8 +13,8 @@ The built in styles are found in the `bc_styles` object.
 bc_styles
 ```
 
-Basecoat uses a hadful of specific tailwind css utility classes to drive the theme itself.
+Basecoat uses a handful of specific [tailwind css](https://tailwindcss.com/) utility classes to drive the theme itself.
 
-The R package ships with a [theme builder](/theme/index.html) available online or via `basecoat::bc_theme_builder()`.
+The R package ships with a [theme builder](../theme/index.html) available online or via `basecoat::bc_theme_builder()`.
 
-Alternatively, any theme created at [tweakcn](https://tweakcn.com/) will work wodnerfully.
+Alternatively, any theme created at [tweakcn](https://tweakcn.com/) will work wonderfully.

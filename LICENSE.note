@@ -18,3 +18,10 @@ The scripts are copied from basecoat-css unchanged:
   Source: https://github.com/hunvreus/basecoat (npm: basecoat-css)
   Copyright (c) 2025 Ronan Berder
   License: MIT, reproduced in inst/basecoat/LICENSE.md
+
+The icon paths in R/icons.R are copied from the Phosphor icon set:
+
+  Files: R/icons.R
+  Source: https://github.com/phosphor-icons/core (npm: @phosphor-icons/core)
+  Copyright (c) 2023 Phosphor Icons
+  License: MIT

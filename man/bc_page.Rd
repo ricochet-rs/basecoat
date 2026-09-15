@@ -2,27 +2,32 @@
 % Please edit documentation in R/page.R
 \name{bc_page}
 \alias{bc_page}
-\title{A complete HTML page}
+\title{A whole HTML page as a string}
 \usage{
 bc_page(
   ...,
   title = NULL,
   assets = "/basecoat/",
   style = NULL,
+  theme = NULL,
   head = NULL,
   lang = "en"
 )
 }
 \arguments{
-\item{...}{Tag attributes and children for the \verb{<body>}.}
+\item{...}{Children of the \verb{<body>}.}
 
 \item{title}{String. The page title.}
 
-\item{assets}{String. The URL prefix the bundled directory is served from.}
+\item{assets}{String. The URL the bundled Basecoat directory is served from.}
 
 \item{style}{String or \code{NULL}. A style pack, as in \code{\link[=bc_deps]{bc_deps()}}.}
 
-\item{head}{Tag or \code{NULL}. Extra content for the \verb{<head>}.}
+\item{theme}{String or \code{NULL}. Path to a CSS file of your own. It lands in
+the head after the style pack, so its tokens win.}
+
+\item{head}{Tag or \code{NULL}. Anything else the head needs, such as the script
+tag for htmx.}
 
 \item{lang}{String. The \code{lang} attribute on \verb{<html>}.}
 }
@@ -30,15 +35,23 @@ bc_page(
 A single string.
 }
 \description{
-A whole document as a string, with the stylesheet and every component
-script already in the head. For servers that write their own HTML.
+For servers that answer with HTML text rather than tags, like plumber2,
+ambiorix or nanonext. Writes the doctype, the head and the body, with the
+stylesheet and every script the components asked for already linked.
 }
 \details{
-Serve \code{system.file("basecoat", package = "basecoat")} at \code{assets}. Every
-dependency the components ask for is rewritten to that prefix.
+Serve \code{system.file("basecoat", package = "basecoat")} at \code{assets}. The files
+ship inside the package, where a browser cannot reach them, so every
+dependency is rewritten to that prefix.
+
+\code{theme} is read and written into a \verb{<style>} tag, so the file itself does
+not have to be served.
 }
 \examples{
 cat(substr(bc_page(bc_button("Save"), title = "Demo"), 1, 80))
+
+theme <- system.file("examples", "tweakcn-theme.css", package = "basecoat")
+page <- bc_page(bc_button("Save"), theme = theme)
 }
 \seealso{
 \code{\link[=bc_deps]{bc_deps()}}, \code{\link[=bc_page_sidebar]{bc_page_sidebar()}}, \code{\link[=bc_page_navbar]{bc_page_navbar()}}

@@ -1,6 +1,8 @@
-# basecoat 0.0.0.9000
+# basecoat 0.1.0
 
 * `bc_page_sidebar()` and `bc_page_navbar()` lay out a whole page around a collapsible sidebar or a navbar.
+
+* `bc_page()` writes a whole HTML document as a string, for servers that answer with HTML text rather than tags.
 
 * A `prose` class gives headings, text and lists vertical rhythm the component reset takes away.
 

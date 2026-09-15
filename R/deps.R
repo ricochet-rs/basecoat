@@ -196,7 +196,7 @@ bc_deps <- function(
 #' in `:root` and `.dark`.
 #'
 #' A tweakcn export works unedited. Web fonts it names still need loading.
-#' @seealso [bc_create_theme()], [bc_theme_builder()]
+#' @seealso [bc_theme_builder()]
 #' @export
 #' @examples
 #' css <- tempfile(fileext = ".css")

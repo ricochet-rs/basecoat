@@ -10,12 +10,23 @@
 Bindings to the [basecoat UI](https://basecoatui.com/) component library
 from R.
 
-Basecoat is a pure tailwind css implementation of
-[shadcn/ui](https://ui.shadcn.com/) that is the very same design system
-that powers [ricochet.rs](https://ricochet.rs). Naturally, we’ve grown
-quite fond of it.
+Basecoat is a pure [tailwind css](https://tailwindcss.com/)
+implementation of [shadcn/ui](https://ui.shadcn.com/) that is the very
+same design system that powers [ricochet.rs](https://ricochet.rs).
+Naturally, we’ve grown quite fond of it.
+
+Every function is documented in the
+[reference](https://ricochet-rs.github.io/basecoat/reference/index.html),
+and every component is drawn in the [components
+article](https://ricochet-rs.github.io/basecoat/articles/Components.html).
 
 ## Installation
+
+``` r
+install.packages("basecoat")
+```
+
+Or the development version from GitHub:
 
 ``` r
 pak::pak("ricochet-rs/basecoat")
@@ -23,22 +34,31 @@ pak::pak("ricochet-rs/basecoat")
 
 ## Usage
 
-`{basecoat}` is designed as an `htmltools` package that generates raw
-HTML with *opt-in* shiny binding.
+`{basecoat}` is designed as an
+[`htmltools`](https://rstudio.github.io/htmltools/) package that
+generates raw HTML with *opt-in* shiny binding.
 
 It works for creating HTML templates or with server-side-rendering (SSR)
-with a framework like `{plumber2}` or `{ambiorix}` as well as an opt-in
-[`{shiny}`]() integration.
+with a framework like
+[`{plumber2}`](https://posit-dev.github.io/plumber2/) or
+[`{ambiorix}`](https://ambiorix.dev/) as well as an opt-in
+[`{shiny}`](https://shiny.posit.co/) integration.
 
 ## Examples:
 
-Basecoat is a framework agnostic package. There
+Basecoat is a framework agnostic package. These examples each build the
+same kind of page on a different stack, with [HTMX](https://htmx.org/)
+and [`{htmxr}`](https://hyperverse-r.github.io/htmxr/) doing the
+swapping in the server rendered ones.
 
-- [`{htmltools}` static html sidebar](./inst/examples/sidebar-app.R)
-- [`{shiny}` sidebar layout app](./inst/examples/shiny-sidebar-app.R)
-- [`{plumber2}` + {htmxr} for HTMX + Sever Side Rendered (SSR)
-  website](./inst/examples/plumber2-htmx-basecoat.R)
-- [`{nanonext}` SSR website](./inst/examples/nanonext.R)
+- [`{htmltools}` static html
+  sidebar](https://github.com/ricochet-rs/basecoat/blob/main/inst/examples/sidebar-app.R)
+- [`{shiny}` sidebar layout
+  app](https://github.com/ricochet-rs/basecoat/blob/main/inst/examples/shiny-sidebar-app.R)
+- [`{plumber2}` + `{htmxr}` for HTMX + Server Side Rendered (SSR)
+  website](https://github.com/ricochet-rs/basecoat/blob/main/inst/examples/plumber2-htmx-basecoat.R)
+- [`{nanonext}` SSR
+  website](https://github.com/ricochet-rs/basecoat/blob/main/inst/examples/nanonext.R)
 
 ## Page Layouts
 
@@ -48,13 +68,27 @@ shipped:
 - `bc_page_navbar()`
 - `bc_page_sidebar()`
 
+For servers that answer with HTML text rather than tags, `bc_page()`
+writes the whole document as a string.
+
 ## Shiny integration
 
-{basecoat} ships an optional shiny integration.
+{basecoat} ships an optional shiny integration. Because `basecoat` is
+not a shiny-only package, it must be opted into. Do this by calling
+`bc_shiny_deps()` inside your top level UI component (or frankly
+anywhere in your UI).
+
+``` r
+ui <- bc_page_navbar(
+  bc_shiny_deps()
+)
+```
+
+Below is an example of the `bc_page_sidebar()`.
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="images/shiny-app-dark.png"/>
-<img src="images/shiny-app-light.png" alt="A Shiny app using bc_page_sidebar(), with basecoat inputs wired to input$"/>
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/shiny-app-dark.png"/>
+<img src="man/figures/shiny-app-light.png" alt="A Shiny app using bc_page_sidebar(), with basecoat inputs wired to input$"/>
 </picture>
 
 Open an example application file with:
@@ -65,18 +99,6 @@ fp <- system.file("examples", "shiny-app.R", package = "basecoat")
 file.copy(fp, tmp)
 
 file.edit(tmp)
-```
-
-## Use with Shiny
-
-Because `basecoat` is not a shiny-only package, it must be opted into.
-Do this by calling `bc_shiny_deps()` inside your top level UI component
-(or frankly anywhere in your UI).
-
-``` r
-ui <- bc_page_navbar(
-  bc_shiny_deps()
-)
 ```
 
 ## Custom themes
@@ -90,10 +112,11 @@ docs](https://ricochet-rs.github.io/basecoat/theme/index.html) to help
 bc_theme_builder()
 ```
 
-The theme builder can be used with any tweakcn theme.
+The theme builder can be used with any [tweakcn](https://tweakcn.com/)
+theme.
 
 Copy the example tweakcn theme and paste it into the “Import” button to
-see how simple it is to cusotmize your theme.
+see how simple it is to customize your theme.
 
 ``` r
 clipr::write_clip(
@@ -107,20 +130,22 @@ clipr::write_clip(
 ```
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="images/ricochet-theme-dark.png"/>
-<img src="images/ricochet-theme-light.png" alt="The theme builder on the ricochet style pack"/>
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/ricochet-theme-dark.png"/>
+<img src="man/figures/ricochet-theme-light.png" alt="The theme builder on the ricochet style pack"/>
 </picture>
 
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="images/random-theme-dark.png"/>
-<img src="images/random-theme-light.png" alt="The same page after deriving a palette from a new primary colour"/>
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/random-theme-dark.png"/>
+<img src="man/figures/random-theme-light.png" alt="The same page after deriving a palette from a new primary colour"/>
 </picture>
 
 ### Importing themes
 
 Set your theme by using the `bc_deps()` function. For SSR or normal
 htmltools usage, `bc_deps()` inside your top level UI component, for
-example here, it is `bc_page_sidebar()`.
+example here, it is `bc_page_sidebar()`. More on themes is in the
+[theming
+article](https://ricochet-rs.github.io/basecoat/articles/Theming.html).
 
 ``` r
 bc_page_sidebar(

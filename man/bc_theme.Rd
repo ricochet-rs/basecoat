@@ -29,5 +29,5 @@ writeLines(":root { --primary: oklch(0.54 0.16 320); }", css)
 bc_theme(css)
 }
 \seealso{
-\code{\link[=bc_create_theme]{bc_create_theme()}}, \code{\link[=bc_theme_builder]{bc_theme_builder()}}
+\code{\link[=bc_theme_builder]{bc_theme_builder()}}
 }

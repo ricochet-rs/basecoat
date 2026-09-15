@@ -1,7 +1,9 @@
-# Page layouts. These compose components that already exist into the two
-# shapes almost every app starts from, the way bslib's page_sidebar() and
-# page_navbar() do. They return the body markup rather than a whole document:
-# the head is still the caller's, and bc_deps() still goes in it.
+# Page layouts. bc_page_sidebar() and bc_page_navbar() compose components that
+# already exist into the two shapes almost every app starts from, the way
+# bslib's page_sidebar() and page_navbar() do. They return body markup, so the
+# head stays the caller's and bc_deps() goes in the tree with everything else.
+# bc_page() is the exception: a whole document as a string, for servers that
+# cannot return tags.
 
 # Phosphor's sidebar-simple, inlined so the toggle needs no icon set.
 bc_panel_icon <- paste0(
@@ -219,36 +221,53 @@ bc_nav_item <- function(
   ))
 }
 
-#' A complete HTML page
+#' A whole HTML page as a string
 #'
-#' A whole document as a string, with the stylesheet and every component
-#' script already in the head. For servers that write their own HTML.
+#' For servers that answer with HTML text rather than tags, like plumber2,
+#' ambiorix or nanonext. Writes the doctype, the head and the body, with the
+#' stylesheet and every script the components asked for already linked.
 #'
-#' @param ... Tag attributes and children for the `<body>`.
+#' @param ... Children of the `<body>`.
 #' @param title String. The page title.
-#' @param assets String. The URL prefix the bundled directory is served from.
+#' @param assets String. The URL the bundled Basecoat directory is served from.
 #' @param style String or `NULL`. A style pack, as in [bc_deps()].
-#' @param head Tag or `NULL`. Extra content for the `<head>`.
+#' @param theme String or `NULL`. Path to a CSS file of your own. It lands in
+#'   the head after the style pack, so its tokens win.
+#' @param head Tag or `NULL`. Anything else the head needs, such as the script
+#'   tag for htmx.
 #' @param lang String. The `lang` attribute on `<html>`.
 #' @return A single string.
 #' @details
-#' Serve `system.file("basecoat", package = "basecoat")` at `assets`. Every
-#' dependency the components ask for is rewritten to that prefix.
+#' Serve `system.file("basecoat", package = "basecoat")` at `assets`. The files
+#' ship inside the package, where a browser cannot reach them, so every
+#' dependency is rewritten to that prefix.
+#'
+#' `theme` is read and written into a `<style>` tag, so the file itself does
+#' not have to be served.
 #' @seealso [bc_deps()], [bc_page_sidebar()], [bc_page_navbar()]
 #' @export
 #' @examples
 #' cat(substr(bc_page(bc_button("Save"), title = "Demo"), 1, 80))
+#'
+#' theme <- system.file("examples", "tweakcn-theme.css", package = "basecoat")
+#' page <- bc_page(bc_button("Save"), theme = theme)
 bc_page <- function(
   ...,
   title = NULL,
   assets = "/basecoat/",
   style = NULL,
+  theme = NULL,
   head = NULL,
   lang = "en"
 ) {
   check_string(title, allow_null = TRUE, allow_empty = FALSE)
   check_string(assets, allow_empty = FALSE)
+  check_string(theme, allow_null = TRUE, allow_empty = FALSE)
   check_string(lang, allow_empty = FALSE)
+
+  if (!is.null(theme) && !file.exists(theme)) {
+    cli::cli_abort("No file at {.path {theme}}.")
+  }
 
   body <- tagList(...)
 
@@ -268,6 +287,11 @@ bc_page <- function(
         '<meta charset="utf-8">',
         if (!is.null(title)) as.character(tags$title(title)),
         htmltools::renderDependencies(deps, "href"),
+        if (!is.null(theme)) {
+          as.character(tags$style(HTML(
+            paste(readLines(theme, warn = FALSE), collapse = "\n")
+          )))
+        },
         if (!is.null(head)) as.character(head)
       ),
       collapse = "\n"

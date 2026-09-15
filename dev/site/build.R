@@ -560,6 +560,22 @@ links_rail <- function() {
   )
 }
 
+# Every alias in man/ against the page it lives on. Without it downlit has no
+# way to place this package's own calls and sends them to rdrr.io.
+topic_index <- function() {
+  rd <- list.files("man", pattern = "\\.Rd$", full.names = TRUE)
+  index <- lapply(rd, function(f) {
+    lines <- readLines(f, warn = FALSE)
+    aliases <- grep("^\\\\alias\\{", lines, value = TRUE)
+    aliases <- sub("^\\\\alias\\{(.*)\\}.*$", "\\1", aliases)
+    stats::setNames(
+      rep(sub("\\.Rd$", "", basename(f)), length(aliases)),
+      aliases
+    )
+  })
+  unlist(index)
+}
+
 write_page <- function(
   path,
   title,
@@ -567,7 +583,8 @@ write_page <- function(
   depth,
   rail = NULL,
   active = NA,
-  articles = list()
+  articles = list(),
+  rdname = NULL
 ) {
   page <- tagList(
     navbar(depth, active, articles),
@@ -634,6 +651,26 @@ write_page <- function(
     path
   )
 
+  # Where the page sits decides what a link from it to a topic looks like.
+  up <- if (depth == 0) "" else "../"
+  section <- basename(dirname(path))
+  # downlit pastes these straight onto the file name, so they carry their own
+  # trailing slash and a page linking within its own directory gets "".
+  old <- options(
+    downlit.topic_path = if (section == "reference") {
+      ""
+    } else {
+      paste0(up, "reference/")
+    },
+    downlit.article_path = if (section == "articles") {
+      ""
+    } else {
+      paste0(up, "articles/")
+    },
+    downlit.rdname = rdname %||% ""
+  )
+  on.exit(options(old), add = TRUE)
+
   # Syntax highlighting and autolinking, in place.
   downlit::downlit_html_path(path, path)
 }
@@ -671,7 +708,8 @@ build_reference <- function(articles) {
       depth = 1,
       rail = toc_rail(parsed$toc),
       active = "reference",
-      articles = articles
+      articles = articles,
+      rdname = slug
     )
 
     list(
@@ -802,8 +840,25 @@ main <- function() {
 
   copy_styles(OUT)
 
+  # The home page is README.md, whose screenshots are relative to the repo
+  # root, so the directory they point at has to land beside index.html.
+  if (dir.exists("man/figures")) {
+    dir.create(file.path(OUT, "man"), recursive = TRUE, showWarnings = FALSE)
+    file.copy("man/figures", file.path(OUT, "man"), recursive = TRUE)
+  }
+
   cfg <- read_config()
   articles <- article_stubs()
+
+  slugs <- vapply(articles, function(a) a$slug, character(1))
+  options(
+    downlit.package = "basecoat",
+    downlit.topic_index = topic_index(),
+    downlit.article_index = stats::setNames(paste0(slugs, ".html"), slugs),
+    # A call written bare rather than as basecoat::call() is still this
+    # package's, since every page on this site is about it.
+    downlit.attached = "basecoat"
+  )
 
   topics <- build_reference(articles)
   build_articles(articles)

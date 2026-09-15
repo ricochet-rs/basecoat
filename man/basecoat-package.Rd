@@ -4,24 +4,24 @@
 \name{basecoat-package}
 \alias{basecoat}
 \alias{basecoat-package}
-\title{basecoat: Basecoat UI Components}
+\title{basecoat: Beautiful User Interfaces Via 'Basecoat UI'}
 \description{
-Builds Basecoat UI markup with htmltools tags, and attaches the bundled Basecoat stylesheet and scripts as an HTML dependency.
+Create beautiful user interfaces through Basecoat UI componenets. Basecoat is a pure-tailwind implementation of shadcn/ui without any 'React'. The package is built on 'htmltools' and designed to work with all UI frameworks with a custom 'shiny' integration to boot. 'CSS' and 'JavaScript' dependencies are included in the package and no 'cdn' is used.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://basecoatui.com}
   \item \url{https://ricochet-rs.github.io/basecoat/}
+  \item \url{https://basecoatui.com}
 }
 
 }
 \author{
-\strong{Maintainer}: Josiah Parry \email{josiah@ricochet.rs}
+\strong{Maintainer}: Josiah Parry \email{josiah.parry@github.com}
 
 Authors:
 \itemize{
-  \item Josiah Parry \email{josiah@ricochet.rs}
+  \item Josiah Parry \email{josiah.parry@github.com}
 }
 
 Other contributors:
