@@ -24,3 +24,6 @@ _files$
 ^vignettes/articles/\.quarto$
 ^vignettes/articles$
 ^images$
+^air.toml$
+^CLAUDE.md$
+^srcjs$
