@@ -29,6 +29,10 @@ bc_token_groups <- list(
   )
 )
 
+# The tokens a pack carries that are not colours. Only the ones basecoat itself
+# reads, so an import writes nothing dead.
+bc_scalar_tokens <- c("font-sans", "font-mono", "radius")
+
 #' Theme builder
 #'
 #' A page for building a theme: an input per token, a light and dark pair, a
@@ -90,7 +94,14 @@ bc_theme_builder <- function(
                 lapply(bc_token_groups[[name]], theme_builder_field)
               )
             )
-          })
+          }),
+          list(do.call(
+            bc_sidebar_group,
+            c(
+              list("Type and shape"),
+              lapply(bc_scalar_tokens, theme_builder_scalar_field)
+            )
+          ))
         )
       ),
       title = "Theme builder",
@@ -167,6 +178,24 @@ theme_builder_field <- function(token) {
       `aria-label` = token
     ),
     tags$label(class = "text-xs truncate", `for` = paste0("tok-", token), token)
+  )
+}
+
+theme_builder_scalar_field <- function(token) {
+  div(
+    class = "flex flex-col gap-1 py-0.5",
+    tags$label(
+      class = "text-xs truncate",
+      `for` = paste0("tok-", token),
+      token
+    ),
+    tags$input(
+      type = "text",
+      class = "input h-8 text-xs",
+      id = paste0("tok-", token),
+      `data-scalar-token` = token,
+      spellcheck = "false"
+    )
   )
 }
 
@@ -328,6 +357,139 @@ theme_builder_stat <- function(title, value, note, pct) {
   )
 }
 
+bc_activity_events <- list(
+  list(
+    kind = "meeting",
+    initials = "NC",
+    name = "Nathaniel Caldwell",
+    when = "2 mins ago",
+    said = "booked a call tomorrow at",
+    what = "4:00 PM - 5:00 PM",
+    icon = "calendar-blank",
+    tag = "Team meeting"
+  ),
+  list(
+    kind = "task",
+    initials = "LA",
+    name = "Lucy Aniston",
+    when = "9 mins ago",
+    said = "completed",
+    what = "Sprint 12",
+    icon = "check-circle",
+    tag = "All tasks completed"
+  ),
+  list(
+    kind = "task",
+    initials = "LA",
+    name = "Lucy Aniston",
+    when = "10 mins ago",
+    said = "uploaded a file to",
+    what = "Legal folder",
+    icon = "paperclip",
+    tag = "Report.pdf"
+  ),
+  list(
+    kind = "task",
+    initials = "JL",
+    name = "Jackson Lee",
+    when = "24 mins ago",
+    said = "uploaded a file to",
+    what = "Design assets",
+    icon = "paperclip",
+    tag = "Homepage_v3.fig"
+  ),
+  list(
+    kind = "meeting",
+    initials = "EW",
+    name = "Emma Wilson",
+    when = "1 hour ago",
+    said = "scheduled a review on Friday at",
+    what = "10:00 AM - 11:00 AM",
+    icon = "calendar-blank",
+    tag = "Quarterly review"
+  ),
+  list(
+    kind = "task",
+    initials = "WK",
+    name = "William Kim",
+    when = "2 hours ago",
+    said = "completed",
+    what = "Onboarding flow",
+    icon = "check-circle",
+    tag = "All tasks completed"
+  )
+)
+
+theme_builder_event <- function(event) {
+  div(
+    class = "relative flex gap-3 pb-5 last:pb-0",
+    # The rail runs from below the avatar to the next one, so the last row
+    # stops it at its own padding rather than trailing into the card.
+    span(
+      class = "bg-border absolute top-10 bottom-0 left-4 w-px",
+      `aria-hidden` = "true"
+    ),
+    bc_avatar(fallback = event$initials),
+    div(
+      class = "flex min-w-0 flex-1 flex-col items-start gap-1",
+      div(
+        class = "flex w-full items-baseline gap-2",
+        span(class = "truncate text-sm font-medium", event$name),
+        span(
+          class = "text-muted-foreground ml-auto shrink-0 text-xs",
+          event$when
+        )
+      ),
+      tags$p(
+        class = "text-muted-foreground text-sm",
+        event$said,
+        " ",
+        span(class = "text-foreground font-medium", event$what)
+      ),
+      bc_badge(
+        bc_icon(event$icon, size = 12),
+        event$tag,
+        variant = "secondary"
+      )
+    )
+  )
+}
+
+theme_builder_feed <- function(kind = NULL) {
+  events <- bc_activity_events
+  if (!is.null(kind)) {
+    events <- Filter(function(e) e$kind == kind, events)
+  }
+  div(class = "flex flex-col pt-4", lapply(events, theme_builder_event))
+}
+
+theme_builder_activity <- function() {
+  bc_card(
+    bc_card_header(tags$h2("Activity")),
+    bc_card_body(
+      class = "flex flex-col gap-3",
+      bc_input_group(
+        bc_input_group_addon(
+          bc_icon("magnifying-glass", size = 15),
+          aria_hidden = TRUE
+        ),
+        bc_input(
+          type = "search",
+          placeholder = "Search...",
+          aria_label = "Search activity"
+        )
+      ),
+      bc_tabs(
+        bc_tab(theme_builder_feed(), label = "All"),
+        bc_tab(theme_builder_feed("task"), label = "Tasks"),
+        bc_tab(theme_builder_feed("meeting"), label = "Meetings"),
+        id = "tb-activity",
+        aria_label = "Activity"
+      )
+    )
+  )
+}
+
 theme_builder_preview <- function() {
   div(
     class = "flex flex-col gap-4 p-4",
@@ -344,148 +506,146 @@ theme_builder_preview <- function() {
       action = bc_button("Dismiss", variant = "outline", size = "sm")
     ),
     div(
-      class = "grid gap-4 lg:grid-cols-2",
-      bc_card(
-        bc_card_header(tags$h2("Buttons and badges")),
-        bc_card_body(
-          class = "flex flex-col gap-3",
-          div(
-            class = "flex flex-wrap gap-2",
-            bc_button("Primary"),
-            bc_button("Secondary", variant = "secondary"),
-            bc_button("Outline", variant = "outline"),
-            bc_button("Ghost", variant = "ghost"),
-            bc_button("Destructive", variant = "destructive")
-          ),
-          div(
-            class = "flex flex-wrap items-center gap-2",
-            bc_badge("default"),
-            bc_badge("secondary", variant = "secondary"),
-            bc_badge("destructive", variant = "destructive"),
-            bc_kbd("\u2318K"),
-            bc_spinner(size = "5")
-          ),
-          div(
-            class = "flex flex-wrap items-center gap-2",
-            bc_avatar_group(
-              bc_avatar(fallback = "AL"),
-              bc_avatar(fallback = "GB"),
-              count = "+3"
+      class = "grid items-start gap-4 lg:grid-cols-2",
+      div(
+        class = "flex flex-col gap-4",
+        bc_card(
+          bc_card_header(tags$h2("Buttons and navigation")),
+          bc_card_body(
+            class = "flex flex-col gap-3",
+            div(
+              class = "flex flex-wrap gap-2",
+              bc_button("Primary"),
+              bc_button("Secondary", variant = "secondary"),
+              bc_button("Outline", variant = "outline"),
+              bc_button("Ghost", variant = "ghost"),
+              bc_button("Destructive", variant = "destructive")
             ),
-            bc_tooltip("Hover me", text = "A tooltip"),
-            bc_dropdown_menu(
-              bc_dropdown_item("Profile"),
-              bc_dropdown_item("Settings"),
-              trigger_label = "Menu"
+            div(
+              class = "flex flex-wrap items-center gap-2",
+              bc_badge("default"),
+              bc_badge("secondary", variant = "secondary"),
+              bc_badge("destructive", variant = "destructive"),
+              bc_kbd("\u2318K"),
+              bc_spinner(size = "5")
             ),
-            bc_popover(title = "Popover", description = "Anchored content.")
+            div(
+              class = "flex flex-wrap items-center gap-2",
+              bc_avatar_group(
+                bc_avatar(fallback = "AL"),
+                bc_avatar(fallback = "GB"),
+                count = "+3"
+              ),
+              bc_tooltip("Hover me", text = "A tooltip"),
+              bc_dropdown_menu(
+                bc_dropdown_item("Profile"),
+                bc_dropdown_item("Settings"),
+                trigger_label = "Menu"
+              ),
+              bc_popover(title = "Popover", description = "Anchored content.")
+            ),
+            bc_breadcrumb(
+              bc_breadcrumb_item("Home", href = "#"),
+              bc_breadcrumb_item("Theme", current = TRUE)
+            ),
+            bc_tabs(
+              bc_tab("Tokens drive every surface.", label = "Overview"),
+              bc_tab("Switch light and dark above.", label = "Modes")
+            ),
+            bc_pagination(
+              bc_pagination_previous(),
+              bc_pagination_item("1", href = "#", current = TRUE),
+              bc_pagination_item("2", href = "#"),
+              bc_pagination_next()
+            )
           )
-        )
+        ),
+        theme_builder_activity()
       ),
-      bc_card(
-        bc_card_header(tags$h2("Form")),
-        bc_card_body(
-          class = "flex flex-col gap-3",
-          bc_input(
-            id = "tb-email",
-            label = "Email",
-            placeholder = "ada@example.com"
-          ),
-          bc_textarea(
-            id = "tb-bio",
-            label = "Bio",
-            placeholder = "A short bio",
-            rows = "2"
-          ),
-          bc_select(
-            "Apple",
-            "Banana",
-            "Cherry",
-            id = "tb-fruit",
-            placeholder = "Fruit"
-          ),
-          bc_combobox(
-            "tb-framework",
-            bc_combobox_option("Next.js"),
-            bc_combobox_option("Remix"),
-            placeholder = "Framework"
-          ),
-          bc_checkbox("tb-terms", "Accept terms", checked = TRUE),
-          bc_switch("tb-notify", "Notifications", checked = TRUE),
-          bc_radio_group(
-            name = "tb-plan",
-            bc_radio("monthly", "Monthly", checked = TRUE),
-            bc_radio("yearly", "Yearly")
-          ),
-          bc_slider(0, 100, 60, id = "tb-level", aria_label = "Level")
-        )
-      )
-    ),
-    div(
-      class = "grid gap-4 lg:grid-cols-2",
-      bc_card(
-        bc_card_header(tags$h2("Navigation")),
-        bc_card_body(
-          class = "flex flex-col gap-3",
-          bc_breadcrumb(
-            bc_breadcrumb_item("Home", href = "#"),
-            bc_breadcrumb_item("Theme", current = TRUE)
-          ),
-          bc_tabs(
-            bc_tab("Tokens drive every surface.", label = "Overview"),
-            bc_tab("Switch light and dark above.", label = "Modes")
-          ),
-          bc_pagination(
-            bc_pagination_previous(),
-            bc_pagination_item("1", href = "#", current = TRUE),
-            bc_pagination_item("2", href = "#"),
-            bc_pagination_next()
+      div(
+        class = "flex flex-col gap-4",
+        bc_card(
+          bc_card_header(tags$h2("Form")),
+          bc_card_body(
+            class = "flex flex-col gap-3",
+            bc_input(
+              id = "tb-email",
+              label = "Email",
+              placeholder = "ada@example.com"
+            ),
+            bc_textarea(
+              id = "tb-bio",
+              label = "Bio",
+              placeholder = "A short bio",
+              rows = "2"
+            ),
+            bc_select(
+              "Apple",
+              "Banana",
+              "Cherry",
+              id = "tb-fruit",
+              placeholder = "Fruit"
+            ),
+            bc_combobox(
+              "tb-framework",
+              bc_combobox_option("Next.js"),
+              bc_combobox_option("Remix"),
+              placeholder = "Framework"
+            ),
+            bc_checkbox("tb-terms", "Accept terms", checked = TRUE),
+            bc_switch("tb-notify", "Notifications", checked = TRUE),
+            bc_radio_group(
+              name = "tb-plan",
+              bc_radio("monthly", "Monthly", checked = TRUE),
+              bc_radio("yearly", "Yearly")
+            ),
+            bc_slider(0, 100, 60, id = "tb-level", aria_label = "Level")
           )
-        )
-      ),
-      bc_card(
-        bc_card_header(tags$h2("Disclosure and overlays")),
-        bc_card_body(
-          class = "flex flex-col gap-3",
-          bc_accordion(
-            bc_accordion_item(
-              "What is a token?",
-              "A CSS custom property.",
-              open = TRUE
+        ),
+        bc_card(
+          bc_card_header(tags$h2("Disclosure and overlays")),
+          bc_card_body(
+            class = "flex flex-col gap-3",
+            bc_accordion(
+              bc_accordion_item(
+                "What is a token?",
+                "A CSS custom property.",
+                open = TRUE
+              ),
+              bc_accordion_item("Where do they live?", "In :root and .dark.")
             ),
-            bc_accordion_item("Where do they live?", "In :root and .dark.")
-          ),
-          div(
-            class = "flex flex-wrap gap-2",
-            bc_dialog_trigger("tb-dialog", class = "btn", "Dialog"),
-            bc_alert_dialog(
-              title = "Are you sure?",
-              description = "This cannot be undone.",
-              trigger = "Alert dialog"
+            div(
+              class = "flex flex-wrap gap-2",
+              bc_dialog_trigger("tb-dialog", class = "btn", "Dialog"),
+              bc_alert_dialog(
+                title = "Are you sure?",
+                description = "This cannot be undone.",
+                trigger = "Alert dialog"
+              ),
+              bc_drawer("A bottom sheet.", title = "Drawer", trigger = "Drawer")
             ),
-            bc_drawer("A bottom sheet.", title = "Drawer", trigger = "Drawer")
-          ),
-          bc_dialog(
-            id = "tb-dialog",
-            title = "Edit profile",
-            description = "Tokens apply inside overlays too.",
-            content = bc_input(id = "tb-name", label = "Name", value = "Ada"),
-            actions = bc_dialog_close("Close")
-          ),
-          bc_item_group(
-            bc_item(
-              title = "Muted surface",
-              description = "Secondary text and borders.",
-              actions = bc_badge("beta", variant = "secondary"),
-              variant = "outline",
-              role = "listitem"
+            bc_dialog(
+              id = "tb-dialog",
+              title = "Edit profile",
+              description = "Tokens apply inside overlays too.",
+              content = bc_input(id = "tb-name", label = "Name", value = "Ada"),
+              actions = bc_dialog_close("Close")
             ),
-            bc_item(
-              title = "Skeleton",
-              description = "Loading placeholders.",
-              actions = bc_skeleton(class = "h-4 w-16"),
-              variant = "outline",
-              role = "listitem"
+            bc_item_group(
+              bc_item(
+                title = "Muted surface",
+                description = "Secondary text and borders.",
+                actions = bc_badge("beta", variant = "secondary"),
+                variant = "outline",
+                role = "listitem"
+              ),
+              bc_item(
+                title = "Skeleton",
+                description = "Loading placeholders.",
+                actions = bc_skeleton(class = "h-4 w-16"),
+                variant = "outline",
+                role = "listitem"
+              )
             )
           )
         )
@@ -499,15 +659,20 @@ theme_builder_preview <- function() {
 }
 
 theme_builder_script <- function() {
-  tokens <- paste0(
-    "[",
-    toString(paste0('"', unlist(bc_token_groups, use.names = FALSE), '"')),
-    "]"
-  )
+  # Pasted in rather than interpolated: the body is past sprintf's format
+  # length.
+  array <- function(x) paste0("[", toString(paste0('"', x, '"')), "]")
 
-  HTML(sprintf(
+  HTML(paste0(
+    "
+const TOKENS = ",
+    array(unlist(bc_token_groups, use.names = FALSE)),
+    ";
+const SCALARS = ",
+    array(bc_scalar_tokens),
+    ";",
     '
-const TOKENS = %s;
+const ALL = TOKENS.concat(SCALARS);
 const theme = { light: {}, dark: {} };
 let mode = "light";
 
@@ -529,6 +694,9 @@ function readPack() {
     for (const token of TOKENS) {
       theme[which][token] = toHex(styles.getPropertyValue("--" + token));
     }
+    for (const token of SCALARS) {
+      theme[which][token] = styles.getPropertyValue("--" + token).trim();
+    }
   }
   root.classList.toggle("dark", mode === "dark");
 }
@@ -536,7 +704,7 @@ function readPack() {
 function css() {
   const block = (sel, vars) =>
     sel + " {\\n" +
-    TOKENS.map((t) => "  --" + t + ": " + vars[t] + ";").join("\\n") +
+    ALL.map((t) => "  --" + t + ": " + vars[t] + ";").join("\\n") +
     "\\n}";
   return block(":root", theme.light) + "\\n\\n" + block(".dark", theme.dark);
 }
@@ -547,10 +715,17 @@ function render() {
   for (const input of document.querySelectorAll("[data-token]")) {
     input.value = theme[mode][input.dataset.token];
   }
+  // Rewriting a text field mid-edit would drop the caret to the end.
+  for (const input of document.querySelectorAll("[data-scalar-token]")) {
+    if (input !== document.activeElement) {
+      input.value = theme[mode][input.dataset.scalarToken];
+    }
+  }
 }
 
 document.addEventListener("input", (e) => {
-  const token = e.target.dataset && e.target.dataset.token;
+  const data = e.target.dataset || {};
+  const token = data.token || data.scalarToken;
   if (!token) return;
   theme[mode][token] = e.target.value;
   render();
@@ -619,7 +794,7 @@ function fromHsl(h, s, l) {
   const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
   const p = 2 * l - q;
   const channel = (t) => {
-    t = (t + 1) %% 1;
+    t = (t + 1) % 1;
     if (t < 1 / 6) return p + (q - p) * 6 * t;
     if (t < 1 / 2) return q;
     if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
@@ -645,7 +820,7 @@ function toHsl(color) {
 
 function rotate(color, deg) {
   const [h, s, l] = toHsl(color);
-  return fromHsl((h + deg / 360 + 1) %% 1, s, l);
+  return fromHsl((h + deg / 360 + 1) % 1, s, l);
 }
 
 function derive(primary, page, destructive, tint) {
@@ -722,7 +897,16 @@ function parseTheme(text) {
       if (at === -1) continue;
       const name = decl.slice(0, at).trim().replace(/^--/, "");
       const value = decl.slice(at + 1).trim();
-      if (TOKENS.includes(name) && value) found[which][name] = toHex(value);
+      if (!value) continue;
+      if (TOKENS.includes(name)) found[which][name] = toHex(value);
+      if (SCALARS.includes(name)) found[which][name] = value;
+    }
+  }
+  // A theme that sets its fonts or radius once, under :root, means them for
+  // both modes.
+  for (const token of SCALARS) {
+    if (found.light[token] && !found.dark[token]) {
+      found.dark[token] = found.light[token];
     }
   }
   return found;
@@ -746,7 +930,6 @@ document.getElementById("download").addEventListener("click", () => {
 
 readPack();
 render();
-',
-    tokens
+'
   ))
 }

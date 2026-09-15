@@ -32,8 +32,13 @@ with a framework like `{plumber2}` or `{ambiorix}` as well as an opt-in
 
 ## Examples:
 
+Basecoat is a framework agnostic package. There
+
 - [`{htmltools}` static html sidebar](./inst/examples/sidebar-app.R)
 - [`{shiny}` sidebar layout app](./inst/examples/shiny-sidebar-app.R)
+- [`{plumber2}` + {htmxr} for HTMX + Sever Side Rendered (SSR)
+  website](./inst/examples/plumber2-htmx-basecoat.R)
+- [`{nanonext}` SSR website](./inst/examples/nanonext.R)
 
 ## Page Layouts
 
@@ -62,7 +67,7 @@ file.copy(fp, tmp)
 file.edit(tmp)
 ```
 
-## Theme builder
+## Custom themes
 
 `bc_theme_builder()` can be used to launch a small html page to
 customize your own theme. Alternatively, you can use the theme
@@ -71,6 +76,22 @@ docs](https://ricochet-rs.github.io/basecoat/theme/index.html) to help
 
 ``` r
 bc_theme_builder()
+```
+
+The theme builder can be used with any tweakcn theme.
+
+Copy the example tweakcn theme and paste it into the “Import” button to
+see how simple it is to cusotmize your theme.
+
+``` r
+clipr::write_clip(
+  brio::read_file(
+    system.file(
+      "examples/tweakcn-theme.css",
+      package = "basecoat"
+    )
+  )
+)
 ```
 
 <picture>
