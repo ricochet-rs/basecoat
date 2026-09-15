@@ -67,6 +67,18 @@ file.copy(fp, tmp)
 file.edit(tmp)
 ```
 
+## Use with Shiny
+
+Because `basecoat` is not a shiny-only package, it must be opted into.
+Do this by calling `bc_shiny_deps()` inside your top level UI component
+(or frankly anywhere in your UI).
+
+``` r
+ui <- bc_page_navbar(
+  bc_shiny_deps()
+)
+```
+
 ## Custom themes
 
 `bc_theme_builder()` can be used to launch a small html page to
@@ -103,3 +115,36 @@ clipr::write_clip(
 <source media="(prefers-color-scheme: dark)" srcset="images/random-theme-dark.png"/>
 <img src="images/random-theme-light.png" alt="The same page after deriving a palette from a new primary colour"/>
 </picture>
+
+### Importing themes
+
+Set your theme by using the `bc_deps()` function. For SSR or normal
+htmltools usage, `bc_deps()` inside your top level UI component, for
+example here, it is `bc_page_sidebar()`.
+
+``` r
+bc_page_sidebar(
+  bc_deps(
+    style = "lyra",
+    theme = system.file(
+      "examples/tweakcn-theme.css",
+      package = "basecoat"
+    )
+  ),
+  title = "Production",
+  sidebar = bc_sidebar(id = "sidebar"),
+  header = bc_theme_switcher(id = "switcher"),
+  div(
+    class = "max-w-sm p-4",
+    bc_card(
+      bc_card_header(
+        htmltools::h2("Production deploy"),
+        htmltools::p("v1.4.2, 3m 12s"),
+        bc_card_action(bc_badge("passed"))
+      ),
+      bc_card_body("All 128 checks green."),
+      bc_card_footer("Deployed just now.")
+    )
+  )
+)
+```
