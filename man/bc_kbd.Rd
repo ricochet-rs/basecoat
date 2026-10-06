@@ -9,13 +9,13 @@ bc_kbd(label, ...)
 \arguments{
 \item{label}{String. Text on the key, such as \code{"⌘K"}.}
 
-\item{...}{Tag attributes for the \verb{<kbd>}.}
+\item{...}{Extra tag attributes.}
 }
 \value{
-A \verb{<kbd>} tag.
+An htmltools tag.
 }
 \description{
-A single key label in an inline \verb{<kbd>}.
+Create a keyboard key label.
 }
 \examples{
 bc_kbd("⌘K")

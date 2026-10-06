@@ -1,23 +1,23 @@
 # A field wraps one form control with its label and helper text, a fieldset
 # groups related fields, and a separator divides stacked sections. Only the
-# roots carry classes; the CSS finds the label, control and text by element
+# roots have classes; the CSS finds the label, control, and text by element
 # name.
 
 bc_field_orientations <- c("default", "horizontal", "responsive")
 
 #' Field
 #'
-#' A single form control wrapped with its label and helper text.
+#' Create a form field that groups a control with its label and helper text.
 #'
-#' @param ... Tag attributes and children for the `<div>`.
+#' @param ... Tag attributes and content.
 #' @inheritParams bc_checkbox
 #' @param orientation String. One of `r toString(bc_field_orientations)`.
-#'   `default` writes no attribute.
-#' @param disabled Bool. Whether to mark the field as disabled.
-#' @return A tag.
+#' @param disabled Bool. Whether to show the field as disabled. Defaults to
+#'   `FALSE`.
+#' @return An htmltools tag.
 #' @details
-#' Children render in order: label, control, helper text. A horizontal field
-#' takes the control first.
+#' Pass the label, control, and helper text in that order. In a horizontal
+#' field, pass the control first.
 #' @export
 #' @examples
 #' bc_field(
@@ -52,8 +52,8 @@ bc_field <- function(
 }
 
 #' @rdname bc_field
-#' @param legend String or tag. The group's heading, as a `<legend>`.
-#' @param description String or tag. Shown under the legend.
+#' @param legend String or tag. The fieldset title.
+#' @param description String or tag. Text under the title.
 #' @export
 #' @examples
 #'

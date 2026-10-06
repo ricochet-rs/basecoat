@@ -7,19 +7,19 @@
 bc_spinner(label = "Loading", size = NULL, ...)
 }
 \arguments{
-\item{label}{String. The accessible \code{aria-label}.}
+\item{label}{String. Accessible name for the spinner. Defaults to
+\code{"Loading"}.}
 
-\item{size}{String. A Tailwind size utility suffix, e.g. \code{"4"} for \code{size-4}.
-\code{NULL} uses the icon's natural size.}
+\item{size}{String. A Tailwind size, such as \code{"4"} for \code{size-4}. \code{NULL}
+keeps the default of 24 pixels.}
 
-\item{...}{Tag attributes for the \verb{<svg>}.}
+\item{...}{Extra tag attributes.}
 }
 \value{
-An \verb{<svg>} tag.
+An htmltools tag.
 }
 \description{
-A loading indicator as the \code{loader-circle} Lucide icon with the \code{animate-spin}
-utility.
+Create a spinning icon that shows something is loading.
 }
 \examples{
 bc_spinner()

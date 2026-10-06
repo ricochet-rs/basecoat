@@ -2,15 +2,15 @@
 % Please edit documentation in R/combobox.R
 \name{bc_combobox_separator}
 \alias{bc_combobox_separator}
-\title{Combobox separator}
+\title{Combobox Separator}
 \usage{
 bc_combobox_separator()
 }
 \value{
-An \verb{<hr>} tag.
+An htmltools tag.
 }
 \description{
-A horizontal rule between combobox groups.
+Create a divider between combobox groups.
 }
 \examples{
 bc_combobox_separator()

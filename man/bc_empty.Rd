@@ -7,21 +7,23 @@
 bc_empty(title = NULL, description = NULL, icon = NULL, actions = NULL, ...)
 }
 \arguments{
-\item{title}{String. The heading, rendered as an \verb{<h3>}.}
+\item{title}{String. The title.}
 
-\item{description}{String. The helper text, rendered as a \verb{<p>}.}
+\item{description}{String. Helper text under the title.}
 
-\item{icon}{A tag. Content for the \verb{<figure>}, typically an SVG.}
+\item{icon}{Tag. An icon shown above the title.}
 
-\item{actions}{A tag or tag list. Content for the \verb{<footer>}.}
+\item{actions}{Tag or tag list. Buttons or other actions shown below the
+text.}
 
-\item{...}{Attributes for the \verb{<section>}, such as \code{class}.}
+\item{...}{Tag attributes, such as \code{class}.}
 }
 \value{
-A \verb{<section>} tag.
+An htmltools tag.
 }
 \description{
-A centred empty-state with an optional icon, title, description and actions.
+Create a centred empty state with an optional icon, title, description and
+actions.
 }
 \examples{
 bc_empty(

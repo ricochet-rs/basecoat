@@ -1,19 +1,19 @@
-# A card is structural: only the root and the action carry a class, and the CSS
-# finds the header, the content and the footer by element name. So the four
+# A card is structural: only the root and the action have a class, and the CSS
+# finds the header, the content, and the footer by element name. So the four
 # inner functions are named element builders and nothing more, which is what
 # makes an image or a divider between them a caller's business rather than an
 # argument here.
 
 #' Card
 #'
-#' A titled container, built from a header, a body and a footer.
+#' Create a card with a header, a body, and a footer.
 #'
-#' @param ... Tag attributes and children. Pass `data-size = "sm"` to
+#' @param ... Tag attributes and content. Pass `data-size = "sm"` to
 #'   [bc_card()] for a denser card.
-#' @return A tag.
+#' @return An htmltools tag.
 #' @details
-#' Parts render in the order written. An `<img>` before [bc_card_header()]
-#' becomes a cover image.
+#' Parts render in the order written. An [htmltools::img()] before
+#' [bc_card_header()] becomes a cover image.
 #' @export
 #' @examples
 #' bc_card(
@@ -23,7 +23,7 @@
 #'     bc_card_action(bc_badge("passed"))
 #'   ),
 #'   bc_card_body(htmltools::p("All 128 checks green.")),
-#'   bc_card_footer(htmltools::p("Deployed just now."))
+#'   bc_card_footer(htmltools::p("Deployed 2 minutes ago."))
 #' )
 bc_card <- function(...) {
   bc_tag(div(class = "card", ...))

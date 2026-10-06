@@ -6,15 +6,105 @@ knitr:
     comment: '#>'
 ---
 
-{basecoat} ships with a handful of great themes out of the box.
-The built in styles are found in the `bc_styles` object.
+## Create a theme
+
+Open the [online theme builder](../theme/index.html), or run it locally:
+
+```{r}
+#| eval: false
+bc_theme_builder()
+```
+
+Select **CSS** to save `theme.css`.
+The file contains only the `:root` and `.dark` token blocks.
+
+You can also use [tweakcn](https://tweakcn.com/).
+Select **Code** and save the CSS as `theme.css`.
+It works with `bc_theme()` unedited.
+
+## Load your theme
+
+Call `bc_theme()` after `bc_deps()`:
+
+```{r}
+#| eval: false
+htmltools::tagList(
+  bc_deps(),
+  bc_theme("theme.css"),
+  bc_button("Save")
+)
+```
+
+Use the `theme` argument of `bc_deps()` to do both in one call:
+
+```{r}
+#| eval: false
+bc_deps(theme = "theme.css")
+```
+
+If your theme uses additional web fonts, those need to be imported manually.
+
+## Further theme customization
+
+If further customization of a theme is necessary, it should be done in the `theme.css` file for styling tokens.
+Additionally, if you need to modify the components wholesale, it should be done via `@apply` directives using utility classes.
+
+## Add your own classes
+
+You can write your own classes in `theme.css` using Tailwind's `@apply` directive.
+Classes written this way go inside of `@layer components`:
+
+```css
+@layer components {
+  .btn-pill {
+    @apply rounded-full;
+  }
+}
+```
+
+Browsers don't understand `@apply`.
+Because `bc_theme()` gives the browser the file as-is, Tailwind has to compile the file first.
+Compiling turns each `@apply` into regular CSS.
+
+For Tailwind to know what `rounded-full` means, the first line of `theme.css` must be this:
+
+```css
+@reference "tailwindcss";
+```
+
+The `@reference` line lets Tailwind look up the utilities without copying all Tailwind's own styles into your file.
+A theme exported from tweakcn starts with `@import "tailwindcss";`, so replace that line with `@reference "tailwindcss";`.
+A theme from the theme builder has no such line, so add it.
+
+Compile the file with the [Tailwind CLI](https://tailwindcss.com/docs/installation/tailwind-cli):
+
+```bash
+npm install tailwindcss @tailwindcss/cli
+npx @tailwindcss/cli -i theme.css -o theme.min.css
+```
+
+Then load `theme.min.css` with `bc_theme()` instead of `theme.css`, and pass the class to a component:
+
+```{r}
+#| eval: false
+htmltools::tagList(
+  bc_deps(),
+  bc_theme("theme.min.css"),
+  bc_button("Save", class = "btn-pill")
+)
+```
+
+## Style packs
+
+These are the bundled style packs:
 
 ```{r}
 bc_styles
 ```
 
-Basecoat uses a handful of specific [tailwind css](https://tailwindcss.com/) utility classes to drive the theme itself.
+To use a style pack, set the `style` argument of `bc_deps()`:
 
-The R package ships with a [theme builder](../theme/index.html) available online or via `basecoat::bc_theme_builder()`.
-
-Alternatively, any theme created at [tweakcn](https://tweakcn.com/) will work wonderfully.
+```{r}
+#| eval: false
+bc_deps(style = "lyra")
+```

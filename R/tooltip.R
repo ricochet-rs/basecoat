@@ -1,14 +1,14 @@
 #' Tooltip
 #'
-#' A tooltip component using Basecoat CSS.
+#' Create text that shows when you hover over or focus an element.
 #'
-#' @param ... Tag attributes and children for the element with tooltip.
+#' @param ... The content the tooltip belongs to, and tag attributes.
 #' @param text String. The tooltip text.
-#' @param side String. Position of the tooltip. One of `top`, `bottom`, `left`,
-#'   `right`, `inline-start`, or `inline-end`. Defaults to `top`.
-#' @param align String. Alignment of the tooltip. One of `start`, `center`, or
-#'   `end`. Defaults to `center`.
-#' @return An HTML element with tooltip attributes.
+#' @param side String. Where the tooltip opens. One of `"top"` (default),
+#'   `"bottom"`, `"left"`, `"right"`, `"inline-start"`, or `"inline-end"`.
+#' @param align String. Alignment of the tooltip along that side. One of
+#'   `"start"`, `"center"` (default), or `"end"`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_tooltip("Save", text = "Save your work")

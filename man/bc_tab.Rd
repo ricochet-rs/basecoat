@@ -7,19 +7,20 @@
 bc_tab(..., id = NULL, label, disabled = FALSE)
 }
 \arguments{
-\item{...}{Content for the tab panel.}
+\item{...}{Panel content.}
 
-\item{id}{String. The ID for this tab panel (optional).}
+\item{id}{String. Not used. \code{\link[=bc_tabs]{bc_tabs()}} sets the panel IDs from its own
+\code{id}.}
 
-\item{label}{String. The label for this tab.}
+\item{label}{String. The tab's label.}
 
-\item{disabled}{Bool. Whether the tab is disabled.}
+\item{disabled}{Bool. Whether the tab is disabled. Defaults to \code{FALSE}.}
 }
 \value{
-A list containing tab properties.
+A list for \code{\link[=bc_tabs]{bc_tabs()}}.
 }
 \description{
-A helper function to create individual tab content panels.
+Create one tab and its panel, for \code{\link[=bc_tabs]{bc_tabs()}}.
 }
 \examples{
 bc_tab("Account details", label = "Account")

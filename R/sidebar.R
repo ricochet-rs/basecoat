@@ -1,7 +1,7 @@
-# A sidebar is a fixed `<aside>` beside page content. Basecoat owns the fixed
-# positioning and overlay behaviour, and the app owns the navigation data and
+# A sidebar is a fixed `<aside>` beside page content. Basecoat handles the fixed
+# positioning and overlay behaviour, and the app provides the navigation data and
 # current route, so the inner builders are named structure markers: a group is
-# a heading and its `<ul>`, an item is the `<a>` or `<button>` that carries the
+# a heading and its `<ul>`, an item is the `<a>` or `<button>` that has the
 # route attributes, and a submenu is a `<details>` disclosure. The nav wraps an
 # optional header, a scrollable content `<section>` and an optional footer.
 
@@ -14,22 +14,24 @@ bc_sidebar_id <- function(prefix) {
 
 #' Sidebar
 #'
-#' A fixed navigation panel beside the page content.
+#' Create a collapsible sidebar for navigation.
 #'
-#' @param ... Tag attributes and navigation groups for the scrollable
-#'   `<section>`, between the optional `<header>` and `<footer>`.
-#' @param side String. One of `"left"` or `"right"`. Which viewport side the
-#'   sidebar pins to.
-#' @param header Tag. Content for the optional `<header>` region, such as a
-#'   brand or workspace control, or `NULL`.
-#' @param footer Tag. Content for the optional `<footer>` region, such as an
-#'   account control, or `NULL`.
-#' @param aria_label String. The `aria-label` of the `<nav>` landmark.
-#' @param initial_open Bool or `NULL`. Start open on the desktop layout.
-#' @param initial_mobile_open Bool or `NULL`. Start open on the mobile overlay.
-#' @param breakpoint String or `NULL`. A viewport width below which the sidebar
-#'   becomes the mobile overlay, such as `"48rem"`.
-#' @return An `<aside>` tag.
+#' @param ... For `bc_sidebar()`, sidebar content such as
+#'   [bc_sidebar_group()] and [bc_sidebar_separator()]. It scrolls when tall.
+#' @param side String. The side of the page, `"left"` (default) or `"right"`.
+#' @param header Tag or `NULL`. Content for the top of the sidebar, such as a
+#'   logo or workspace picker.
+#' @param footer Tag or `NULL`. Content for the bottom of the sidebar, such as
+#'   an account menu.
+#' @param aria_label String. Accessible name for the sidebar. Defaults to
+#'   `"Sidebar navigation"`.
+#' @param initial_open Bool or `NULL`. Whether the sidebar starts open on wide
+#'   screens.
+#' @param initial_mobile_open Bool or `NULL`. Whether the sidebar starts open
+#'   on small screens.
+#' @param breakpoint String or `NULL`. The screen width below which the
+#'   sidebar switches to its mobile layout, such as `"48rem"`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_sidebar(
@@ -89,11 +91,11 @@ bc_sidebar <- function(
 }
 
 #' @rdname bc_sidebar
-#' @param title String. The group heading, which is also the label of the
-#'   group.
-#' @param id String or `NULL`. The element `id`. A `NULL` id is generated.
-#' @param ... Tag attributes and children, wrapped in `<li>` by [bc_sidebar_group()]
-#'   and [bc_sidebar_submenu()].
+#' @param title String. The group title, also used as its accessible name.
+#' @param id String or `NULL`. The ID. `bc_sidebar_group()` and
+#'   `bc_sidebar_submenu()` use a random ID when `NULL`.
+#' @param ... For `bc_sidebar_group()` and `bc_sidebar_submenu()`, items such
+#'   as [bc_sidebar_item()]. For `bc_sidebar_item()`, extra tag attributes.
 #' @export
 #' @examples
 #'
@@ -118,22 +120,18 @@ bc_sidebar_group <- function(title, ..., id = NULL) {
 }
 
 #' @rdname bc_sidebar
-#' @param label String. Text shown on the control, or in the `summary` of a
-#'   submenu.
-#' @param href String or `NULL`. A destination turns the item into a link, and
-#'   `NULL` into a `<button>`.
-#' @param icon Tag. An icon shown before the label, such as one from the
-#'   phosphoricons package, or `NULL`.
-#' @param variant String. One of `r toString(bc_sidebar_variants)`. `default`
-#'   writes no attribute.
-#' @param size String. One of `r toString(bc_sidebar_sizes)`. `default` writes
-#'   no attribute.
-#' @param active Bool. Mark the control as the active route.
-#' @param disabled Bool. Disable the control in its own way: `disabled` on a
-#'   `<button>`, `aria-disabled` on a link.
-#' @param aria_current Bool. Write `aria-current = "page"` on a link.
-#' @param keep_mobile_open Bool. Keep the mobile sidebar open when this control
-#'   is clicked.
+#' @param label String. Text shown on the item or submenu.
+#' @param href String or `NULL`. A link URL. `NULL` makes a button.
+#' @param icon Tag or `NULL`. An icon shown before the label, such as one from
+#'   the phosphoricons package.
+#' @param variant String. One of `r toString(bc_sidebar_variants)`.
+#' @param size String. One of `r toString(bc_sidebar_sizes)`.
+#' @param active Bool. Highlight the item as active. Defaults to `FALSE`.
+#' @param disabled Bool. Whether the item is disabled. Defaults to `FALSE`.
+#' @param aria_current Bool. Mark the item as the current page for screen
+#'   readers. Defaults to `FALSE`.
+#' @param keep_mobile_open Bool. Keep the mobile sidebar open when the item is
+#'   clicked. Defaults to `FALSE`.
 #' @export
 #' @examples
 #'

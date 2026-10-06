@@ -1,25 +1,25 @@
 # A text input is `class="input"`, with a label and helper text wrapped in a
-# `field`. The raw input carries the class and the native form attributes; the
+# `field`. The raw input has the class and the native form attributes; the
 # field wrapper mirrors the disabled and invalid states for styling.
 
 #' Input
 #'
-#' An `<input>` carrying the Basecoat `input` class, optionally wrapped with a
-#' label in a `field`.
+#' Create a text input with an optional label and helper text.
 #'
-#' @param ... Tag attributes for the `<input>`.
+#' @param ... Extra tag attributes for the input.
 #' @inheritParams bc_checkbox
-#' @param id String. The input `id`, required when a `label` is given.
-#' @param type String. The `type` attribute, `"text"` by default.
+#' @param id String. The input ID. Required when `label` is set.
+#' @param type String. The input type, such as `"email"` or `"password"`.
+#'   Defaults to `"text"`.
 #' @param placeholder String. Placeholder text.
-#' @param description String or tag. Helper text shown under the input, wired
-#'   to it with `aria-describedby`.
-#' @param value String. The initial value.
-#' @param required Bool. Whether the input is required.
-#' @param disabled Bool. Whether the input is disabled.
-#' @param aria_label String. Accessible name, for an input with no visible
-#'   `label`. A placeholder alone is not one.
-#' @return An `<input>` tag or, with a `label`, a `<div>` tag.
+#' @param description String or tag. Helper text shown under the input. Needs
+#'   a `label`.
+#' @param value String. The starting value.
+#' @param required Bool. Whether the input is required. Defaults to `FALSE`.
+#' @param disabled Bool. Whether the input is disabled. Defaults to `FALSE`.
+#' @param aria_label String. Accessible name for the input. Set it when there
+#'   is no `label`, since a placeholder doesn't count.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_input(type = "email", placeholder = "Email", aria_label = "Email")

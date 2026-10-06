@@ -1,17 +1,18 @@
 # A breadcrumb is a `nav` landmark with an ordered list of the page hierarchy.
-# Separators sit between items in hidden `<li>` elements, and the current page
+# Each separator is a hidden `<li>` between items, and the current page
 # is marked with `aria-current="page"`.
 
 #' Breadcrumb
 #'
-#' A navigation landmark listing the page hierarchy, with separators inserted
-#' between items.
+#' Create a trail of links from the top of the site to the current page.
 #'
-#' @param ... Items from [bc_breadcrumb_item()] and [bc_breadcrumb_separator()].
-#'   Separators are added between items automatically.
-#' @param label String. The landmark's `aria-label`.
-#' @param separator String. Separator icon: `chevron-right` (default) or `dot`.
-#' @return A `<nav>` tag.
+#' @param ... Items from [bc_breadcrumb_item()]. Separators are added between
+#'   items for you.
+#' @param label String. Accessible name for the breadcrumb. Defaults to
+#'   `"Breadcrumb"`.
+#' @param separator String. The separator icon, `"chevron-right"` (default) or
+#'   `"dot"`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_breadcrumb(
@@ -57,9 +58,9 @@ bc_breadcrumb <- function(
 
 #' @rdname bc_breadcrumb
 #' @param item String. The item's label.
-#' @param href String. Link target.
-#' @param current Bool. Whether this is the current page. Renders a span with
-#'   `aria-current="page"` instead of a link.
+#' @param href String. The link URL.
+#' @param current Bool. Whether this is the current page, shown as text
+#'   instead of a link. Defaults to `FALSE`.
 #' @export
 bc_breadcrumb_item <- function(item, href = NULL, current = FALSE) {
   check_string(item, allow_empty = FALSE)
@@ -74,7 +75,8 @@ bc_breadcrumb_item <- function(item, href = NULL, current = FALSE) {
 }
 
 #' @rdname bc_breadcrumb
-#' @param icon String. The separator icon: `chevron-right` or `dot`.
+#' @param icon String. The separator icon, `"chevron-right"` (default) or
+#'   `"dot"`.
 #' @export
 bc_breadcrumb_separator <- function(icon = "chevron-right") {
   icon <- arg_match(icon, c("chevron-right", "dot"))

@@ -20,27 +20,26 @@ bc_avatar_group(..., count = NULL)
 bc_avatar_badge(...)
 }
 \arguments{
-\item{...}{Tag attributes and children, passed to \code{\link[htmltools:span]{htmltools::span()}}.}
+\item{...}{Tag attributes and content.}
 
 \item{src}{String. The image URL, or \code{NULL} for initials only.}
 
 \item{alt}{String. Alt text for the image.}
 
 \item{fallback}{String. Initials or short text shown when the image is
-absent.}
+missing.}
 
-\item{size}{String. One of default, sm, lg. \code{default} writes no
-attribute.}
+\item{size}{String. One of default, sm, lg.}
 
 \item{badge}{A \code{\link[=bc_avatar_badge]{bc_avatar_badge()}}, or \code{NULL}.}
 
 \item{count}{Text or an icon shown after the last avatar, or \code{NULL}.}
 }
 \value{
-A \verb{<span>} tag.
+An htmltools tag.
 }
 \description{
-A small round image with an initials fallback.
+Create a small round image with an initials fallback.
 }
 \examples{
 bc_avatar(src = "https://github.com/shadcn.png", alt = "@shadcn", fallback = "CN")

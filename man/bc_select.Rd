@@ -19,39 +19,40 @@ bc_select(
 )
 }
 \arguments{
-\item{...}{Options. A \code{\link[=bc_select_option]{bc_select_option()}}, a plain string, or a tag with
-\code{role = "option"} for one that carries its own markup.}
+\item{...}{Options from \code{\link[=bc_select_option]{bc_select_option()}}, or a character vector of
+values. For custom content, pass a tag with \code{role = "option"}.}
 
 \item{placeholder}{String. Text shown while nothing is chosen.}
 
-\item{name}{String. The \code{name} of the hidden input, defaulting to \code{id}.}
+\item{name}{String. The form field name. Defaults to \code{id}.}
 
-\item{id}{String. The ID for the select root. Trigger, popover and listbox
-IDs derive from it.}
+\item{id}{String. The select's ID. Defaults to a random ID.}
 
-\item{selected}{String or character vector. Initial value, or values in
-multiple mode.}
+\item{selected}{Character vector. The starting value, or values when
+\code{multiple = TRUE}.}
 
-\item{disabled}{Bool. Whether the select is disabled.}
+\item{disabled}{Bool. Whether the select is disabled. Defaults to \code{FALSE}.}
 
-\item{invalid}{Bool. Whether to show the invalid state.}
+\item{invalid}{Bool. Whether to show the invalid state. Defaults to
+\code{FALSE}.}
 
-\item{multiple}{Bool. Whether the listbox accepts several selections.}
+\item{multiple}{Bool. Whether the user can select several options. Defaults
+to \code{FALSE}.}
 
-\item{close_on_select}{Bool. Whether choosing closes the popover. Defaults
-to \code{TRUE} for a single select and \code{FALSE} for a multiple one.}
+\item{close_on_select}{Bool. Whether selecting an option closes the list.
+Defaults to \code{TRUE} for a single select and \code{FALSE} for a multiple one.}
 
-\item{class}{Vector of class names merged onto the trigger button, which is
-where the control's width is set.}
+\item{class}{Character vector. CSS classes for the select button. Set the
+width here, such as \code{w-full}. Defaults to \verb{w-[180px]}.}
 
-\item{aria_label}{String. Accessible name for the trigger, when nothing
-outside the control already labels it.}
+\item{aria_label}{String. Accessible name for the select. Set it when there
+is no visible label.}
 }
 \value{
-A \verb{<div>} tag of class \code{select}.
+An htmltools tag.
 }
 \description{
-A dropdown of options, with a hidden input carrying what was chosen.
+Create a dropdown for selecting one or more options.
 }
 \details{
 Submits a string, or a JSON array when \code{multiple = TRUE}.

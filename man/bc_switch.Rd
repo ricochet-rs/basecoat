@@ -17,31 +17,30 @@ bc_switch(
 )
 }
 \arguments{
-\item{id}{String. The input \code{id}, and the \code{for} of its label.}
+\item{id}{String. The input ID.}
 
-\item{label}{String or tag. The label content.}
+\item{label}{String or tag. The label.}
 
-\item{...}{Tag attributes for the \verb{<input>}.}
+\item{...}{Extra tag attributes for the switch.}
 
-\item{size}{String. One of \code{default} or \code{sm}. \code{sm} writes \code{data-size="sm"}.}
+\item{size}{String. \code{"default"} or \code{"sm"}.}
 
-\item{checked}{Bool. Whether the box starts ticked.}
+\item{checked}{Bool. Whether the box starts checked. Defaults to \code{FALSE}.}
 
-\item{disabled}{Bool. Whether the box is disabled.}
+\item{disabled}{Bool. Whether the box is disabled. Defaults to \code{FALSE}.}
 
-\item{invalid}{Bool. Whether to show the invalid state.}
+\item{invalid}{Bool. Whether to show the invalid state. Defaults to
+\code{FALSE}.}
 
-\item{description}{String or tag. Helper text shown under the label, wired to
-the input with \code{aria-describedby}.}
+\item{description}{String or tag. Helper text shown under the label.}
 
-\item{name}{String. The input \code{name}, defaulting to \code{id}.}
+\item{name}{String. The input name. Defaults to \code{id}.}
 }
 \value{
-A \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-A binary toggle built on a native checkbox with \code{role="switch"}, paired with
-its label in a horizontal \code{field}.
+Create an on and off toggle with a label. It submits like a checkbox.
 }
 \examples{
 bc_switch("airplane-mode", "Airplane Mode")

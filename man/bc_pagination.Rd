@@ -19,22 +19,27 @@ bc_pagination_previous(label = "Previous", href = "#")
 bc_pagination_next(label = "Next", href = "#")
 }
 \arguments{
-\item{...}{The pagination items as \verb{<li>} tags, from the item helpers.}
+\item{...}{For \code{bc_pagination()}, items from \code{bc_pagination_item()},
+\code{bc_pagination_previous()}, \code{bc_pagination_next()} and
+\code{bc_pagination_ellipsis()}. For \code{bc_pagination_item()}, extra tag
+attributes for the link.}
 
-\item{label}{String. The navigation landmark's \code{aria-label}.}
+\item{label}{String. For \code{bc_pagination()}, the accessible name, which
+defaults to \code{"pagination"}. For \code{bc_pagination_previous()} and
+\code{bc_pagination_next()}, the link text.}
 
 \item{item}{String. The page label.}
 
-\item{href}{String. The link target.}
+\item{href}{String. The link URL. Defaults to \code{"#"}.}
 
-\item{current}{Bool. Whether this is the current page. Renders as the
-outline variant.}
+\item{current}{Bool. Whether this is the current page, shown with the
+outline style. Defaults to \code{FALSE}.}
 }
 \value{
-A \verb{<nav>} tag.
+An htmltools tag.
 }
 \description{
-A set of page controls built from the Button classes in a \code{nav} landmark.
+Create a row of page links.
 }
 \examples{
 bc_pagination(

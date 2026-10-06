@@ -1,25 +1,26 @@
 #' Select
 #'
-#' A dropdown of options, with a hidden input carrying what was chosen.
+#' Create a dropdown for selecting one or more options.
 #'
-#' @param ... Options. A [bc_select_option()], a plain string, or a tag with
-#'   `role = "option"` for one that carries its own markup.
+#' @param ... Options from [bc_select_option()], or a character vector of
+#'   values. For custom content, pass a tag with `role = "option"`.
 #' @param placeholder String. Text shown while nothing is chosen.
-#' @param name String. The `name` of the hidden input, defaulting to `id`.
-#' @param id String. The ID for the select root. Trigger, popover and listbox
-#'   IDs derive from it.
-#' @param selected String or character vector. Initial value, or values in
-#'   multiple mode.
-#' @param disabled Bool. Whether the select is disabled.
-#' @param invalid Bool. Whether to show the invalid state.
-#' @param multiple Bool. Whether the listbox accepts several selections.
-#' @param close_on_select Bool. Whether choosing closes the popover. Defaults
-#'   to `TRUE` for a single select and `FALSE` for a multiple one.
-#' @param class Vector of class names merged onto the trigger button, which is
-#'   where the control's width is set.
-#' @param aria_label String. Accessible name for the trigger, when nothing
-#'   outside the control already labels it.
-#' @return A `<div>` tag of class `select`.
+#' @param name String. The form field name. Defaults to `id`.
+#' @param id String. The select's ID. Defaults to a random ID.
+#' @param selected Character vector. The starting value, or values when
+#'   `multiple = TRUE`.
+#' @param disabled Bool. Whether the select is disabled. Defaults to `FALSE`.
+#' @param invalid Bool. Whether to show the invalid state. Defaults to
+#'   `FALSE`.
+#' @param multiple Bool. Whether the user can select several options. Defaults
+#'   to `FALSE`.
+#' @param close_on_select Bool. Whether selecting an option closes the list.
+#'   Defaults to `TRUE` for a single select and `FALSE` for a multiple one.
+#' @param class Character vector. CSS classes for the select button. Set the
+#'   width here, such as `w-full`. Defaults to `w-[180px]`.
+#' @param aria_label String. Accessible name for the select. Set it when there
+#'   is no visible label.
+#' @return An htmltools tag.
 #' @details
 #' Submits a string, or a JSON array when `multiple = TRUE`.
 #' @seealso [bc_select_option()]
@@ -152,7 +153,7 @@ select_item <- function(item, chosen) {
     }))
   }
 
-  # A list carrying no `value` is a list of options rather than one option.
+  # A list with no `value` is a list of options rather than one option.
   if (is.list(item) && is.null(item$value)) {
     return(select_items(item, chosen))
   }
@@ -198,11 +199,11 @@ select_value <- function(chosen, multiple) {
 }
 #' Select Option
 #'
-#' A helper function to create individual select options.
+#' Create one option for [bc_select()].
 #'
-#' @param value String. The value of the option.
-#' @param label String. The display label for the option.
-#' @return A list containing option properties.
+#' @param value String. The option's value.
+#' @param label String. The text shown. Defaults to `value`.
+#' @return A list with `value` and `label`.
 #' @export
 #' @examples
 #' bc_select_option("dark", "Dark")

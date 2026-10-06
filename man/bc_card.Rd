@@ -19,18 +19,18 @@ bc_card_footer(...)
 bc_card_action(...)
 }
 \arguments{
-\item{...}{Tag attributes and children. Pass \code{data-size = "sm"} to
+\item{...}{Tag attributes and content. Pass \code{data-size = "sm"} to
 \code{\link[=bc_card]{bc_card()}} for a denser card.}
 }
 \value{
-A tag.
+An htmltools tag.
 }
 \description{
-A titled container, built from a header, a body and a footer.
+Create a card with a header, a body, and a footer.
 }
 \details{
-Parts render in the order written. An \verb{<img>} before \code{\link[=bc_card_header]{bc_card_header()}}
-becomes a cover image.
+Parts render in the order written. An \code{\link[htmltools:img]{htmltools::img()}} before
+\code{\link[=bc_card_header]{bc_card_header()}} becomes a cover image.
 }
 \examples{
 bc_card(
@@ -40,6 +40,6 @@ bc_card(
     bc_card_action(bc_badge("passed"))
   ),
   bc_card_body(htmltools::p("All 128 checks green.")),
-  bc_card_footer(htmltools::p("Deployed just now."))
+  bc_card_footer(htmltools::p("Deployed 2 minutes ago."))
 )
 }

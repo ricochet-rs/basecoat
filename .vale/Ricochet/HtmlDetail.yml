@@ -1,0 +1,7 @@
+extends: existence
+message: "Describe what the reader gets in R, not the HTML it writes ('%s')."
+level: warning
+nonword: true
+tokens:
+  - '`<(?:main|aside|header|footer|nav|section|article|div|span|ul|li|body|html|head)>`'
+  - '\b(?:aria-[a-z]+|data-[a-z-]+|role="[a-z]+")'

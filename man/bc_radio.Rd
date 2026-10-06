@@ -2,7 +2,7 @@
 % Please edit documentation in R/radio-group.R
 \name{bc_radio}
 \alias{bc_radio}
-\title{Radio Input}
+\title{Radio Button}
 \usage{
 bc_radio(
   id,
@@ -16,28 +16,28 @@ bc_radio(
 )
 }
 \arguments{
-\item{id}{String. The input \code{id}, and the \code{for} of its label.}
+\item{id}{String. The input ID, also used as the radio's value.}
 
-\item{label}{String or tag. The label content.}
+\item{label}{String or tag. The label.}
 
-\item{...}{Attributes passed to the \verb{<input>}.}
+\item{...}{Extra tag attributes for the radio.}
 
-\item{checked}{Bool. Whether the radio starts selected.}
+\item{checked}{Bool. Whether the radio starts selected. Defaults to \code{FALSE}.}
 
-\item{disabled}{Bool. Whether the radio is disabled.}
+\item{disabled}{Bool. Whether the radio is disabled. Defaults to \code{FALSE}.}
 
-\item{invalid}{Bool. Whether to show the invalid state.}
+\item{invalid}{Bool. Whether to show the invalid state. Defaults to
+\code{FALSE}.}
 
-\item{description}{String or tag. Helper text shown under the label, wired to
-the input with \code{aria-describedby}.}
+\item{description}{String or tag. Helper text shown under the label.}
 
-\item{name}{String. The input \code{name}, defaulting to \code{id}.}
+\item{name}{String. The input name. Defaults to \code{id}.}
 }
 \value{
-A \verb{<div>} tag with role="group" containing radio and field.
+An htmltools tag.
 }
 \description{
-A single radio input with its label, wrapped in a field.
+Create a radio button with a label.
 }
 \examples{
 bc_radio("default", "Default")

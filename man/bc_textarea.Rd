@@ -20,38 +20,38 @@ bc_textarea(
 )
 }
 \arguments{
-\item{...}{Tag attributes for the \verb{<textarea>}.}
+\item{...}{Extra tag attributes for the text area.}
 
-\item{label}{String or tag. The label content.}
+\item{label}{String or tag. The label.}
 
-\item{id}{String. The input \code{id}, required when a \code{label} is given.}
+\item{id}{String. The input ID. Required when \code{label} is set.}
 
 \item{placeholder}{String. Placeholder text.}
 
-\item{value}{String. The initial value.}
+\item{value}{String. The starting value.}
 
-\item{rows}{String. The \code{rows} attribute.}
+\item{rows}{String. The number of visible rows, such as \code{"4"}.}
 
-\item{description}{String or tag. Helper text shown under the input, wired
-to it with \code{aria-describedby}.}
+\item{description}{String or tag. Helper text shown under the input. Needs
+a \code{label}.}
 
-\item{name}{String. The input \code{name}, defaulting to \code{id}.}
+\item{name}{String. The input name. Defaults to \code{id}.}
 
-\item{required}{Bool. Whether the input is required.}
+\item{required}{Bool. Whether the input is required. Defaults to \code{FALSE}.}
 
-\item{disabled}{Bool. Whether the input is disabled.}
+\item{disabled}{Bool. Whether the input is disabled. Defaults to \code{FALSE}.}
 
-\item{invalid}{Bool. Whether to show the invalid state.}
+\item{invalid}{Bool. Whether to show the invalid state. Defaults to
+\code{FALSE}.}
 
-\item{aria_label}{String. Accessible name, for an input with no visible
-\code{label}. A placeholder alone is not one.}
+\item{aria_label}{String. Accessible name for the input. Set it when there
+is no \code{label}, since a placeholder doesn't count.}
 }
 \value{
-A \verb{<textarea>} tag or, with a \code{label}, a \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-A multiline \verb{<textarea>} carrying the Basecoat \code{textarea} class, optionally
-wrapped with a label in a \code{field}.
+Create a multiline text input with an optional label.
 }
 \examples{
 bc_textarea(placeholder = "Type your message here", aria_label = "Message")

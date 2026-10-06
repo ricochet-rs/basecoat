@@ -5,11 +5,11 @@
 
 #' Keyboard Key
 #'
-#' A single key label in an inline `<kbd>`.
+#' Create a keyboard key label.
 #'
 #' @param label String. Text on the key, such as `"⌘K"`.
-#' @param ... Tag attributes for the `<kbd>`.
-#' @return A `<kbd>` tag.
+#' @param ... Extra tag attributes.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_kbd("⌘K")

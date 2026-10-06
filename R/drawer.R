@@ -1,18 +1,20 @@
 #' Drawer
 #'
-#' A modal side panel built on a native `<dialog>` element.
+#' Create a modal panel that slides in from the edge of the screen.
 #'
-#' @param ... Content for the drawer body.
-#' @param id String. The ID for the dialog.
-#' @param side String. The viewport side the drawer slides from. One of
-#'   `bottom` (default), `top`, `right` or `left`.
-#' @param trigger String. The trigger button's label, or `NULL` for no button.
-#' @param title String. A header title shown above the body.
-#' @param description String. A header description under the title.
-#' @param actions A tag or tag list. Footer actions pinned below the body.
-#' @param class String. Extra classes for the dialog.
-#' @return A trigger button and a `<dialog class="drawer">`, or just the dialog
-#'   when `trigger = NULL` and no opener is wanted.
+#' @param ... Drawer content.
+#' @param id String. The drawer's ID. Defaults to a random ID.
+#' @param side String. The edge the drawer slides from. One of `"bottom"`
+#'   (default), `"top"`, `"right"`, or `"left"`.
+#' @param trigger String. Label for a button that opens the drawer, or `NULL`
+#'   for no button. Defaults to `"Open Drawer"`.
+#' @param title String. A title shown above the content.
+#' @param description String. Text under the title, shown only with a
+#'   `title`.
+#' @param actions Tag or tag list. Buttons pinned below the content.
+#' @param class String. Extra CSS classes.
+#' @return A tag list of the button and the drawer. With `trigger = NULL`, an
+#'   htmltools tag.
 #' @export
 #' @examples
 #' bc_drawer(

@@ -17,6 +17,10 @@ check:
 test:
   Rscript -e 'devtools::test()'
 
+# Lint prose in DESCRIPTION and .md, .qmd, .Rmd and .R files with Vale.
+syntax:
+  prek run --all-files
+
 readme:
   quarto render README.qmd --to gfm
 
@@ -39,6 +43,7 @@ vendor:
   cp node_modules/basecoat-css/LICENSE.md inst/basecoat/LICENSE.md
   du -sh inst/basecoat
 
-# Build the website into _site/ (needs the rd2qmd CLI on PATH).
-site:
+# Build the website into _site/ and open it (needs the rd2qmd CLI on PATH).
+site: document readme
   R -q -e 'source("dev/site/build.R")'
+  open _site/index.html

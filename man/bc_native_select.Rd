@@ -24,39 +24,43 @@ bc_native_select_option(value, ..., label = NULL)
 bc_native_select_group(label, ...)
 }
 \arguments{
-\item{...}{The placeholder option and the \verb{<option>} or \verb{<optgroup>} children.}
+\item{...}{For \code{bc_native_select()}, options from
+\code{\link[=bc_native_select_option]{bc_native_select_option()}} and \code{\link[=bc_native_select_group]{bc_native_select_group()}}. For the other
+functions, extra tag attributes or content.}
 
-\item{label}{String or tag. A label for the field, an option, or an
-optgroup heading.}
+\item{label}{String or tag. The field label for \code{bc_native_select()}, the
+option text for \code{bc_native_select_option()}, or the group title for
+\code{bc_native_select_group()}.}
 
-\item{id}{String. The select \code{id}, required when \code{label} is given.}
+\item{id}{String. The select ID. Required when \code{label} is set.}
 
-\item{aria_label}{String. Accessible name for a labelless select.}
+\item{aria_label}{String. Accessible name for the select when there is no
+\code{label}.}
 
-\item{placeholder}{String. Text of the leading "select an option" option.}
+\item{placeholder}{String. Text of a blank first option, such as
+\code{"Select a fruit"}.}
 
-\item{size}{String. One of \code{default} or \code{sm}. \code{sm} writes \code{data-size="sm"}.}
+\item{size}{String. \code{"default"} or \code{"sm"}.}
 
-\item{description}{String or tag. Helper text shown under the select, wired
-to it with \code{aria-describedby}.}
+\item{description}{String or tag. Helper text shown under the select.}
 
-\item{name}{String. The input \code{name}, defaulting to \code{id}.}
+\item{name}{String. The input name. Defaults to \code{id}.}
 
-\item{disabled}{Bool. Whether the input is disabled.}
+\item{disabled}{Bool. Whether the input is disabled. Defaults to \code{FALSE}.}
 
-\item{invalid}{Bool. Whether to show the invalid state.}
+\item{invalid}{Bool. Whether to show the invalid state. Defaults to
+\code{FALSE}.}
 
 \item{value}{String. The option's value.}
 }
 \value{
-A \verb{<select>} tag or, with a \code{label}, a \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-A native \verb{<select>} carrying the Basecoat \code{select} class, optionally wrapped
-with a label in a \code{field}.
+Create a browser-native select with an optional label and helper text.
 }
 \details{
-Needs a \code{label} or an \code{aria_label}.
+Needs a \code{label} or an \code{aria_label}, not both.
 }
 \examples{
 bc_native_select(

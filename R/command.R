@@ -1,22 +1,27 @@
 #' Command
 #'
-#' A searchable command palette or standalone command list.
+#' Create a searchable command menu, inline or in a modal.
 #'
-#' @param ... Command content. Strings become command items, tags pass through
-#'   and lists are passed to [bc_command_item()]. Build the rest with
-#'   `bc_command_group()` and `bc_command_separator()`.
-#' @param id String. The ID for the command root, or the dialog when
-#'   `dialog = TRUE`.
-#' @param placeholder String. Placeholder text for the filter input.
-#' @param empty String. Message shown when nothing matches the filter.
-#' @param label String. Accessible name for the command menu.
-#' @param dialog Bool. Wrap the command in a `<dialog class="command-dialog">`
-#'   with a trigger button.
-#' @param trigger String. The trigger button's label when `dialog = TRUE`.
-#' @param manual Bool. Add `data-filter="manual"` when the app owns filtering.
-#' @param icon Tag. Replaces the search icon beside the input, such as one from
-#'   the phosphoricons package. `NULL` for the default.
-#' @return A `<div class="command">`, or a trigger button and `<dialog>` pair.
+#' @param ... For `bc_command()` and `bc_command_group()`, items from
+#'   [bc_command_item()], [bc_command_group()] and [bc_command_separator()]. A
+#'   string becomes an item, and a list is passed to [bc_command_item()] as its
+#'   arguments. For `bc_command_item()`, extra tag attributes.
+#' @param id String. The ID. Defaults to a random ID.
+#' @param placeholder String. Placeholder text for the search input.
+#' @param empty String. Message shown when nothing matches the search.
+#'   Defaults to `"No results found."`.
+#' @param label String. Accessible name for the command menu. Defaults to
+#'   `"Command menu"`.
+#' @param dialog Bool. Show the menu in a modal opened by a button. Defaults to
+#'   `FALSE`.
+#' @param trigger String. The button's label when `dialog = TRUE`. Defaults to
+#'   `"Open Menu"`.
+#' @param manual Bool. Turn off the built-in search so your app filters the
+#'   items itself. Defaults to `FALSE`.
+#' @param icon Tag. An icon to replace the search icon, such as one from the
+#'   phosphoricons package.
+#' @return An htmltools tag. With `dialog = TRUE`, a tag list of the button and
+#'   the dialog.
 #' @export
 #' @examples
 #' bc_command(
@@ -113,16 +118,19 @@ bc_command <- function(
 }
 
 #' @rdname bc_command
-#' @param label String. The item's label, used as the filter text.
-#' @param shortcut String. A shortcut hint shown at the inline end.
-#' @param icon A tag. An icon before the label.
-#' @param disabled Bool. Mark the item as disabled.
-#' @param href String. When given, the item is an `<a role="menuitem">`.
-#' @param filter String. Overrides the text matched against the input.
-#' @param keywords String. Extra terms matched against the input.
-#' @param force Bool. Keep the item visible whatever the filter.
-#' @param keep_open Bool. Keep the command open when the item is chosen.
-#' @param checked Bool. Show the item's indicator.
+#' @param label String. The item's label, also used as its search text.
+#' @param shortcut String. A shortcut hint shown at the end of the item.
+#' @param icon Tag. An icon before the label.
+#' @param disabled Bool. Whether the item is disabled. Defaults to `FALSE`.
+#' @param href String. A link URL. When set, the item is a link.
+#' @param filter String. Search text to use instead of `label`.
+#' @param keywords String. Extra search terms.
+#' @param force Bool. Keep the item visible whatever the search. Defaults to
+#'   `FALSE`.
+#' @param keep_open Bool. Keep the menu open when the item is chosen. Defaults
+#'   to `FALSE`.
+#' @param checked Bool. Show a check mark beside the item. Defaults to
+#'   `FALSE`.
 #' @export
 bc_command_item <- function(
   label,
@@ -173,7 +181,7 @@ bc_command_item <- function(
 }
 
 #' @rdname bc_command
-#' @param title String. A group heading shown above its items.
+#' @param title String. A group title shown above its items.
 #' @export
 bc_command_group <- function(title, ...) {
   check_string(title, allow_empty = FALSE)

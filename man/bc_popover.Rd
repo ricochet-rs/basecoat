@@ -17,34 +17,35 @@ bc_popover(
 )
 }
 \arguments{
-\item{...}{Content for the popover.}
+\item{...}{Popover content.}
 
-\item{id}{String. The ID for the popover wrapper.}
+\item{id}{String. The ID. Defaults to a random ID.}
 
-\item{title}{String or tag. A heading for the popover.}
+\item{title}{String or tag. The title.}
 
-\item{description}{String or tag. Text shown under the heading.}
+\item{description}{String or tag. Text under the title.}
 
-\item{trigger_label}{String or tag. The trigger button's label.}
+\item{trigger_label}{String or tag. The button's label. Defaults to
+\code{"Open popover"}.}
 
-\item{trigger}{A tag. A whole trigger, usually a \code{\link[=bc_button]{bc_button()}}, in place of
-the default outline button. The wiring attributes are added to it.}
+\item{trigger}{Tag, usually a \code{\link[=bc_button]{bc_button()}}, that opens the popover in
+place of the default button.}
 
-\item{side}{String. Placement of the popover. One of \code{top}, \code{right},
-\code{bottom}, \code{left}, \code{inline-start} or \code{inline-end}.}
+\item{side}{String. Where the popover opens next to the button. One of
+\code{"top"}, \code{"right"}, \code{"bottom"} (default), \code{"left"}, \code{"inline-start"} or
+\code{"inline-end"}.}
 
-\item{align}{String. Alignment of the popover on its side. One of \code{start},
-\code{center} or \code{end}.}
+\item{align}{String. Alignment of the popover along that side. One of
+\code{"start"}, \code{"center"} (default), or \code{"end"}.}
 
-\item{class}{Vector of class names for the popover content, replacing the
-default \code{w-72}.}
+\item{class}{Character vector. CSS classes for the popover. Replaces the
+default \code{w-72} width.}
 }
 \value{
-A \verb{<div class="popover">} with a trigger button and the popover
-content.
+An htmltools tag.
 }
 \description{
-An inline popover of content beside its trigger.
+Create a panel of content that opens from a button.
 }
 \examples{
 bc_popover(

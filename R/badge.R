@@ -11,13 +11,11 @@ bc_badge_variants <- c(
 
 #' Badge
 #'
-#' A small inline status label.
+#' Create a small inline status label.
 #'
-#' @param ... Tag attributes and children, passed to [htmltools::span()]. The
-#'   text is a child.
-#' @param variant String. One of `r toString(bc_badge_variants)`. `default`
-#'   writes no attribute.
-#' @return A `<span>` tag.
+#' @param ... Tag attributes and content, such as the label text.
+#' @param variant String. One of `r toString(bc_badge_variants)`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_badge("stable")

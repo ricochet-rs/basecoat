@@ -16,29 +16,31 @@ bc_drawer(
 )
 }
 \arguments{
-\item{...}{Content for the drawer body.}
+\item{...}{Drawer content.}
 
-\item{id}{String. The ID for the dialog.}
+\item{id}{String. The drawer's ID. Defaults to a random ID.}
 
-\item{side}{String. The viewport side the drawer slides from. One of
-\code{bottom} (default), \code{top}, \code{right} or \code{left}.}
+\item{side}{String. The edge the drawer slides from. One of \code{"bottom"}
+(default), \code{"top"}, \code{"right"}, or \code{"left"}.}
 
-\item{trigger}{String. The trigger button's label, or \code{NULL} for no button.}
+\item{trigger}{String. Label for a button that opens the drawer, or \code{NULL}
+for no button. Defaults to \code{"Open Drawer"}.}
 
-\item{title}{String. A header title shown above the body.}
+\item{title}{String. A title shown above the content.}
 
-\item{description}{String. A header description under the title.}
+\item{description}{String. Text under the title, shown only with a
+\code{title}.}
 
-\item{actions}{A tag or tag list. Footer actions pinned below the body.}
+\item{actions}{Tag or tag list. Buttons pinned below the content.}
 
-\item{class}{String. Extra classes for the dialog.}
+\item{class}{String. Extra CSS classes.}
 }
 \value{
-A trigger button and a \verb{<dialog class="drawer">}, or just the dialog
-when \code{trigger = NULL} and no opener is wanted.
+A tag list of the button and the drawer. With \code{trigger = NULL}, an
+htmltools tag.
 }
 \description{
-A modal side panel built on a native \verb{<dialog>} element.
+Create a modal panel that slides in from the edge of the screen.
 }
 \examples{
 bc_drawer(

@@ -1,15 +1,15 @@
-# The theme switcher is an icon button wired to the runtime's theme API. The
-# two Phosphor SVGs hide behind `dark:` styled spans: the sun shows only in dark
+# The theme switcher is an icon button that calls the runtime's theme API. The
+# two Phosphor SVGs are in `dark:` styled spans: the sun shows only in dark
 # mode and the moon only in light mode. The swap relies on Tailwind utilities
 # that Basecoat does not ship, so the button attaches them as a head dependency
 # and stands no Tailwind build in the way of a page that uses it.
 
 #' Theme Switcher
 #'
-#' A button that flips the `dark` class on `<html>`, toggling the page theme.
+#' Create a button that switches the page between light and dark mode.
 #'
-#' @param ... Tag attributes and children for the `<button>`.
-#' @return A `<button>` tag with the theme utilities attached.
+#' @param ... Extra tag attributes.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_theme_switcher()

@@ -1,15 +1,15 @@
 #' Accordion
 #'
-#' A vertically stacked set of collapsible sections built on native
-#' `<details>` elements.
+#' Create a stack of collapsible sections.
 #'
-#' @param ... Accordion items. Tags pass through and lists are passed to
-#'   [bc_accordion_item()] with `title`, `content`, `open` and `disabled`.
-#' @param id String. The ID for the accordion root.
-#' @param multiple Bool. Allow more than one item open at a time. Off by
-#'   default, so opening one item closes the others.
-#' @param class String. Extra classes for the accordion root.
-#' @return A `<section class="accordion">` of `<details>` items.
+#' @param ... For `bc_accordion()`, items from [bc_accordion_item()]. A list
+#'   is passed to [bc_accordion_item()] as its arguments. For
+#'   `bc_accordion_item()`, the item's content.
+#' @param id String. The ID. `bc_accordion()` uses a random ID by default.
+#' @param multiple Bool. Allow more than one item open at a time. Defaults to
+#'   `FALSE`, so opening one item closes the others.
+#' @param class String. Extra CSS classes.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_accordion(
@@ -39,11 +39,11 @@ bc_accordion <- function(..., id = NULL, multiple = FALSE, class = NULL) {
 }
 
 #' @rdname bc_accordion
-#' @param title String. The item's trigger, always visible.
-#' @param open Bool. Whether the item starts open.
-#' @param disabled Bool. Whether the item can be toggled.
-#' @param icon Tag. Replaces the caret in the summary, such as one from the
-#'   phosphoricons package. `NULL` for the default.
+#' @param title String. The item's title, always visible.
+#' @param open Bool. Whether the item starts open. Defaults to `FALSE`.
+#' @param disabled Bool. Lock the item open or closed. Defaults to `FALSE`.
+#' @param icon Tag. An icon to replace the default caret, such as one from the
+#'   phosphoricons package.
 #' @export
 bc_accordion_item <- function(
   title,

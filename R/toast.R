@@ -1,18 +1,22 @@
 #' Toast
 #'
-#' A stack of transient notifications appended to a toaster.
+#' Create a short notification shown in a [bc_toaster()].
 #'
 #' @param title String. The toast's title.
-#' @param ... Content shown under the title before any description.
-#' @param description String. A description under the title.
-#' @param category String. One of `info`, `success`, `warning` or `error`. Sets
-#'   styling and the default icon.
-#' @param duration Number. Milliseconds before the toast closes, or `-1` to
-#'   keep it open. Defaults to `3000`, or `5000` for `error` toasts.
-#' @param action A list. Primary action with `label` and `href` or `onclick`.
-#' @param cancel A list. Secondary action with `label` and optional `onclick`.
-#' @param icon A tag. An icon before the text, replacing the category default.
-#' @return A `<div class="toast">` ready to append to a toaster.
+#' @param ... For `bc_toast()`, content shown under the title, before the
+#'   description. For `bc_toaster()`, toasts from `bc_toast()`. For
+#'   `bc_toast_trigger()`, extra tag attributes.
+#' @param description String. Text under the title.
+#' @param category String. One of `"info"` (default), `"success"`,
+#'   `"warning"` or `"error"`. Sets the color and the default icon.
+#' @param duration Whole number. Milliseconds before the toast closes, or `-1`
+#'   to keep it open. Defaults to `3000`, or `5000` for `"error"` toasts.
+#' @param action List. The main button, with `label` and either `href` or
+#'   `onclick`.
+#' @param cancel List. A second button, with `label` and an optional
+#'   `onclick`.
+#' @param icon Tag. An icon before the text, replacing the category default.
+#' @return An htmltools tag.
 #' @details
 #' Append to a [bc_toaster()].
 #' @export
@@ -75,12 +79,12 @@ bc_toast <- function(
 }
 
 #' @rdname bc_toast
-#' @param id String. The ID for the toaster.
-#' @param align String. Placement of the stack. One of `start`, `center` or
-#'   `end`.
-#' @return A `<div id="...">` of class `toaster` ready to hold toasts.
+#' @param id String. The toaster's ID. Defaults to `"toaster"`.
+#' @param align String. Where toasts stack. One of `"start"`, `"center"` or
+#'   `"end"` (default).
+#' @return An htmltools tag.
 #' @details
-#' One per page, near the end of the body.
+#' Use one toaster per page, at the end of the page content.
 #' @export
 bc_toaster <- function(..., id = "toaster", align = "end") {
   align <- arg_match(align, c("start", "center", "end"))
@@ -98,15 +102,18 @@ bc_toaster <- function(..., id = "toaster", align = "end") {
 }
 
 #' @rdname bc_toast
-#' @param label String. The trigger button's label.
-#' @param get String. URL of the fragment endpoint that returns [bc_toast()]
-#'   markup.
-#' @param toaster String. CSS selector of the [bc_toaster()] to append into.
-#' @param variant String. Button variant, defaulting to `outline`.
-#' @param size String. Button size, defaulting to `default`.
-#' @return A `<button>` tag that fetches a server-rendered toast fragment.
+#' @param label String. The button's label.
+#' @param get String. A URL that returns a [bc_toast()].
+#' @param toaster String. CSS selector of the [bc_toaster()] to add the toast
+#'   to. Defaults to `"#toaster"`.
+#' @param variant String. The button variant, as in [bc_button()]. Defaults to
+#'   `"outline"`.
+#' @param size String. The button size, as in [bc_button()]. Defaults to
+#'   `"default"`.
+#' @return An htmltools tag.
 #' @details
-#' The endpoint returns [bc_toast()] markup, appended into the toaster.
+#' A click fetches `get` with htmx and adds the toast to `toaster`. The page
+#' needs htmx loaded.
 #' @export
 #' @examples
 #' bc_toast_trigger(

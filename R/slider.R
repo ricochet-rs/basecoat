@@ -1,20 +1,19 @@
 #' Slider
 #'
-#' A range input component styled as a slider.
+#' Create a slider for selecting a number.
 #'
-#' @param min Number. The minimum value of the slider.
-#' @param max Number. The maximum value of the slider.
-#' @param value Number. The current value of the slider.
-#' @param ... Additional attributes passed to the `<input>`.
-#' @param disabled Bool. Whether the slider is disabled.
-#' @param id String. The input `id`, and the `for` of its label.
-#' @param label String or tag. Optional label for the slider.
-#' @param description String or tag. Helper text shown under the label, wired to
-#'   the input with `aria-describedby`.
-#' @param oninput String. JavaScript function to run when the input changes.
-#' @param aria_label String. Accessible name, for a slider with no visible
-#'   `label`.
-#' @return A tag with an `<input type="range">` element.
+#' @param min Whole number. The smallest value.
+#' @param max Whole number. The largest value.
+#' @param value Whole number. The starting value.
+#' @param ... Extra tag attributes for the slider.
+#' @param disabled Bool. Whether the slider is disabled. Defaults to `FALSE`.
+#' @param id String. The input ID. Defaults to a random ID.
+#' @param label String or tag. A visible label.
+#' @param description String or tag. Helper text shown under the label.
+#' @param oninput String. JavaScript to run when the value changes.
+#' @param aria_label String. Accessible name for the slider. Set it when there
+#'   is no `label`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_slider(0, 100, 50, aria_label = "Volume")

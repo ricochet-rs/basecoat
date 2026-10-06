@@ -19,39 +19,39 @@ bc_combobox(
 )
 }
 \arguments{
-\item{id}{String. The ID for the combobox root. Input, popover and listbox
-IDs derive from it.}
+\item{id}{String. The input ID. \code{NULL} uses a random ID.}
 
-\item{...}{For \code{\link[=bc_combobox]{bc_combobox()}}, option tags from \code{\link[=bc_combobox_option]{bc_combobox_option()}} and
-\code{\link[=bc_combobox_group]{bc_combobox_group()}}, or plain character values that become simple
-options.}
+\item{...}{Options from \code{\link[=bc_combobox_option]{bc_combobox_option()}} and \code{\link[=bc_combobox_group]{bc_combobox_group()}},
+or a character vector of values.}
 
 \item{placeholder}{String. Text shown while empty.}
 
-\item{name}{String. The \code{name} of the hidden value input.}
+\item{name}{String. The form field name. Defaults to \code{id}.}
 
-\item{selected}{String or character vector. Initial value, or values in
-multiple mode.}
+\item{selected}{Character vector. The starting value, or values when
+\code{multiple = TRUE}.}
 
-\item{empty}{String. Text shown when filtering finds no options.}
+\item{empty}{String. Text shown when no options match. Defaults to
+\code{"No items found."}.}
 
-\item{multiple}{Bool. Whether the listbox accepts several selections.}
+\item{multiple}{Bool. Whether the user can select several options. Defaults
+to \code{FALSE}.}
 
-\item{auto_highlight}{Bool. Whether the first visible option activates when
-the list opens or filters.}
+\item{auto_highlight}{Bool. Highlight the first matching option as the list
+opens or filters. Defaults to \code{FALSE}.}
 
-\item{disabled}{Bool. Whether the input is disabled.}
+\item{disabled}{Bool. Whether the input is disabled. Defaults to \code{FALSE}.}
 
-\item{class}{Vector of class names merged onto the combobox root.}
+\item{class}{Character vector. Extra CSS classes.}
 
-\item{aria_label}{String. Accessible name for the input, since its
-placeholder alone is not one.}
+\item{aria_label}{String. Accessible name for the combobox. Set it when
+there is no visible label, since the placeholder doesn't count.}
 }
 \value{
-A \verb{<div>} tag of class \code{combobox}.
+An htmltools tag.
 }
 \description{
-A searchable select with an editable text input and a hidden value input.
+Create a select you type into to filter its options.
 }
 \details{
 Submits a string, or a JSON array when \code{multiple = TRUE}.

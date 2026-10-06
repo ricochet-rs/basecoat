@@ -7,17 +7,16 @@ bc_avatar_sizes <- c("default", "sm", "lg")
 
 #' Avatar
 #'
-#' A small round image with an initials fallback.
+#' Create a small round image with an initials fallback.
 #'
-#' @param ... Tag attributes and children, passed to [htmltools::span()].
+#' @param ... Tag attributes and content.
 #' @param src String. The image URL, or `NULL` for initials only.
 #' @param alt String. Alt text for the image.
 #' @param fallback String. Initials or short text shown when the image is
-#'   absent.
-#' @param size String. One of `r toString(bc_avatar_sizes)`. `default` writes no
-#'   attribute.
+#'   missing.
+#' @param size String. One of `r toString(bc_avatar_sizes)`.
 #' @param badge A [bc_avatar_badge()], or `NULL`.
-#' @return A `<span>` tag.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_avatar(src = "https://github.com/shadcn.png", alt = "@shadcn", fallback = "CN")

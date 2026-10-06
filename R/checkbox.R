@@ -4,18 +4,18 @@
 
 #' Checkbox
 #'
-#' A checkbox input paired with its label in a Basecoat `field`.
+#' Create a checkbox with a label.
 #'
-#' @param id String. The input `id`, and the `for` of its label.
-#' @param label String or tag. The label content.
-#' @param ... Attributes passed to the `<input>`.
-#' @param checked Bool. Whether the box starts ticked.
-#' @param disabled Bool. Whether the box is disabled.
-#' @param invalid Bool. Whether to show the invalid state.
-#' @param description String or tag. Helper text shown under the label, wired to
-#'   the input with `aria-describedby`.
-#' @param name String. The input `name`, defaulting to `id`.
-#' @return A `<div>` tag.
+#' @param id String. The input ID.
+#' @param label String or tag. The label.
+#' @param ... Extra tag attributes for the checkbox.
+#' @param checked Bool. Whether the box starts checked. Defaults to `FALSE`.
+#' @param disabled Bool. Whether the box is disabled. Defaults to `FALSE`.
+#' @param invalid Bool. Whether to show the invalid state. Defaults to
+#'   `FALSE`.
+#' @param description String or tag. Helper text shown under the label.
+#' @param name String. The input name. Defaults to `id`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_checkbox("terms", "Accept terms and conditions")

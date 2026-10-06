@@ -2,7 +2,7 @@
 % Please edit documentation in R/deps.R
 \name{bc_deps}
 \alias{bc_deps}
-\title{Basecoat assets}
+\title{Basecoat Assets}
 \usage{
 bc_deps(
   style = NULL,
@@ -15,20 +15,22 @@ bc_deps(
 }
 \arguments{
 \item{style}{String or \code{NULL}. A style pack, one of vega, nova, maia, lyra, mira, luma, sera, rhea,
-or \code{"base"} for tokens and structure with no visual style at all.}
+or \code{"base"} for no visual style. \code{NULL} uses \code{"vega"}.}
 
-\item{js}{Bool or character vector. \code{FALSE} by default; components attach
-their own scripts. \code{TRUE} for all of them, or name the ones to load.}
+\item{js}{Bool or character vector. Scripts to load. Defaults to \code{FALSE},
+since components attach their own scripts. \code{TRUE} loads all of them, or
+name the ones to load.}
 
 \item{theme}{String or \code{NULL}. Path to a CSS file of your own, loaded after
 the style pack so its tokens win. See \code{\link[=bc_theme]{bc_theme()}}.}
 
-\item{source}{String. \code{"local"} to serve the bundled files, \code{"cdn"} to serve
-Basecoat's own from jsDelivr, which lays out several components wrong, or a
-URL prefix such as \code{"/basecoat/"} that the bundled directory is served
-from.}
+\item{source}{String. \code{"local"} (default) serves the bundled files. \code{"cdn"}
+serves the upstream files from jsDelivr, where several components render
+wrong. A URL prefix such as \code{"/basecoat/"} points at a copy of the bundled
+files you serve yourself.}
 
-\item{viewport}{Bool. Add the mobile viewport meta tag to the page head.}
+\item{viewport}{Bool. Add the mobile viewport setting to the page. Defaults
+to \code{TRUE}.}
 
 \item{version}{String. The \code{basecoat-css} release to serve. Only
 1.0.2 is bundled, so any other release needs \code{source = "cdn"}.}
@@ -38,13 +40,12 @@ An \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}, or a lis
 given.
 }
 \description{
-The Basecoat stylesheet and scripts as an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}},
-placed in the page \verb{<head>}. Served from the files bundled with this package
-by default, or from jsDelivr.
+Load the Basecoat stylesheet and scripts into a page. Files come from this
+package by default, or from jsDelivr.
 }
 \details{
-Call once per page. Components attach their own scripts, so \code{js} is only
-needed for hand-written markup.
+Call once per page. Components attach their own scripts, so you need \code{js}
+only for hand-written HTML.
 
 Load any other Tailwind build before this one, never after.
 }

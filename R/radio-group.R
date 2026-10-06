@@ -1,16 +1,16 @@
 #' Radio Group
 #'
-#' A radio group component with individual radio inputs.
+#' Create a set of radio buttons where the user selects one.
 #'
-#' @param ... Radio tags from [bc_radio()].
-#' @param name String. The `name` attribute applied to every radio in the
-#'   group, overriding any per-input name.
-#' @param label String. Accessible label for the group, defaulting to `name`.
-#' @param id String. The group `id`, defaulting to `name`. Used by
-#'   [bc_shiny_deps()] to read and update the checked value as `input$id`.
-#' @param disabled Bool. Whether to mark the entire group as disabled.
-#' @param invalid Bool. Whether to show the invalid state for the group.
-#' @return A tag with role="radiogroup".
+#' @param ... Radio buttons from [bc_radio()].
+#' @param name String. The form field name for the group.
+#' @param label String. Accessible name for the group. Defaults to `name`.
+#' @param id String. The group ID. Defaults to `name`. With
+#'   [bc_shiny_deps()], the selected value is `input$id`.
+#' @param disabled Bool. Whether the group is disabled. Defaults to `FALSE`.
+#' @param invalid Bool. Whether to show the invalid state. Defaults to
+#'   `FALSE`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_radio_group(
@@ -65,20 +65,20 @@ radio_group_set_name <- function(tag, name) {
   tag
 }
 
-#' Radio Input
+#' Radio Button
 #'
-#' A single radio input with its label, wrapped in a field.
+#' Create a radio button with a label.
 #'
-#' @param id String. The input `id`, and the `for` of its label.
-#' @param label String or tag. The label content.
-#' @param ... Attributes passed to the `<input>`.
-#' @param checked Bool. Whether the radio starts selected.
-#' @param disabled Bool. Whether the radio is disabled.
-#' @param invalid Bool. Whether to show the invalid state.
-#' @param description String or tag. Helper text shown under the label, wired to
-#'   the input with `aria-describedby`.
-#' @param name String. The input `name`, defaulting to `id`.
-#' @return A `<div>` tag with role="group" containing radio and field.
+#' @param id String. The input ID, also used as the radio's value.
+#' @param label String or tag. The label.
+#' @param ... Extra tag attributes for the radio.
+#' @param checked Bool. Whether the radio starts selected. Defaults to `FALSE`.
+#' @param disabled Bool. Whether the radio is disabled. Defaults to `FALSE`.
+#' @param invalid Bool. Whether to show the invalid state. Defaults to
+#'   `FALSE`.
+#' @param description String or tag. Helper text shown under the label.
+#' @param name String. The input name. Defaults to `id`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_radio("default", "Default")

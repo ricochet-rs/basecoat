@@ -38,51 +38,58 @@ bc_command_group(title, ...)
 bc_command_separator()
 }
 \arguments{
-\item{...}{Command content. Strings become command items, tags pass through
-and lists are passed to \code{\link[=bc_command_item]{bc_command_item()}}. Build the rest with
-\code{bc_command_group()} and \code{bc_command_separator()}.}
+\item{...}{For \code{bc_command()} and \code{bc_command_group()}, items from
+\code{\link[=bc_command_item]{bc_command_item()}}, \code{\link[=bc_command_group]{bc_command_group()}} and \code{\link[=bc_command_separator]{bc_command_separator()}}. A
+string becomes an item, and a list is passed to \code{\link[=bc_command_item]{bc_command_item()}} as its
+arguments. For \code{bc_command_item()}, extra tag attributes.}
 
-\item{id}{String. The ID for the command root, or the dialog when
-\code{dialog = TRUE}.}
+\item{id}{String. The ID. Defaults to a random ID.}
 
-\item{placeholder}{String. Placeholder text for the filter input.}
+\item{placeholder}{String. Placeholder text for the search input.}
 
-\item{empty}{String. Message shown when nothing matches the filter.}
+\item{empty}{String. Message shown when nothing matches the search.
+Defaults to \code{"No results found."}.}
 
-\item{label}{String. The item's label, used as the filter text.}
+\item{label}{String. The item's label, also used as its search text.}
 
-\item{dialog}{Bool. Wrap the command in a \verb{<dialog class="command-dialog">}
-with a trigger button.}
+\item{dialog}{Bool. Show the menu in a modal opened by a button. Defaults to
+\code{FALSE}.}
 
-\item{trigger}{String. The trigger button's label when \code{dialog = TRUE}.}
+\item{trigger}{String. The button's label when \code{dialog = TRUE}. Defaults to
+\code{"Open Menu"}.}
 
-\item{manual}{Bool. Add \code{data-filter="manual"} when the app owns filtering.}
+\item{manual}{Bool. Turn off the built-in search so your app filters the
+items itself. Defaults to \code{FALSE}.}
 
-\item{icon}{A tag. An icon before the label.}
+\item{icon}{Tag. An icon before the label.}
 
-\item{shortcut}{String. A shortcut hint shown at the inline end.}
+\item{shortcut}{String. A shortcut hint shown at the end of the item.}
 
-\item{disabled}{Bool. Mark the item as disabled.}
+\item{disabled}{Bool. Whether the item is disabled. Defaults to \code{FALSE}.}
 
-\item{href}{String. When given, the item is an \verb{<a role="menuitem">}.}
+\item{href}{String. A link URL. When set, the item is a link.}
 
-\item{filter}{String. Overrides the text matched against the input.}
+\item{filter}{String. Search text to use instead of \code{label}.}
 
-\item{keywords}{String. Extra terms matched against the input.}
+\item{keywords}{String. Extra search terms.}
 
-\item{force}{Bool. Keep the item visible whatever the filter.}
+\item{force}{Bool. Keep the item visible whatever the search. Defaults to
+\code{FALSE}.}
 
-\item{keep_open}{Bool. Keep the command open when the item is chosen.}
+\item{keep_open}{Bool. Keep the menu open when the item is chosen. Defaults
+to \code{FALSE}.}
 
-\item{checked}{Bool. Show the item's indicator.}
+\item{checked}{Bool. Show a check mark beside the item. Defaults to
+\code{FALSE}.}
 
-\item{title}{String. A group heading shown above its items.}
+\item{title}{String. A group title shown above its items.}
 }
 \value{
-A \verb{<div class="command">}, or a trigger button and \verb{<dialog>} pair.
+An htmltools tag. With \code{dialog = TRUE}, a tag list of the button and
+the dialog.
 }
 \description{
-A searchable command palette or standalone command list.
+Create a searchable command menu, inline or in a modal.
 }
 \examples{
 bc_command(

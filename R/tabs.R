@@ -1,15 +1,14 @@
 #' Tabs
 #'
-#' A tab component with navigation and content panels.
+#' Create a set of tabbed panels. The first tab starts selected.
 #'
-#' @param ... List of tabs. Each item should be a list with 'label', 'content',
-#'   and optionally 'id' and 'disabled'.
-#' @param variant String. The tab variant ("default" or "line").
-#' @param orientation String. The tab orientation ("horizontal" or "vertical").
-#' @param id String. The ID for the tabs container.
-#' @param aria_label String. Accessible name for the tablist, useful when a
-#'   page has more than one.
-#' @return A tag with proper tab structure.
+#' @param ... Tabs from [bc_tab()].
+#' @param variant String. `"default"` or `"line"`.
+#' @param orientation String. `"horizontal"` (default) or `"vertical"`.
+#' @param id String. The ID. Defaults to a random ID.
+#' @param aria_label String. Accessible name for the tabs, useful when a page
+#'   has more than one set.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_tabs(
@@ -124,13 +123,14 @@ bc_tabs <- function(
 
 #' Tab Panel
 #'
-#' A helper function to create individual tab content panels.
+#' Create one tab and its panel, for [bc_tabs()].
 #'
-#' @param ... Content for the tab panel.
-#' @param id String. The ID for this tab panel (optional).
-#' @param label String. The label for this tab.
-#' @param disabled Bool. Whether the tab is disabled.
-#' @return A list containing tab properties.
+#' @param ... Panel content.
+#' @param id String. Not used. [bc_tabs()] sets the panel IDs from its own
+#'   `id`.
+#' @param label String. The tab's label.
+#' @param disabled Bool. Whether the tab is disabled. Defaults to `FALSE`.
+#' @return A list for [bc_tabs()].
 #' @export
 #' @examples
 #' bc_tab("Account details", label = "Account")

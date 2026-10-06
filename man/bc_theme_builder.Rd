@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme-builder.R
 \name{bc_theme_builder}
 \alias{bc_theme_builder}
-\title{Theme builder}
+\title{Theme Builder}
 \usage{
 bc_theme_builder(
   style = NULL,
@@ -12,20 +12,24 @@ bc_theme_builder(
 )
 }
 \arguments{
-\item{style}{String or \code{NULL}. The pack selected when the page opens.}
+\item{style}{String or \code{NULL}. The style to start from, \code{"ricochet"} or one
+of \link{bc_styles}. \code{NULL} uses \code{"ricochet"}.}
 
-\item{back}{String. Where the sidebar's link out points.}
+\item{back}{String or \code{NULL}. URL for the back link in the sidebar. \code{NULL}
+hides it.}
 
-\item{file}{String. Where to write the page.}
+\item{file}{String. Path of the HTML file to write. Defaults to a temporary
+file.}
 
-\item{browse}{Bool. Open it when it is written.}
+\item{browse}{Bool. Whether to open the page in a browser. Defaults to
+\code{interactive()}.}
 }
 \value{
 The path, invisibly.
 }
 \description{
-A page for building a theme: an input per token, a light and dark pair, a
-style pack to start from, and the CSS to download.
+Create an HTML page where you build a light and dark theme and download
+it as CSS.
 }
 \examples{
 bc_theme_builder(browse = FALSE, file = tempfile(fileext = ".html"))

@@ -5,18 +5,14 @@
 # The version of basecoat-css these bindings are written against, and the
 # version vendored in inst/basecoat. The markup a component function emits is
 # only promised to match this release. Bumping it means bumping package.json
-# and running `just vendor`.
+# and running the `vendor` recipe in the justfile.
 bc_version <- "1.0.2"
 
-#' The style packs
+#' Style Packs
 #'
-#' The style packs Basecoat ships, as named on its installation page. All of
-#' them are bundled with this package.
+#' The bundled style packs.
 #'
 #' @format A character vector of `r length(bc_styles)` names.
-#' @details
-#' `bc_deps(style = )` also takes `"base"`, which is not a pack but the
-#' styleless layer underneath them.
 #' @export
 #' @examples
 #' bc_styles
@@ -53,30 +49,31 @@ bc_scripts <- c(
   "toast"
 )
 
-#' Basecoat assets
+#' Basecoat Assets
 #'
-#' The Basecoat stylesheet and scripts as an [htmltools::htmlDependency()],
-#' placed in the page `<head>`. Served from the files bundled with this package
-#' by default, or from jsDelivr.
+#' Load the Basecoat stylesheet and scripts into a page. Files come from this
+#' package by default, or from jsDelivr.
 #'
 #' @param style String or `NULL`. A style pack, one of `r toString(bc_styles)`,
-#'   or `"base"` for tokens and structure with no visual style at all.
-#' @param js Bool or character vector. `FALSE` by default; components attach
-#'   their own scripts. `TRUE` for all of them, or name the ones to load.
+#'   or `"base"` for no visual style. `NULL` uses `"vega"`.
+#' @param js Bool or character vector. Scripts to load. Defaults to `FALSE`,
+#'   since components attach their own scripts. `TRUE` loads all of them, or
+#'   name the ones to load.
 #' @param theme String or `NULL`. Path to a CSS file of your own, loaded after
 #'   the style pack so its tokens win. See [bc_theme()].
-#' @param source String. `"local"` to serve the bundled files, `"cdn"` to serve
-#'   Basecoat's own from jsDelivr, which lays out several components wrong, or a
-#'   URL prefix such as `"/basecoat/"` that the bundled directory is served
-#'   from.
-#' @param viewport Bool. Add the mobile viewport meta tag to the page head.
+#' @param source String. `"local"` (default) serves the bundled files. `"cdn"`
+#'   serves the upstream files from jsDelivr, where several components render
+#'   wrong. A URL prefix such as `"/basecoat/"` points at a copy of the bundled
+#'   files you serve yourself.
+#' @param viewport Bool. Add the mobile viewport setting to the page. Defaults
+#'   to `TRUE`.
 #' @param version String. The `basecoat-css` release to serve. Only
 #'   `r bc_version` is bundled, so any other release needs `source = "cdn"`.
 #' @return An [htmltools::htmlDependency()], or a list of two when `theme` is
 #'   given.
 #' @details
-#' Call once per page. Components attach their own scripts, so `js` is only
-#' needed for hand-written markup.
+#' Call once per page. Components attach their own scripts, so you need `js`
+#' only for hand-written HTML.
 #'
 #' Load any other Tailwind build before this one, never after.
 #'
@@ -135,7 +132,7 @@ bc_deps <- function(
     ))
   }
 
-  # The bundled stylesheets are this package's own Tailwind build, so they carry
+  # The bundled stylesheets are this package's own Tailwind build, so they include
   # the utilities the component functions write and the CDN files do not.
   src <- if (mount) {
     c(href = sub("/+$", "", source))
@@ -184,18 +181,19 @@ bc_deps <- function(
   list(dep, bc_theme(theme))
 }
 
-#' A custom theme stylesheet
+#' Custom Theme Stylesheet
 #'
-#' A CSS file of your own as an [htmltools::htmlDependency()]. Reach for
-#' `bc_deps(theme = )` instead, which orders it against the style pack for you.
+#' Load a CSS file of your own as an [htmltools::htmlDependency()]. Prefer the
+#' `theme` argument of [bc_deps()], which loads it after the style pack for
+#' you.
 #'
 #' @param path String. Path to a `.css` file defining Basecoat's tokens.
 #' @return An [htmltools::htmlDependency()].
 #' @details
-#' Must render after [bc_deps()]. The file needs only the tokens it changes,
-#' in `:root` and `.dark`.
+#' Place it after [bc_deps()] on the page. The file needs only the tokens it
+#' changes, in `:root` and `.dark`.
 #'
-#' A tweakcn export works unedited. Web fonts it names still need loading.
+#' A tweakcn export works as is. Load any web fonts it names yourself.
 #' @seealso [bc_theme_builder()]
 #' @export
 #' @examples
@@ -251,8 +249,8 @@ bc_script_files <- function(js, call = caller_env()) {
 bc_own_scripts <- "nested-popover.js"
 
 # What a component with a script attaches to its own tag, so calling the R
-# function is what asks for the script rather than a separate `bc_deps(js = )`
-# the caller has to remember. Every dependency is named by what it carries, so
+# function is what asks for the script rather than a separate `js` argument to `bc_deps()`
+# the caller has to remember. Every dependency is named after its contents, so
 # htmltools de-duplicates the runtime and the nested-popover fix across
 # however many components on a page need them, no matter which one loads
 # first.
@@ -281,16 +279,17 @@ bc_script_dep <- function(name = NULL, popover = FALSE) {
   deps
 }
 
-#' Re-initialise Basecoat after a swap
+#' Re-initialise Basecoat
 #'
-#' Basecoat initialises its components on load and when new DOM is inserted, so
-#' this is only wanted where markup is restored from a cache rather than parsed.
+#' Create a script that sets up Basecoat components again. Components set
+#' themselves up on page load and when new content is added. Use this when
+#' content comes back from a cache instead.
 #'
-#' @param force Bool. Destroy and rebuild components that are already
-#'   initialised, which also clears open menus and focus.
-#' @return A `<script>` tag.
+#' @param force Bool. Rebuild components that are already set up. This closes
+#'   open menus and clears focus. Defaults to `FALSE`.
+#' @return An htmltools tag.
 #' @details
-#' For htmx history restores, where DOM comes back already initialised.
+#' Use it for htmx history restores, where content comes back already set up.
 #' @export
 #' @examples
 #' bc_init(force = TRUE)
@@ -304,16 +303,15 @@ bc_init <- function(force = FALSE) {
   )))
 }
 
-#' Shiny input bindings
+#' Shiny Input Bindings
 #'
-#' JavaScript bindings that let a Shiny app read and update the basecoat
-#' inputs Shiny cannot already: [bc_radio_group()], [bc_slider()],
+#' Let your Shiny app read and update [bc_radio_group()], [bc_slider()],
 #' [bc_select()] and [bc_combobox()].
 #'
 #' @return An [htmltools::htmlDependency()].
 #' @details
-#' Add beside [bc_deps()], not instead of it. Every other input is native, so
-#' Shiny already reads it as `input$id`.
+#' Use it with [bc_deps()], not instead of it. Shiny reads the other inputs as
+#' `input$id` without it.
 #' @export
 #' @examples
 #' bc_shiny_deps()

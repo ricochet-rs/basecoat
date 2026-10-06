@@ -1,16 +1,17 @@
 #' Dialog
 #'
-#' A modal dialog component using native HTML dialog element.
+#' Create a modal dialog with a title, content, and actions.
 #'
-#' @param id String. The dialog's unique ID.
+#' @param id String. The dialog's ID, which [bc_dialog_trigger()] targets.
 #' @param title String or tag. The dialog title.
-#' @param description String or tag. The dialog description.
-#' @param content Function or tag. The main dialog content.
-#' @param actions Function or tag. Action buttons for the dialog.
-#' @param ... Additional attributes passed to the `<dialog>`.
-#' @param open Bool. Whether the dialog is initially open.
-#' @param close_on_click Bool. Whether to close the dialog when clicking outside.
-#' @return A dialog element with proper structure and behavior.
+#' @param description String or tag. Text under the title.
+#' @param content Tag or tag list. The main content, which scrolls when tall.
+#' @param actions Tag or tag list. Buttons at the bottom of the dialog.
+#' @param ... Extra tag attributes.
+#' @param open Bool. Whether the dialog starts open. Defaults to `FALSE`.
+#' @param close_on_click Bool. Whether a click outside the dialog closes it.
+#'   Defaults to `TRUE`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_dialog_trigger("profile-dialog", class = "btn", "Edit profile")
@@ -90,13 +91,13 @@ bc_dialog <- function(
 
 #' Dialog Trigger Button
 #'
-#' A button that opens a dialog.
+#' Create a button that opens a dialog.
 #'
 #' @param dialog_id String. The ID of the dialog to open.
-#' @param ... Additional attributes passed to the `<button>`.
-#' @param aria_label String. Accessible name, needed when the trigger has no
-#'   visible text such as an icon-only button.
-#' @return A button that opens the specified dialog.
+#' @param ... Tag attributes and content, such as the label.
+#' @param aria_label String. Accessible name for the button. Set it when the
+#'   button has no visible text, such as an icon-only button.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_dialog_trigger("terms-dialog", class = "btn", "Open Dialog")
@@ -119,7 +120,8 @@ bc_dialog_trigger <- function(dialog_id, ..., aria_label = NULL) {
 }
 #' @rdname bc_dialog
 #' @param label String or tag. The button's label.
-#' @param variant String. The button variant, as in [bc_button()].
+#' @param variant String. The button variant, as in [bc_button()]. Defaults
+#'   to `"primary"`.
 #' @export
 #' @examples
 #'

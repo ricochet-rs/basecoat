@@ -7,14 +7,14 @@
 bc_skeleton(...)
 }
 \arguments{
-\item{...}{Tag attributes and children, passed to \code{\link[htmltools:div]{htmltools::div()}}. Sizing
-is a caller's job: a skeleton has no dimensions of its own.}
+\item{...}{Tag attributes and content. Set the size with classes, such as
+\verb{h-4 w-full}.}
 }
 \value{
-A \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-A block that stands in for content that has not arrived.
+Create a placeholder block shown while content loads.
 }
 \examples{
 bc_skeleton(class = "h-4 w-full")

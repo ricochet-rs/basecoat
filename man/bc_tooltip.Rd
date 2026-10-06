@@ -7,21 +7,21 @@
 bc_tooltip(..., text, side = "top", align = "center")
 }
 \arguments{
-\item{...}{Tag attributes and children for the element with tooltip.}
+\item{...}{The content the tooltip belongs to, and tag attributes.}
 
 \item{text}{String. The tooltip text.}
 
-\item{side}{String. Position of the tooltip. One of \code{top}, \code{bottom}, \code{left},
-\code{right}, \code{inline-start}, or \code{inline-end}. Defaults to \code{top}.}
+\item{side}{String. Where the tooltip opens. One of \code{"top"} (default),
+\code{"bottom"}, \code{"left"}, \code{"right"}, \code{"inline-start"}, or \code{"inline-end"}.}
 
-\item{align}{String. Alignment of the tooltip. One of \code{start}, \code{center}, or
-\code{end}. Defaults to \code{center}.}
+\item{align}{String. Alignment of the tooltip along that side. One of
+\code{"start"}, \code{"center"} (default), or \code{"end"}.}
 }
 \value{
-An HTML element with tooltip attributes.
+An htmltools tag.
 }
 \description{
-A tooltip component using Basecoat CSS.
+Create text that shows when you hover over or focus an element.
 }
 \examples{
 bc_tooltip("Save", text = "Save your work")

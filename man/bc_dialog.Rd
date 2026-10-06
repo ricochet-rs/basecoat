@@ -19,31 +19,33 @@ bc_dialog(
 bc_dialog_close(label = "Close", ..., variant = "primary")
 }
 \arguments{
-\item{id}{String. The dialog's unique ID.}
+\item{id}{String. The dialog's ID, which \code{\link[=bc_dialog_trigger]{bc_dialog_trigger()}} targets.}
 
 \item{title}{String or tag. The dialog title.}
 
-\item{description}{String or tag. The dialog description.}
+\item{description}{String or tag. Text under the title.}
 
-\item{content}{Function or tag. The main dialog content.}
+\item{content}{Tag or tag list. The main content, which scrolls when tall.}
 
-\item{actions}{Function or tag. Action buttons for the dialog.}
+\item{actions}{Tag or tag list. Buttons at the bottom of the dialog.}
 
-\item{...}{Additional attributes passed to the \verb{<dialog>}.}
+\item{...}{Extra tag attributes.}
 
-\item{open}{Bool. Whether the dialog is initially open.}
+\item{open}{Bool. Whether the dialog starts open. Defaults to \code{FALSE}.}
 
-\item{close_on_click}{Bool. Whether to close the dialog when clicking outside.}
+\item{close_on_click}{Bool. Whether a click outside the dialog closes it.
+Defaults to \code{TRUE}.}
 
 \item{label}{String or tag. The button's label.}
 
-\item{variant}{String. The button variant, as in \code{\link[=bc_button]{bc_button()}}.}
+\item{variant}{String. The button variant, as in \code{\link[=bc_button]{bc_button()}}. Defaults
+to \code{"primary"}.}
 }
 \value{
-A dialog element with proper structure and behavior.
+An htmltools tag.
 }
 \description{
-A modal dialog component using native HTML dialog element.
+Create a modal dialog with a title, content, and actions.
 }
 \examples{
 bc_dialog_trigger("profile-dialog", class = "btn", "Edit profile")

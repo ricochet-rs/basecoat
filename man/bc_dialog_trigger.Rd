@@ -9,16 +9,16 @@ bc_dialog_trigger(dialog_id, ..., aria_label = NULL)
 \arguments{
 \item{dialog_id}{String. The ID of the dialog to open.}
 
-\item{...}{Additional attributes passed to the \verb{<button>}.}
+\item{...}{Tag attributes and content, such as the label.}
 
-\item{aria_label}{String. Accessible name, needed when the trigger has no
-visible text such as an icon-only button.}
+\item{aria_label}{String. Accessible name for the button. Set it when the
+button has no visible text, such as an icon-only button.}
 }
 \value{
-A button that opens the specified dialog.
+An htmltools tag.
 }
 \description{
-A button that opens a dialog.
+Create a button that opens a dialog.
 }
 \examples{
 bc_dialog_trigger("terms-dialog", class = "btn", "Open Dialog")

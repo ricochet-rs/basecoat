@@ -4,13 +4,12 @@
 
 #' Textarea
 #'
-#' A multiline `<textarea>` carrying the Basecoat `textarea` class, optionally
-#' wrapped with a label in a `field`.
+#' Create a multiline text input with an optional label.
 #'
-#' @param ... Tag attributes for the `<textarea>`.
-#' @param rows String. The `rows` attribute.
+#' @param ... Extra tag attributes for the text area.
+#' @param rows Whole number or `NULL`. The number of visible rows.
 #' @inheritParams bc_input id label placeholder value description required disabled invalid name aria_label
-#' @return A `<textarea>` tag or, with a `label`, a `<div>` tag.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_textarea(placeholder = "Type your message here", aria_label = "Message")
@@ -38,7 +37,7 @@ bc_textarea <- function(
   check_string(id, allow_null = TRUE, allow_empty = FALSE)
   check_string(placeholder, allow_null = TRUE)
   check_string(value, allow_null = TRUE)
-  check_string(rows, allow_null = TRUE)
+  check_number_whole(rows, min = 1, allow_null = TRUE)
   check_string(name, allow_null = TRUE, allow_empty = FALSE)
   check_bool(required)
   check_bool(disabled)

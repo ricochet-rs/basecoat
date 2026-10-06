@@ -44,49 +44,53 @@ bc_dropdown_checkbox(
 bc_dropdown_radio(label, ..., checked = FALSE, disabled = FALSE, icon = NULL)
 }
 \arguments{
-\item{...}{Menu content. Strings become menu items, tags pass through and
-lists are passed to \code{\link[=bc_dropdown_item]{bc_dropdown_item()}}. Build the rest with
-\code{bc_dropdown_group()}, \code{bc_dropdown_separator()},
-\code{bc_dropdown_checkbox()} and \code{bc_dropdown_radio()}.}
+\item{...}{For \code{bc_dropdown_menu()} and \code{bc_dropdown_group()}, menu items
+from \code{bc_dropdown_item()}, \code{bc_dropdown_group()},
+\code{bc_dropdown_separator()}, \code{bc_dropdown_checkbox()} and
+\code{bc_dropdown_radio()}. A string becomes an item, and a list is passed to
+\code{\link[=bc_dropdown_item]{bc_dropdown_item()}} as its arguments. For the item functions, extra tag
+attributes.}
 
-\item{id}{String. The ID for the dropdown wrapper.}
+\item{id}{String. The ID. Defaults to a random ID.}
 
-\item{trigger_label}{String or tag. The trigger button's label.}
+\item{trigger_label}{String. The button's label. Defaults to \code{"Menu"}.}
 
-\item{trigger}{A tag. A whole trigger, an avatar or anything else, in place
-of the default button. The wiring attributes are added to it.}
+\item{trigger}{Tag, such as an avatar, that opens the menu in place of the
+default button.}
 
-\item{variant}{String. The trigger's button variant.}
+\item{variant}{String. For \code{bc_dropdown_menu()}, the button variant from
+\code{\link[=bc_button]{bc_button()}}. Defaults to \code{"outline"}. For \code{bc_dropdown_item()},
+\code{"destructive"} or \code{NULL}.}
 
-\item{side}{String. Placement of the menu beside the trigger. One of \code{top},
-\code{right}, \code{bottom}, \code{left}, \code{inline-start} or \code{inline-end}.}
+\item{side}{String. Where the menu opens next to the button. One of
+\code{"top"}, \code{"right"}, \code{"bottom"}, \code{"left"}, \code{"inline-start"} or
+\code{"inline-end"}.}
 
-\item{align}{String. Alignment of the menu on its side. One of \code{start},
-\code{center} or \code{end}.}
+\item{align}{String. Alignment of the menu along that side. One of
+\code{"start"}, \code{"center"}, or \code{"end"}.}
 
-\item{class}{String. Extra classes for the popover.}
+\item{class}{String. Extra CSS classes for the menu.}
 
 \item{label}{String. The item's label.}
 
-\item{shortcut}{String. A shortcut hint shown at the inline end.}
+\item{shortcut}{String. A shortcut hint shown at the end of the item.}
 
-\item{icon}{A tag. An icon before the label.}
+\item{icon}{Tag. An icon before the label.}
 
-\item{disabled}{Bool. Mark the item as disabled.}
+\item{disabled}{Bool. Whether the item is disabled. Defaults to \code{FALSE}.}
 
-\item{title}{String. A group heading shown above its items.}
+\item{title}{String. A group title shown above its items.}
 
-\item{heading_id}{String. The heading's \code{id} and the group's
-\code{aria-labelledby}.}
+\item{heading_id}{String. The ID of the group title. Defaults to a random
+ID.}
 
-\item{checked}{Bool. Whether the item starts checked.}
+\item{checked}{Bool. Whether the item starts checked. Defaults to \code{FALSE}.}
 }
 \value{
-A \verb{<div class="dropdown-menu">} with a trigger button and the menu
-popover.
+An htmltools tag.
 }
 \description{
-A menu of actions in an inline popover beside its trigger.
+Create a menu of actions that opens from a button.
 }
 \examples{
 bc_dropdown_menu(

@@ -3,7 +3,7 @@
 \name{bc_page_navbar}
 \alias{bc_page_navbar}
 \alias{bc_nav_item}
-\title{Page with a navbar}
+\title{Page with a Navbar}
 \usage{
 bc_page_navbar(
   ...,
@@ -17,30 +17,34 @@ bc_page_navbar(
 bc_nav_item(label, href = NULL, ..., current = FALSE, disabled = FALSE)
 }
 \arguments{
-\item{...}{Tag attributes and children for the \verb{<main>} content region.}
+\item{...}{For \code{bc_page_navbar()}, page content. For \code{bc_nav_item()}, extra
+tag attributes.}
 
-\item{title}{String or tag. The brand, shown first.}
+\item{title}{String or tag. The app name, shown first in the navbar.}
 
-\item{nav}{Tag or list. Navigation controls, usually \code{\link[=bc_nav_item]{bc_nav_item()}}s.}
+\item{nav}{Tag or list. Links for the navbar, usually from \code{\link[=bc_nav_item]{bc_nav_item()}}.}
 
-\item{end}{Tag or \code{NULL}. Content aligned to the end of the bar, such as
+\item{end}{Tag or \code{NULL}. Content aligned to the end of the navbar, such as
 \code{\link[=bc_theme_switcher]{bc_theme_switcher()}} or a \code{\link[=bc_dropdown_menu]{bc_dropdown_menu()}}.}
 
-\item{href}{String or \code{NULL}. Makes the brand a link.}
+\item{href}{String or \code{NULL}. A link URL. For \code{bc_page_navbar()}, it makes
+the app name a link. For \code{bc_nav_item()}, \code{NULL} makes a button.}
 
-\item{aria_label}{String. Accessible name for the \verb{<nav>} landmark.}
+\item{aria_label}{String. Accessible name for the navbar. Defaults to
+\code{"Main navigation"}.}
 
 \item{label}{String or tag. The item's text.}
 
-\item{current}{Bool. Marks the item as the current page.}
+\item{current}{Bool. Whether the item is the current page. Defaults to
+\code{FALSE}.}
 
-\item{disabled}{Bool. Whether the item is disabled.}
+\item{disabled}{Bool. Whether the item is disabled. Defaults to \code{FALSE}.}
 }
 \value{
-A \code{\link[htmltools:tagList]{htmltools::tagList()}} of the \verb{<header>} and the \verb{<main>}.
+An \code{\link[htmltools:tagList]{htmltools::tagList()}}.
 }
 \description{
-A sticky top navigation bar over a \verb{<main>} region.
+Create a page with a navbar.
 }
 \examples{
 bc_page_navbar(

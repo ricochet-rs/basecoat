@@ -7,17 +7,17 @@
 bc_label(...)
 }
 \arguments{
-\item{...}{Content and attributes. A backticked \code{for} attribute names
-another control.}
+\item{...}{Tag attributes and content. Set \code{`for`} to the ID of the
+control the label names.}
 }
 \value{
-A \verb{<label>} tag.
+An htmltools tag.
 }
 \description{
-A \verb{<label>} carrying the Basecoat \code{label} class.
+Create a label for a form control.
 }
 \details{
-\code{\link[=bc_checkbox]{bc_checkbox()}} and \code{\link[=bc_switch]{bc_switch()}} write this pairing already.
+\code{\link[=bc_checkbox]{bc_checkbox()}} and \code{\link[=bc_switch]{bc_switch()}} already include a label.
 }
 \examples{
 bc_label("Your email address", `for` = "email")

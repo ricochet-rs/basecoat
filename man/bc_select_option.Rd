@@ -7,15 +7,15 @@
 bc_select_option(value, label = NULL)
 }
 \arguments{
-\item{value}{String. The value of the option.}
+\item{value}{String. The option's value.}
 
-\item{label}{String. The display label for the option.}
+\item{label}{String. The text shown. Defaults to \code{value}.}
 }
 \value{
-A list containing option properties.
+A list with \code{value} and \code{label}.
 }
 \description{
-A helper function to create individual select options.
+Create one option for \code{\link[=bc_select]{bc_select()}}.
 }
 \examples{
 bc_select_option("dark", "Dark")

@@ -20,41 +20,38 @@ bc_item(
 bc_item_group(..., class = NULL, aria_label = NULL)
 }
 \arguments{
-\item{...}{Tag attributes and any further children, such as a \verb{<header>} or
-\verb{<footer>}, placed after the parts written by the named arguments.}
+\item{...}{Tag attributes and extra content, placed after the other parts.}
 
-\item{title}{String or tag. The item's heading, as an \verb{<h3>}.}
+\item{title}{String or tag. The title.}
 
-\item{description}{String or tag. Text under the heading.}
+\item{description}{String or tag. Text under the title.}
 
-\item{media}{Tag or \code{NULL}. An icon or image, placed in a leading
-\verb{<figure>}.}
+\item{media}{Tag or \code{NULL}. An icon or image shown before the text.}
 
-\item{actions}{Tag or \code{NULL}. A control or indicator, placed in a trailing
-\verb{<aside>}.}
+\item{actions}{Tag or \code{NULL}. A control or indicator shown at the end.}
 
-\item{href}{String. Link target; when given, the item renders as an \verb{<a>}.}
+\item{href}{String. A link URL. When set, the item is a link.}
 
-\item{variant}{String. One of default, outline, muted. \code{default}
-writes no attribute.}
+\item{variant}{String. One of default, outline, muted.}
 
-\item{size}{String. One of default, sm, xs. \code{default} writes no
-attribute.}
+\item{size}{String. One of default, sm, xs.}
 
-\item{role}{String. ARIA role, such as \code{"listitem"} inside an \code{item-group}.}
+\item{role}{String. The item's role. Use \code{"listitem"} inside
+\code{\link[=bc_item_group]{bc_item_group()}}.}
 
-\item{class}{String. Extra classes for the group.}
+\item{class}{String. Extra CSS classes for the group.}
 
-\item{aria_label}{String. Accessible name for the list.}
+\item{aria_label}{String. Accessible name for the group.}
 }
 \value{
-An \verb{<article>} or \verb{<a>} tag.
+An htmltools tag.
 }
 \description{
-A display or navigation row in a semantic \verb{<article>} or \verb{<a>} element.
+Create a row of content with an optional icon, text, and actions.
 }
 \details{
-Use \code{\link[=bc_field]{bc_field()}} for form controls; \code{item} is for content and navigation.
+Use \code{\link[=bc_field]{bc_field()}} for form controls. \code{bc_item()} is for content and
+navigation.
 }
 \examples{
 bc_item(

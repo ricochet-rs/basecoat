@@ -2,28 +2,29 @@
 % Please edit documentation in R/combobox.R
 \name{bc_combobox_option}
 \alias{bc_combobox_option}
-\title{Combobox option}
+\title{Combobox Option}
 \usage{
 bc_combobox_option(value, ..., label = NULL, filter = NULL)
 }
 \arguments{
-\item{value}{String. The submitted value. When \code{label} is \code{NULL}, the
-rendered text too.}
+\item{value}{String. The submitted value.}
 
-\item{...}{Content of the option, used when \code{label} is \code{NULL}.}
+\item{...}{Content of the option, such as an icon beside a name. Defaults
+to \code{label}, then \code{value}.}
 
-\item{label}{String. Display text. Defaults to the value when \code{NULL}.}
+\item{label}{String. Text shown in the input once the option is selected.
+Defaults to \code{value}.}
 
 \item{filter}{String. Extra text searched beyond the label.}
 }
 \value{
-A \verb{<div>} tag of class \code{option} role.
+An htmltools tag.
 }
 \description{
-A selectable entry in a combobox listbox.
+Create one choice in a combobox.
 }
 \details{
-\code{data-label} sets the input text when it differs from the content.
+Set \code{label} when the input text should differ from the option's content.
 }
 \examples{
 bc_combobox_option("Next.js")

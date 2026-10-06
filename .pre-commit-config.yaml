@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: vale
+        name: vale
+        entry: vale
+        language: system
+        files: \.(md|qmd|Rmd|R)$
+        exclude: ^(node_modules|_site|\.vale|dev|inst|man)/|^(AGENTS|CLAUDE|README|cran-comments)\.md$|^R/import-standalone-
+      - id: vale-description
+        name: vale (DESCRIPTION)
+        entry: sh -c 'vale --ext=.md --filter=".Name matches \"Ricochet\"" < DESCRIPTION'
+        language: system
+        files: ^DESCRIPTION$
+        pass_filenames: false

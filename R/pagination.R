@@ -4,11 +4,16 @@
 
 #' Pagination
 #'
-#' A set of page controls built from the Button classes in a `nav` landmark.
+#' Create a row of page links.
 #'
-#' @param ... The pagination items as `<li>` tags, from the item helpers.
-#' @param label String. The navigation landmark's `aria-label`.
-#' @return A `<nav>` tag.
+#' @param ... For `bc_pagination()`, items from `bc_pagination_item()`,
+#'   `bc_pagination_previous()`, `bc_pagination_next()` and
+#'   `bc_pagination_ellipsis()`. For `bc_pagination_item()`, extra tag
+#'   attributes for the link.
+#' @param label String. For `bc_pagination()`, the accessible name, which
+#'   defaults to `"pagination"`. For `bc_pagination_previous()` and
+#'   `bc_pagination_next()`, the link text.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_pagination(
@@ -35,9 +40,9 @@ bc_pagination <- function(..., label = "pagination") {
 
 #' @rdname bc_pagination
 #' @param item String. The page label.
-#' @param href String. The link target.
-#' @param current Bool. Whether this is the current page. Renders as the
-#'   outline variant.
+#' @param href String. The link URL. Defaults to `"#"`.
+#' @param current Bool. Whether this is the current page, shown with the
+#'   outline style. Defaults to `FALSE`.
 #' @export
 bc_pagination_item <- function(item, href = "#", current = FALSE, ...) {
   check_string(item, allow_empty = FALSE)

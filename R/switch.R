@@ -1,4 +1,4 @@
-# A switch is a native checkbox carrying `role="switch"` and the `input` class,
+# A switch is a native checkbox with `role="switch"` and the `input` class,
 # paired with its label in a horizontal field. States are written twice: on the
 # input for behaviour, on the field wrapper for styling.
 
@@ -6,13 +6,12 @@ bc_switch_sizes <- c("default", "sm")
 
 #' Switch
 #'
-#' A binary toggle built on a native checkbox with `role="switch"`, paired with
-#' its label in a horizontal `field`.
+#' Create an on and off toggle with a label. It submits like a checkbox.
 #'
 #' @inheritParams bc_checkbox id label checked disabled invalid description name
-#' @param ... Tag attributes for the `<input>`.
-#' @param size String. One of `default` or `sm`. `sm` writes `data-size="sm"`.
-#' @return A `<div>` tag.
+#' @param ... Extra tag attributes for the switch.
+#' @param size String. `"default"` or `"sm"`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_switch("airplane-mode", "Airplane Mode")

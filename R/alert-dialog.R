@@ -6,23 +6,22 @@ bc_alert_dialog_sizes <- c("default", "sm")
 
 #' Alert Dialog
 #'
-#' A modal that interrupts the user and expects an explicit response, built on a
-#' native `<dialog class="alert-dialog">`.
+#' Create a modal dialog that asks the user to confirm or cancel.
 #'
-#' @param ... Attributes for the `<dialog>`.
-#' @param id String. The dialog's `id`.
-#' @param title String. The heading, wired via `aria-labelledby`.
-#' @param description String or tag. Supporting text, wired via
-#'   `aria-describedby`.
-#' @param icon A tag. Content for a `<figure>` above the heading.
-#' @param cancel String or list. The cancel action: a label, or a list with
-#'   `label` and `variant`.
-#' @param confirm String or list. The primary action, the same shape as
-#'   `cancel`.
-#' @param size String. `default` or `sm`. `sm` writes `data-size="sm"`.
-#' @param open Bool. Whether the dialog starts open.
-#' @param trigger String. The trigger button's label, or `NULL` for no button.
-#' @return A `<dialog>` tag or, with a `trigger`, a tag list of a button and
+#' @param ... Extra tag attributes for the dialog.
+#' @param id String. The dialog's ID. Defaults to a random ID.
+#' @param title String. The title.
+#' @param description String or tag. Text under the title.
+#' @param icon Tag. An icon shown above the title.
+#' @param cancel String or list. The cancel button, as a label or a list with
+#'   `label` and `variant`. Defaults to `"Cancel"`.
+#' @param confirm String or list. The confirm button, in the same form as
+#'   `cancel`. Defaults to `"Continue"`.
+#' @param size String. `"default"` or `"sm"` for a narrower dialog.
+#' @param open Bool. Whether the dialog starts open. Defaults to `FALSE`.
+#' @param trigger String. Label for a button that opens the dialog, or `NULL`
+#'   for no button.
+#' @return An htmltools tag. With a `trigger`, a tag list of the button and
 #'   the dialog.
 #' @details
 #' Both actions close the dialog. `NULL` omits one.

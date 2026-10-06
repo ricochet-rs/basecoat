@@ -1,17 +1,18 @@
 # The value is written twice, once for the screen and once for a screen reader,
-# and the two must agree. That is the only reason this component takes an
+# and the two must agree. That is the only reason this component has an
 # argument rather than passing everything through.
 
 #' Progress
 #'
-#' A bar showing how far along a task is.
+#' Create a bar that shows how far along a task is.
 #'
 #' @param value Number. How far along the task is, between `min` and `max`.
-#' @param min,max Number. The ends of the range `value` is measured against.
-#' @param label String. What the bar is measuring, for a screen reader. Pass
-#'   `NULL` and an `aria-labelledby` in `...` to point at visible text instead.
+#' @param min,max Number. The ends of the range. Default to `0` and `100`.
+#' @param label String. Accessible name for the bar, such as
+#'   `"Upload progress"`. To use visible text instead, pass `NULL` and set
+#'   `` `aria-labelledby` `` in `...` to that text's ID.
 #' @inheritParams bc_skeleton
-#' @return A `<div>` tag.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_progress(66, label = "Upload progress")
@@ -51,7 +52,7 @@ bc_progress <- function(value, min = 0, max = 100, label = NULL, ...) {
 
 # Where `value` sits in its range, as a percentage. Two decimals is finer than
 # a pixel on any screen this will be read on, and keeps the style attribute
-# from carrying fifteen digits.
+# from holding fifteen digits.
 bc_share <- function(value, min, max) {
   round((value - min) / (max - min) * 100, 2)
 }

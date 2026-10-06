@@ -1,0 +1,7 @@
+extends: existence
+message: "Use the Oxford comma: put a comma before the final 'and' or 'or' in a list."
+level: warning
+nonword: true
+scope: raw
+tokens:
+  - '[\w`)''"]+, (?:[\w`()''".-]+ ){0,2}[\w`()''".-]+ (?:and|or) [\w`''"(]'

@@ -6,21 +6,24 @@ bc_native_select_sizes <- c("default", "sm")
 
 #' Native Select
 #'
-#' A native `<select>` carrying the Basecoat `select` class, optionally wrapped
-#' with a label in a `field`.
+#' Create a browser-native select with an optional label and helper text.
 #'
-#' @param ... The placeholder option and the `<option>` or `<optgroup>` children.
-#' @param label String or tag. A label for the field, an option, or an
-#'   optgroup heading.
-#' @param id String. The select `id`, required when `label` is given.
-#' @param aria_label String. Accessible name for a labelless select.
-#' @param placeholder String. Text of the leading "select an option" option.
-#' @param size String. One of `default` or `sm`. `sm` writes `data-size="sm"`.
-#' @param description String or tag. Helper text shown under the select, wired
-#'   to it with `aria-describedby`.
-#' @return A `<select>` tag or, with a `label`, a `<div>` tag.
+#' @param ... For `bc_native_select()`, options from
+#'   [bc_native_select_option()] and [bc_native_select_group()]. For the other
+#'   functions, extra tag attributes or content.
+#' @param label String or tag. The field label for `bc_native_select()`, the
+#'   option text for `bc_native_select_option()`, or the group title for
+#'   `bc_native_select_group()`.
+#' @param id String. The select ID. Required when `label` is set.
+#' @param aria_label String. Accessible name for the select when there is no
+#'   `label`.
+#' @param placeholder String. Text of a blank first option, such as
+#'   `"Select a fruit"`.
+#' @param size String. `"default"` or `"sm"`.
+#' @param description String or tag. Helper text shown under the select.
+#' @return An htmltools tag.
 #' @details
-#' Needs a `label` or an `aria_label`.
+#' Needs a `label` or an `aria_label`, not both.
 #' @inheritParams bc_input disabled invalid name
 #' @export
 #' @examples

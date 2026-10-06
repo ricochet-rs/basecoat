@@ -31,54 +31,61 @@ bc_toast_trigger(
 \arguments{
 \item{title}{String. The toast's title.}
 
-\item{...}{Content shown under the title before any description.}
+\item{...}{For \code{bc_toast()}, content shown under the title, before the
+description. For \code{bc_toaster()}, toasts from \code{bc_toast()}. For
+\code{bc_toast_trigger()}, extra tag attributes.}
 
-\item{description}{String. A description under the title.}
+\item{description}{String. Text under the title.}
 
-\item{category}{String. One of \code{info}, \code{success}, \code{warning} or \code{error}. Sets
-styling and the default icon.}
+\item{category}{String. One of \code{"info"} (default), \code{"success"},
+\code{"warning"} or \code{"error"}. Sets the color and the default icon.}
 
-\item{duration}{Number. Milliseconds before the toast closes, or \code{-1} to
-keep it open. Defaults to \code{3000}, or \code{5000} for \code{error} toasts.}
+\item{duration}{Whole number. Milliseconds before the toast closes, or \code{-1}
+to keep it open. Defaults to \code{3000}, or \code{5000} for \code{"error"} toasts.}
 
-\item{action}{A list. Primary action with \code{label} and \code{href} or \code{onclick}.}
+\item{action}{List. The main button, with \code{label} and either \code{href} or
+\code{onclick}.}
 
-\item{cancel}{A list. Secondary action with \code{label} and optional \code{onclick}.}
+\item{cancel}{List. A second button, with \code{label} and an optional
+\code{onclick}.}
 
-\item{icon}{A tag. An icon before the text, replacing the category default.}
+\item{icon}{Tag. An icon before the text, replacing the category default.}
 
-\item{id}{String. The ID for the toaster.}
+\item{id}{String. The toaster's ID. Defaults to \code{"toaster"}.}
 
-\item{align}{String. Placement of the stack. One of \code{start}, \code{center} or
-\code{end}.}
+\item{align}{String. Where toasts stack. One of \code{"start"}, \code{"center"} or
+\code{"end"} (default).}
 
-\item{label}{String. The trigger button's label.}
+\item{label}{String. The button's label.}
 
-\item{get}{String. URL of the fragment endpoint that returns \code{\link[=bc_toast]{bc_toast()}}
-markup.}
+\item{get}{String. A URL that returns a \code{\link[=bc_toast]{bc_toast()}}.}
 
-\item{toaster}{String. CSS selector of the \code{\link[=bc_toaster]{bc_toaster()}} to append into.}
+\item{toaster}{String. CSS selector of the \code{\link[=bc_toaster]{bc_toaster()}} to add the toast
+to. Defaults to \code{"#toaster"}.}
 
-\item{variant}{String. Button variant, defaulting to \code{outline}.}
+\item{variant}{String. The button variant, as in \code{\link[=bc_button]{bc_button()}}. Defaults to
+\code{"outline"}.}
 
-\item{size}{String. Button size, defaulting to \code{default}.}
+\item{size}{String. The button size, as in \code{\link[=bc_button]{bc_button()}}. Defaults to
+\code{"default"}.}
 }
 \value{
-A \verb{<div class="toast">} ready to append to a toaster.
+An htmltools tag.
 
-A \verb{<div id="...">} of class \code{toaster} ready to hold toasts.
+An htmltools tag.
 
-A \verb{<button>} tag that fetches a server-rendered toast fragment.
+An htmltools tag.
 }
 \description{
-A stack of transient notifications appended to a toaster.
+Create a short notification shown in a \code{\link[=bc_toaster]{bc_toaster()}}.
 }
 \details{
 Append to a \code{\link[=bc_toaster]{bc_toaster()}}.
 
-One per page, near the end of the body.
+Use one toaster per page, at the end of the page content.
 
-The endpoint returns \code{\link[=bc_toast]{bc_toast()}} markup, appended into the toaster.
+A click fetches \code{get} with htmx and adds the toast to \code{toaster}. The page
+needs htmx loaded.
 }
 \examples{
 bc_toast(

@@ -1,31 +1,28 @@
 # An item is a semantic container, an `<article>` or `<a>`, with an optional
 # figure, a section of heading and text, and an aside. It is for display
-# content, actions and navigation rows, not form controls.
+# content, actions, and navigation rows, not form controls.
 
 bc_item_variants <- c("default", "outline", "muted")
 bc_item_sizes <- c("default", "sm", "xs")
 
 #' Item
 #'
-#' A display or navigation row in a semantic `<article>` or `<a>` element.
+#' Create a row of content with an optional icon, text, and actions.
 #'
-#' @param ... Tag attributes and any further children, such as a `<header>` or
-#'   `<footer>`, placed after the parts written by the named arguments.
-#' @param title String or tag. The item's heading, as an `<h3>`.
-#' @param description String or tag. Text under the heading.
-#' @param media Tag or `NULL`. An icon or image, placed in a leading
-#'   `<figure>`.
-#' @param actions Tag or `NULL`. A control or indicator, placed in a trailing
-#'   `<aside>`.
-#' @param href String. Link target; when given, the item renders as an `<a>`.
-#' @param variant String. One of `r toString(bc_item_variants)`. `default`
-#'   writes no attribute.
-#' @param size String. One of `r toString(bc_item_sizes)`. `default` writes no
-#'   attribute.
-#' @param role String. ARIA role, such as `"listitem"` inside an `item-group`.
-#' @return An `<article>` or `<a>` tag.
+#' @param ... Tag attributes and extra content, placed after the other parts.
+#' @param title String or tag. The title.
+#' @param description String or tag. Text under the title.
+#' @param media Tag or `NULL`. An icon or image shown before the text.
+#' @param actions Tag or `NULL`. A control or indicator shown at the end.
+#' @param href String. A link URL. When set, the item is a link.
+#' @param variant String. One of `r toString(bc_item_variants)`.
+#' @param size String. One of `r toString(bc_item_sizes)`.
+#' @param role String. The item's role. Use `"listitem"` inside
+#'   [bc_item_group()].
+#' @return An htmltools tag.
 #' @details
-#' Use [bc_field()] for form controls; `item` is for content and navigation.
+#' Use [bc_field()] for form controls. `bc_item()` is for content and
+#' navigation.
 #' @export
 #' @examples
 #' bc_item(
@@ -82,8 +79,8 @@ bc_item <- function(
 }
 
 #' @rdname bc_item
-#' @param class String. Extra classes for the group.
-#' @param aria_label String. Accessible name for the list.
+#' @param class String. Extra CSS classes for the group.
+#' @param aria_label String. Accessible name for the group.
 #' @export
 bc_item_group <- function(..., class = NULL, aria_label = NULL) {
   check_string(class, allow_null = TRUE, allow_empty = TRUE)

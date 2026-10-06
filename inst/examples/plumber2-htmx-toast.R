@@ -1,16 +1,16 @@
 # A plumber2 API that toasts from the server with htmxr.
 #
 # Run with:
-#
-# plumber2::api(
-#   system.file("examples", "plumber2-htmx-toast.R", package = "basecoat")
-# ) |>
-#   htmxr::hx_serve_assets() |>
-#   plumber2::api_statics(
-#     at = "/basecoat/",
-#     path = system.file("basecoat", package = "basecoat")
-#   ) |>
-#   plumber2::api_run()
+
+plumber2::api(
+  system.file("examples", "plumber2-htmx-toast.R", package = "basecoat")
+) |>
+  htmxr::hx_serve_assets() |>
+  plumber2::api_statics(
+    at = "/basecoat/",
+    path = system.file("basecoat", package = "basecoat")
+  ) |>
+  plumber2::api_run()
 library(htmxr)
 library(basecoat)
 

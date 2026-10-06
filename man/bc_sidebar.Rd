@@ -49,62 +49,60 @@ bc_sidebar_submenu(
 bc_sidebar_separator()
 }
 \arguments{
-\item{id}{String or \code{NULL}. The element \code{id}. A \code{NULL} id is generated.}
+\item{id}{String or \code{NULL}. The ID. \code{bc_sidebar_group()} and
+\code{bc_sidebar_submenu()} use a random ID when \code{NULL}.}
 
-\item{...}{Tag attributes and children, wrapped in \verb{<li>} by \code{\link[=bc_sidebar_group]{bc_sidebar_group()}}
-and \code{\link[=bc_sidebar_submenu]{bc_sidebar_submenu()}}.}
+\item{...}{For \code{bc_sidebar_group()} and \code{bc_sidebar_submenu()}, items such
+as \code{\link[=bc_sidebar_item]{bc_sidebar_item()}}. For \code{bc_sidebar_item()}, extra tag attributes.}
 
-\item{side}{String. One of \code{"left"} or \code{"right"}. Which viewport side the
-sidebar pins to.}
+\item{side}{String. The side of the page, \code{"left"} (default) or \code{"right"}.}
 
-\item{header}{Tag. Content for the optional \verb{<header>} region, such as a
-brand or workspace control, or \code{NULL}.}
+\item{header}{Tag or \code{NULL}. Content for the top of the sidebar, such as a
+logo or workspace picker.}
 
-\item{footer}{Tag. Content for the optional \verb{<footer>} region, such as an
-account control, or \code{NULL}.}
+\item{footer}{Tag or \code{NULL}. Content for the bottom of the sidebar, such as
+an account menu.}
 
-\item{aria_label}{String. The \code{aria-label} of the \verb{<nav>} landmark.}
+\item{aria_label}{String. Accessible name for the sidebar. Defaults to
+\code{"Sidebar navigation"}.}
 
-\item{initial_open}{Bool or \code{NULL}. Start open on the desktop layout.}
+\item{initial_open}{Bool or \code{NULL}. Whether the sidebar starts open on wide
+screens.}
 
-\item{initial_mobile_open}{Bool or \code{NULL}. Start open on the mobile overlay.}
+\item{initial_mobile_open}{Bool or \code{NULL}. Whether the sidebar starts open
+on small screens.}
 
-\item{breakpoint}{String or \code{NULL}. A viewport width below which the sidebar
-becomes the mobile overlay, such as \code{"48rem"}.}
+\item{breakpoint}{String or \code{NULL}. The screen width below which the
+sidebar switches to its mobile layout, such as \code{"48rem"}.}
 
-\item{title}{String. The group heading, which is also the label of the
-group.}
+\item{title}{String. The group title, also used as its accessible name.}
 
-\item{label}{String. Text shown on the control, or in the \code{summary} of a
-submenu.}
+\item{label}{String. Text shown on the item or submenu.}
 
-\item{href}{String or \code{NULL}. A destination turns the item into a link, and
-\code{NULL} into a \verb{<button>}.}
+\item{href}{String or \code{NULL}. A link URL. \code{NULL} makes a button.}
 
-\item{icon}{Tag. An icon shown before the label, such as one from the
-phosphoricons package, or \code{NULL}.}
+\item{icon}{Tag or \code{NULL}. An icon shown before the label, such as one from
+the phosphoricons package.}
 
-\item{variant}{String. One of default, outline. \code{default}
-writes no attribute.}
+\item{variant}{String. One of default, outline.}
 
-\item{size}{String. One of default, sm, lg. \code{default} writes
-no attribute.}
+\item{size}{String. One of default, sm, lg.}
 
-\item{active}{Bool. Mark the control as the active route.}
+\item{active}{Bool. Highlight the item as active. Defaults to \code{FALSE}.}
 
-\item{disabled}{Bool. Disable the control in its own way: \code{disabled} on a
-\verb{<button>}, \code{aria-disabled} on a link.}
+\item{disabled}{Bool. Whether the item is disabled. Defaults to \code{FALSE}.}
 
-\item{aria_current}{Bool. Write \code{aria-current = "page"} on a link.}
+\item{aria_current}{Bool. Mark the item as the current page for screen
+readers. Defaults to \code{FALSE}.}
 
-\item{keep_mobile_open}{Bool. Keep the mobile sidebar open when this control
-is clicked.}
+\item{keep_mobile_open}{Bool. Keep the mobile sidebar open when the item is
+clicked. Defaults to \code{FALSE}.}
 }
 \value{
-An \verb{<aside>} tag.
+An htmltools tag.
 }
 \description{
-A fixed navigation panel beside the page content.
+Create a collapsible sidebar for navigation.
 }
 \examples{
 bc_sidebar(

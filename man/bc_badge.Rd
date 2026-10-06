@@ -7,17 +7,15 @@
 bc_badge(..., variant = "default")
 }
 \arguments{
-\item{...}{Tag attributes and children, passed to \code{\link[htmltools:span]{htmltools::span()}}. The
-text is a child.}
+\item{...}{Tag attributes and content, such as the label text.}
 
-\item{variant}{String. One of default, secondary, destructive, outline, ghost. \code{default}
-writes no attribute.}
+\item{variant}{String. One of default, secondary, destructive, outline, ghost.}
 }
 \value{
-A \verb{<span>} tag.
+An htmltools tag.
 }
 \description{
-A small inline status label.
+Create a small inline status label.
 }
 \examples{
 bc_badge("stable")

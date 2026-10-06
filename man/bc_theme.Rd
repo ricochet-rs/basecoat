@@ -2,7 +2,7 @@
 % Please edit documentation in R/deps.R
 \name{bc_theme}
 \alias{bc_theme}
-\title{A custom theme stylesheet}
+\title{Custom Theme Stylesheet}
 \usage{
 bc_theme(path)
 }
@@ -13,14 +13,15 @@ bc_theme(path)
 An \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}.
 }
 \description{
-A CSS file of your own as an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}. Reach for
-\code{bc_deps(theme = )} instead, which orders it against the style pack for you.
+Load a CSS file of your own as an \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}. Prefer the
+\code{theme} argument of \code{\link[=bc_deps]{bc_deps()}}, which loads it after the style pack for
+you.
 }
 \details{
-Must render after \code{\link[=bc_deps]{bc_deps()}}. The file needs only the tokens it changes,
-in \verb{:root} and \code{.dark}.
+Place it after \code{\link[=bc_deps]{bc_deps()}} on the page. The file needs only the tokens it
+changes, in \verb{:root} and \code{.dark}.
 
-A tweakcn export works unedited. Web fonts it names still need loading.
+A tweakcn export works as is. Load any web fonts it names yourself.
 }
 \examples{
 css <- tempfile(fileext = ".css")

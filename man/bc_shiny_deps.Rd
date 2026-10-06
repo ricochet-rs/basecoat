@@ -2,7 +2,7 @@
 % Please edit documentation in R/deps.R
 \name{bc_shiny_deps}
 \alias{bc_shiny_deps}
-\title{Shiny input bindings}
+\title{Shiny Input Bindings}
 \usage{
 bc_shiny_deps()
 }
@@ -10,13 +10,12 @@ bc_shiny_deps()
 An \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}.
 }
 \description{
-JavaScript bindings that let a Shiny app read and update the basecoat
-inputs Shiny cannot already: \code{\link[=bc_radio_group]{bc_radio_group()}}, \code{\link[=bc_slider]{bc_slider()}},
+Let your Shiny app read and update \code{\link[=bc_radio_group]{bc_radio_group()}}, \code{\link[=bc_slider]{bc_slider()}},
 \code{\link[=bc_select]{bc_select()}} and \code{\link[=bc_combobox]{bc_combobox()}}.
 }
 \details{
-Add beside \code{\link[=bc_deps]{bc_deps()}}, not instead of it. Every other input is native, so
-Shiny already reads it as \code{input$id}.
+Use it with \code{\link[=bc_deps]{bc_deps()}}, not instead of it. Shiny reads the other inputs as
+\code{input$id} without it.
 }
 \examples{
 bc_shiny_deps()

@@ -13,28 +13,30 @@ bc_breadcrumb_item(item, href = NULL, current = FALSE)
 bc_breadcrumb_separator(icon = "chevron-right")
 }
 \arguments{
-\item{...}{Items from \code{\link[=bc_breadcrumb_item]{bc_breadcrumb_item()}} and \code{\link[=bc_breadcrumb_separator]{bc_breadcrumb_separator()}}.
-Separators are added between items automatically.}
+\item{...}{Items from \code{\link[=bc_breadcrumb_item]{bc_breadcrumb_item()}}. Separators are added between
+items for you.}
 
-\item{label}{String. The landmark's \code{aria-label}.}
+\item{label}{String. Accessible name for the breadcrumb. Defaults to
+\code{"Breadcrumb"}.}
 
-\item{separator}{String. Separator icon: \code{chevron-right} (default) or \code{dot}.}
+\item{separator}{String. The separator icon, \code{"chevron-right"} (default) or
+\code{"dot"}.}
 
 \item{item}{String. The item's label.}
 
-\item{href}{String. Link target.}
+\item{href}{String. The link URL.}
 
-\item{current}{Bool. Whether this is the current page. Renders a span with
-\code{aria-current="page"} instead of a link.}
+\item{current}{Bool. Whether this is the current page, shown as text
+instead of a link. Defaults to \code{FALSE}.}
 
-\item{icon}{String. The separator icon: \code{chevron-right} or \code{dot}.}
+\item{icon}{String. The separator icon, \code{"chevron-right"} (default) or
+\code{"dot"}.}
 }
 \value{
-A \verb{<nav>} tag.
+An htmltools tag.
 }
 \description{
-A navigation landmark listing the page hierarchy, with separators inserted
-between items.
+Create a trail of links from the top of the site to the current page.
 }
 \examples{
 bc_breadcrumb(

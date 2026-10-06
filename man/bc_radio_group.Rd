@@ -14,25 +14,25 @@ bc_radio_group(
 )
 }
 \arguments{
-\item{...}{Radio tags from \code{\link[=bc_radio]{bc_radio()}}.}
+\item{...}{Radio buttons from \code{\link[=bc_radio]{bc_radio()}}.}
 
-\item{name}{String. The \code{name} attribute applied to every radio in the
-group, overriding any per-input name.}
+\item{name}{String. The form field name for the group.}
 
-\item{label}{String. Accessible label for the group, defaulting to \code{name}.}
+\item{label}{String. Accessible name for the group. Defaults to \code{name}.}
 
-\item{id}{String. The group \code{id}, defaulting to \code{name}. Used by
-\code{\link[=bc_shiny_deps]{bc_shiny_deps()}} to read and update the checked value as \code{input$id}.}
+\item{id}{String. The group ID. Defaults to \code{name}. With
+\code{\link[=bc_shiny_deps]{bc_shiny_deps()}}, the selected value is \code{input$id}.}
 
-\item{disabled}{Bool. Whether to mark the entire group as disabled.}
+\item{disabled}{Bool. Whether the group is disabled. Defaults to \code{FALSE}.}
 
-\item{invalid}{Bool. Whether to show the invalid state for the group.}
+\item{invalid}{Bool. Whether to show the invalid state. Defaults to
+\code{FALSE}.}
 }
 \value{
-A tag with role="radiogroup".
+An htmltools tag.
 }
 \description{
-A radio group component with individual radio inputs.
+Create a set of radio buttons where the user selects one.
 }
 \examples{
 bc_radio_group(

@@ -4,9 +4,9 @@
 \name{basecoat-package}
 \alias{basecoat}
 \alias{basecoat-package}
-\title{basecoat: Beautiful User Interfaces Via 'Basecoat UI'}
+\title{basecoat: 'Basecoat UI' Components for 'htmltools' and 'shiny'}
 \description{
-Create beautiful user interfaces through Basecoat UI componenets. Basecoat is a pure-tailwind implementation of shadcn/ui without any 'React'. The package is built on 'htmltools' and designed to work with all UI frameworks with a custom 'shiny' integration to boot. 'CSS' and 'JavaScript' dependencies are included in the package and no 'cdn' is used.
+Build web pages and 'shiny' apps from 'Basecoat UI' components. 'Basecoat UI' is a 'Tailwind CSS' version of 'shadcn/ui' that needs no 'React'. Every function returns an 'htmltools' tag, so the components work in static pages, server-rendered apps, and 'shiny'. The stylesheets and scripts ship with the package, so pages work offline.
 }
 \seealso{
 Useful links:
@@ -17,11 +17,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Josiah Parry \email{josiah.parry@github.com}
+\strong{Maintainer}: Josiah Parry \email{josiah.parry@gmail.com} [copyright holder]
 
 Authors:
 \itemize{
-  \item Josiah Parry \email{josiah.parry@github.com}
+  \item Josiah Parry \email{josiah.parry@gmail.com} [copyright holder]
 }
 
 Other contributors:

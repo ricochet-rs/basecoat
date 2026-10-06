@@ -1,17 +1,15 @@
 Package: basecoat
-Title: Beautiful User Interfaces via 'Basecoat UI'
+Title: 'Basecoat UI' Components for 'htmltools' and 'shiny'
 Version: 0.1.0
 Authors@R: c(
     person("Josiah", "Parry", , "josiah.parry@gmail.com", role = c("aut", "cre", "cph")),
     person("Ronan", "Berder", role = c("ctb", "cph"),
            comment = "Author of the bundled basecoat-css library")
   )
-Description: Create beautiful user interfaces through 'Basecoat UI'
-    components.  Basecoat is a pure-'Tailwind' implementation of
-    'shadcn/ui' without any 'React'.  The package is built on 'htmltools'
-    and designed to work with all UI frameworks with a custom 'shiny'
-    integration to boot.  'CSS' and 'JavaScript' dependencies are included
-    in the package and no content delivery network (CDN) is used.
+Description: Build web pages and 'shiny' apps from 'Basecoat UI' components.
+    'Basecoat UI' is a 'Tailwind CSS' version of 'shadcn/ui' that needs no 'React'.
+    Every function returns an 'htmltools' tag, so the components work in static pages, server-rendered apps, and 'shiny'.
+    The stylesheets and scripts ship with the package, so pages work offline.
 License: MIT + file LICENSE
 URL: https://ricochet-rs.github.io/basecoat/, https://basecoatui.com
 Imports:
@@ -21,7 +19,7 @@ Imports:
 Suggests:
     knitr,
     testthat (>= 3.0.0)
-Config/Needs/website: commonmark, downlit, knitr, xml2, yaml, yyjsonr
+Config/Needs/website: commonmark, downlit, knitr, xml2, yaml, yyjsonr, rmarkdown
 Config/roxygen2/version: 8.1.0.9000
 Config/testthat/edition: 3
 Encoding: UTF-8

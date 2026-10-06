@@ -3,7 +3,7 @@
 \name{bc_page_sidebar}
 \alias{bc_page_sidebar}
 \alias{bc_sidebar_toggle}
-\title{Page with a sidebar}
+\title{Page with a Sidebar}
 \usage{
 bc_page_sidebar(
   ...,
@@ -17,29 +17,30 @@ bc_page_sidebar(
 bc_sidebar_toggle(id, label = "Toggle sidebar")
 }
 \arguments{
-\item{...}{Tag attributes and children for the \verb{<main>} content region.}
+\item{...}{Page content.}
 
-\item{sidebar}{A \code{\link[=bc_sidebar]{bc_sidebar()}} tag.}
+\item{sidebar}{A \code{\link[=bc_sidebar]{bc_sidebar()}}.}
 
-\item{title}{String or tag. Shown in the header beside the toggle.}
+\item{title}{String or tag. The page title.}
 
-\item{header}{Tag or \code{NULL}. Extra header content, aligned to the end, such
+\item{header}{Tag or \code{NULL}. Extra content for the top of the page, such
 as \code{\link[=bc_theme_switcher]{bc_theme_switcher()}} or an avatar.}
 
-\item{toggle}{Bool. Whether the header carries the sidebar toggle.}
+\item{toggle}{Bool. Whether to show a button that opens and closes the
+sidebar. Defaults to \code{TRUE}.}
 
-\item{toggle_label}{String. Accessible name for the toggle.}
+\item{toggle_label}{String. Accessible name for the toggle. Defaults to
+\code{"Toggle sidebar"}.}
 
-\item{id}{String. The \code{id} of the \code{\link[=bc_sidebar]{bc_sidebar()}} to toggle.}
+\item{id}{String. The ID of the \code{\link[=bc_sidebar]{bc_sidebar()}} to toggle.}
 
 \item{label}{String. Accessible name for the button.}
 }
 \value{
-A \code{\link[htmltools:tagList]{htmltools::tagList()}} of the \verb{<aside>} and the \verb{<main>}.
+An \code{\link[htmltools:tagList]{htmltools::tagList()}}.
 }
 \description{
-A collapsible \code{\link[=bc_sidebar]{bc_sidebar()}} beside a \verb{<main>} region, with a header
-carrying the sidebar toggle and a title.
+Create a page with a collapsible sidebar.
 }
 \examples{
 bc_page_sidebar(

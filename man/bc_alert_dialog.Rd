@@ -18,36 +18,35 @@ bc_alert_dialog(
 )
 }
 \arguments{
-\item{...}{Attributes for the \verb{<dialog>}.}
+\item{...}{Extra tag attributes for the dialog.}
 
-\item{id}{String. The dialog's \code{id}.}
+\item{id}{String. The dialog's ID. Defaults to a random ID.}
 
-\item{title}{String. The heading, wired via \code{aria-labelledby}.}
+\item{title}{String. The title.}
 
-\item{description}{String or tag. Supporting text, wired via
-\code{aria-describedby}.}
+\item{description}{String or tag. Text under the title.}
 
-\item{icon}{A tag. Content for a \verb{<figure>} above the heading.}
+\item{icon}{Tag. An icon shown above the title.}
 
-\item{cancel}{String or list. The cancel action: a label, or a list with
-\code{label} and \code{variant}.}
+\item{cancel}{String or list. The cancel button, as a label or a list with
+\code{label} and \code{variant}. Defaults to \code{"Cancel"}.}
 
-\item{confirm}{String or list. The primary action, the same shape as
-\code{cancel}.}
+\item{confirm}{String or list. The confirm button, in the same form as
+\code{cancel}. Defaults to \code{"Continue"}.}
 
-\item{size}{String. \code{default} or \code{sm}. \code{sm} writes \code{data-size="sm"}.}
+\item{size}{String. \code{"default"} or \code{"sm"} for a narrower dialog.}
 
-\item{open}{Bool. Whether the dialog starts open.}
+\item{open}{Bool. Whether the dialog starts open. Defaults to \code{FALSE}.}
 
-\item{trigger}{String. The trigger button's label, or \code{NULL} for no button.}
+\item{trigger}{String. Label for a button that opens the dialog, or \code{NULL}
+for no button.}
 }
 \value{
-A \verb{<dialog>} tag or, with a \code{trigger}, a tag list of a button and
+An htmltools tag. With a \code{trigger}, a tag list of the button and
 the dialog.
 }
 \description{
-A modal that interrupts the user and expects an explicit response, built on a
-native \verb{<dialog class="alert-dialog">}.
+Create a modal dialog that asks the user to confirm or cancel.
 }
 \details{
 Both actions close the dialog. \code{NULL} omits one.

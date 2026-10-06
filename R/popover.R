@@ -1,22 +1,23 @@
 #' Popover
 #'
-#' An inline popover of content beside its trigger.
+#' Create a panel of content that opens from a button.
 #'
-#' @param ... Content for the popover.
-#' @param title String or tag. A heading for the popover.
-#' @param description String or tag. Text shown under the heading.
-#' @param id String. The ID for the popover wrapper.
-#' @param trigger_label String or tag. The trigger button's label.
-#' @param trigger A tag. A whole trigger, usually a [bc_button()], in place of
-#'   the default outline button. The wiring attributes are added to it.
-#' @param side String. Placement of the popover. One of `top`, `right`,
-#'   `bottom`, `left`, `inline-start` or `inline-end`.
-#' @param align String. Alignment of the popover on its side. One of `start`,
-#'   `center` or `end`.
-#' @param class Vector of class names for the popover content, replacing the
-#'   default `w-72`.
-#' @return A `<div class="popover">` with a trigger button and the popover
-#'   content.
+#' @param ... Popover content.
+#' @param title String or tag. The title.
+#' @param description String or tag. Text under the title.
+#' @param id String. The ID. Defaults to a random ID.
+#' @param trigger_label String or tag. The button's label. Defaults to
+#'   `"Open popover"`.
+#' @param trigger Tag, usually a [bc_button()], that opens the popover in
+#'   place of the default button.
+#' @param side String. Where the popover opens next to the button. One of
+#'   `"top"`, `"right"`, `"bottom"` (default), `"left"`, `"inline-start"` or
+#'   `"inline-end"`.
+#' @param align String. Alignment of the popover along that side. One of
+#'   `"start"`, `"center"` (default), or `"end"`.
+#' @param class Character vector. CSS classes for the popover. Replaces the
+#'   default `w-72` width.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_popover(

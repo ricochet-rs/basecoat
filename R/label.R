@@ -3,13 +3,13 @@
 
 #' Label
 #'
-#' A `<label>` carrying the Basecoat `label` class.
+#' Create a label for a form control.
 #'
-#' @param ... Content and attributes. A backticked `for` attribute names
-#'   another control.
-#' @return A `<label>` tag.
+#' @param ... Tag attributes and content. Set `` `for` `` to the ID of the
+#'   control the label names.
+#' @return An htmltools tag.
 #' @details
-#' [bc_checkbox()] and [bc_switch()] write this pairing already.
+#' [bc_checkbox()] and [bc_switch()] already include a label.
 #' @seealso [bc_checkbox()], [bc_switch()], [bc_field()]
 #' @export
 #' @examples

@@ -1,4 +1,4 @@
-# Components carry a class of their own so that printing one at the console can
+# Components have a class of their own so that printing one at the console can
 # show it rendered. The dependency is attached at print time rather than built
 # into the tag, so composing components never accumulates copies of it and never
 # fights a style the caller asked for.
@@ -12,13 +12,14 @@ bc_tag <- function(x) {
   x
 }
 
-#' Render a component at the console
+#' Print a Component
 #'
-#' Prints a component to the viewer with the Basecoat stylesheet and scripts
-#' attached, or writes its HTML when there is nowhere to show it.
+#' Show a component in the viewer with the Basecoat stylesheet and scripts.
+#' Outside an interactive session, print its HTML instead.
 #'
 #' @param x A component.
 #' @param browse Bool. Show the rendered component rather than its HTML.
+#'   Defaults to `interactive()`.
 #' @param ... Ignored.
 #' @return `x`, invisibly.
 #' @export

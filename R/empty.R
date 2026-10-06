@@ -4,14 +4,16 @@
 
 #' Empty
 #'
-#' A centred empty-state with an optional icon, title, description and actions.
+#' Create a centred empty state with an optional icon, title, description and
+#' actions.
 #'
-#' @param title String. The heading, rendered as an `<h3>`.
-#' @param description String. The helper text, rendered as a `<p>`.
-#' @param icon A tag. Content for the `<figure>`, typically an SVG.
-#' @param actions A tag or tag list. Content for the `<footer>`.
-#' @param ... Attributes for the `<section>`, such as `class`.
-#' @return A `<section>` tag.
+#' @param title String. The title.
+#' @param description String. Helper text under the title.
+#' @param icon Tag. An icon shown above the title.
+#' @param actions Tag or tag list. Buttons or other actions shown below the
+#'   text.
+#' @param ... Tag attributes, such as `class`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_empty(

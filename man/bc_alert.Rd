@@ -14,26 +14,25 @@ bc_alert(
 )
 }
 \arguments{
-\item{...}{Tag attributes and any further children, placed after the parts
-written by the named arguments.}
+\item{...}{Tag attributes and extra content, placed after the other parts.}
 
-\item{title}{String or tag. The alert's heading, as an \verb{<h2>}.}
+\item{title}{String or tag. The title.}
 
-\item{description}{String or tag. The body, as a \verb{<section>}.}
+\item{description}{String or tag. The body text.}
 
 \item{icon}{Tag or \code{NULL}. An icon before the title, such as one from the
 phosphoricons package.}
 
-\item{action}{Tag or \code{NULL}. A button or link, placed in a \verb{<footer>} that
-Basecoat aligns to the inline end.}
+\item{action}{Tag or \code{NULL}. A button or link, aligned to the end of the
+alert.}
 
-\item{variant}{String. \code{"destructive"} for an error alert, or \code{"default"}.}
+\item{variant}{String. \code{"default"} or \code{"destructive"} for an error alert.}
 }
 \value{
-A \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-A short message with an optional icon, title, body and action.
+Create a short message with an optional icon, title, body, and action.
 }
 \examples{
 bc_alert(title = "Account updated", description = "Your changes are live.")

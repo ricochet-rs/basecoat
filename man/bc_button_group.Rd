@@ -10,24 +10,24 @@ bc_button_group(..., orientation = "default", aria_label = NULL, class = NULL)
 bc_button_group_separator()
 }
 \arguments{
-\item{...}{The group's children: controls and \code{\link[=bc_button_group_separator]{bc_button_group_separator()}}.}
+\item{...}{Buttons and other controls, with \code{\link[=bc_button_group_separator]{bc_button_group_separator()}}
+between them for a divider.}
 
-\item{orientation}{String. One of \code{default} or \code{vertical}. \code{default} writes
-no attribute.}
+\item{orientation}{String. \code{"default"} for a row or \code{"vertical"} for a
+column.}
 
 \item{aria_label}{String. Accessible name for the group.}
 
-\item{class}{String. Extra classes for the shell.}
+\item{class}{String. Extra CSS classes.}
 }
 \value{
-A \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-Joins related controls into a single \code{button-group} shell.
+Create a group of related buttons joined into one control.
 }
 \details{
-A \verb{<span>}, \verb{<label>} or \verb{<output>} child is a static segment; an \verb{<hr>} is
-a divider.
+Wrap plain text in \code{\link[htmltools:span]{htmltools::span()}} to show it as a static segment.
 }
 \examples{
 bc_button_group(

@@ -29,19 +29,23 @@ bc_token_groups <- list(
   )
 )
 
-# The tokens a pack carries that are not colours. Only the ones basecoat itself
+# The tokens in a pack that are not colours. Only the ones basecoat itself
 # reads, so an import writes nothing dead.
 bc_scalar_tokens <- c("font-sans", "font-mono", "radius")
 
-#' Theme builder
+#' Theme Builder
 #'
-#' A page for building a theme: an input per token, a light and dark pair, a
-#' style pack to start from, and the CSS to download.
+#' Create an HTML page where you build a light and dark theme and download
+#' it as CSS.
 #'
-#' @param style String or `NULL`. The pack selected when the page opens.
-#' @param back String. Where the sidebar's link out points.
-#' @param file String. Where to write the page.
-#' @param browse Bool. Open it when it is written.
+#' @param style String or `NULL`. The style to start from, `"ricochet"` or one
+#'   of [bc_styles]. `NULL` uses `"ricochet"`.
+#' @param back String or `NULL`. URL for the back link in the sidebar. `NULL`
+#'   hides it.
+#' @param file String. Path of the HTML file to write. Defaults to a temporary
+#'   file.
+#' @param browse Bool. Whether to open the page in a browser. Defaults to
+#'   `interactive()`.
 #' @return The path, invisibly.
 #' @seealso [bc_theme()]
 #' @export

@@ -2,23 +2,24 @@
 % Please edit documentation in R/deps.R
 \name{bc_init}
 \alias{bc_init}
-\title{Re-initialise Basecoat after a swap}
+\title{Re-initialise Basecoat}
 \usage{
 bc_init(force = FALSE)
 }
 \arguments{
-\item{force}{Bool. Destroy and rebuild components that are already
-initialised, which also clears open menus and focus.}
+\item{force}{Bool. Rebuild components that are already set up. This closes
+open menus and clears focus. Defaults to \code{FALSE}.}
 }
 \value{
-A \verb{<script>} tag.
+An htmltools tag.
 }
 \description{
-Basecoat initialises its components on load and when new DOM is inserted, so
-this is only wanted where markup is restored from a cache rather than parsed.
+Create a script that sets up Basecoat components again. Components set
+themselves up on page load and when new content is added. Use this when
+content comes back from a cache instead.
 }
 \details{
-For htmx history restores, where DOM comes back already initialised.
+Use it for htmx history restores, where content comes back already set up.
 }
 \examples{
 bc_init(force = TRUE)

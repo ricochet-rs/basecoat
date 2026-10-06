@@ -24,21 +24,19 @@ bc_button_sizes <- c(
 
 #' Button
 #'
-#' A `<button>` carrying the Basecoat `btn` class.
+#' Create a button.
 #'
-#' @param ... Tag attributes and children for the `<button>`. The label is a
-#'   child.
-#' @param variant String. One of `r toString(bc_button_variants)`. `primary`
-#'   writes no attribute.
-#' @param size String. One of `r toString(bc_button_sizes)`. `default` writes no
-#'   attribute.
-#' @param type String. The `type` attribute, `"button"` unless the button
-#'   submits a form.
-#' @param aria_label String. Accessible name, needed when the button has no
-#'   visible text such as an icon-only button.
-#' @return A `<button>` tag.
+#' @param ... Tag attributes and content, such as the label.
+#' @param variant String. One of `r toString(bc_button_variants)`.
+#' @param size String. One of `r toString(bc_button_sizes)`.
+#' @param type String. The button type. Defaults to `"button"`. Use
+#'   `"submit"` for a button that submits a form.
+#' @param aria_label String. Accessible name for the button. Set it when the
+#'   button has no visible text, such as an icon-only button.
+#' @return An htmltools tag.
 #' @details
-#' An icon beside text takes `data-icon = "inline-start"` or `"inline-end"`.
+#' To place an icon beside the label, give the icon
+#' `data-icon = "inline-start"` or `"inline-end"`.
 #' @export
 #' @examples
 #' bc_button("Save")

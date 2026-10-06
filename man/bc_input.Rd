@@ -20,38 +20,39 @@ bc_input(
 )
 }
 \arguments{
-\item{...}{Tag attributes for the \verb{<input>}.}
+\item{...}{Extra tag attributes for the input.}
 
-\item{label}{String or tag. The label content.}
+\item{label}{String or tag. The label.}
 
-\item{id}{String. The input \code{id}, required when a \code{label} is given.}
+\item{id}{String. The input ID. Required when \code{label} is set.}
 
-\item{type}{String. The \code{type} attribute, \code{"text"} by default.}
+\item{type}{String. The input type, such as \code{"email"} or \code{"password"}.
+Defaults to \code{"text"}.}
 
 \item{placeholder}{String. Placeholder text.}
 
-\item{description}{String or tag. Helper text shown under the input, wired
-to it with \code{aria-describedby}.}
+\item{description}{String or tag. Helper text shown under the input. Needs
+a \code{label}.}
 
-\item{value}{String. The initial value.}
+\item{value}{String. The starting value.}
 
-\item{name}{String. The input \code{name}, defaulting to \code{id}.}
+\item{name}{String. The input name. Defaults to \code{id}.}
 
-\item{required}{Bool. Whether the input is required.}
+\item{required}{Bool. Whether the input is required. Defaults to \code{FALSE}.}
 
-\item{disabled}{Bool. Whether the input is disabled.}
+\item{disabled}{Bool. Whether the input is disabled. Defaults to \code{FALSE}.}
 
-\item{invalid}{Bool. Whether to show the invalid state.}
+\item{invalid}{Bool. Whether to show the invalid state. Defaults to
+\code{FALSE}.}
 
-\item{aria_label}{String. Accessible name, for an input with no visible
-\code{label}. A placeholder alone is not one.}
+\item{aria_label}{String. Accessible name for the input. Set it when there
+is no \code{label}, since a placeholder doesn't count.}
 }
 \value{
-An \verb{<input>} tag or, with a \code{label}, a \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-An \verb{<input>} carrying the Basecoat \code{input} class, optionally wrapped with a
-label in a \code{field}.
+Create a text input with an optional label and helper text.
 }
 \examples{
 bc_input(type = "email", placeholder = "Email", aria_label = "Email")

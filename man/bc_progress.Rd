@@ -9,19 +9,20 @@ bc_progress(value, min = 0, max = 100, label = NULL, ...)
 \arguments{
 \item{value}{Number. How far along the task is, between \code{min} and \code{max}.}
 
-\item{min, max}{Number. The ends of the range \code{value} is measured against.}
+\item{min, max}{Number. The ends of the range. Default to \code{0} and \code{100}.}
 
-\item{label}{String. What the bar is measuring, for a screen reader. Pass
-\code{NULL} and an \code{aria-labelledby} in \code{...} to point at visible text instead.}
+\item{label}{String. Accessible name for the bar, such as
+\code{"Upload progress"}. To use visible text instead, pass \code{NULL} and set
+\code{`aria-labelledby`} in \code{...} to that text's ID.}
 
-\item{...}{Tag attributes and children, passed to \code{\link[htmltools:div]{htmltools::div()}}. Sizing
-is a caller's job: a skeleton has no dimensions of its own.}
+\item{...}{Tag attributes and content. Set the size with classes, such as
+\verb{h-4 w-full}.}
 }
 \value{
-A \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-A bar showing how far along a task is.
+Create a bar that shows how far along a task is.
 }
 \examples{
 bc_progress(66, label = "Upload progress")

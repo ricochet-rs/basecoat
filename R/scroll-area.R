@@ -4,15 +4,15 @@
 
 #' Scroll Area
 #'
-#' A scrollable region carrying the Basecoat scrollbar or `scrollbar-sm` class.
+#' Create a scrollable area with a styled scrollbar.
 #'
-#' @param ... Content and attributes for the scroll container.
-#' @param size String. `default` for `scrollbar`, `sm` for `scrollbar-sm`.
-#' @param overflow String. The overflow utility: `auto`, `x` or `y`.
-#' @param class String. Extra classes, such as a height (`h-72`).
-#' @param aria_label String. Accessible name for the region, when its content
-#'   needs one of its own.
-#' @return A `<div>` tag.
+#' @param ... Tag attributes and content.
+#' @param size String. `"default"` or `"sm"` for a smaller scrollbar.
+#' @param overflow String. Which way the content scrolls. One of `"auto"`
+#'   (default), `"x"`, or `"y"`.
+#' @param class String. Extra CSS classes, such as a height (`h-72`).
+#' @param aria_label String. Accessible name for the scroll area.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_scroll_area(

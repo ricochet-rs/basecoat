@@ -1,16 +1,16 @@
-# Basecoat has no spinner component: a spinner is the `loader-circle` Lucide
+# Basecoat has no spinner component: a spinner is the `circle-notch` Phosphor
 # icon with the `animate-spin` utility, sized by a `size-*` class.
 
 #' Spinner
 #'
-#' A loading indicator as the `loader-circle` Lucide icon with the `animate-spin`
-#' utility.
+#' Create a spinning icon that shows something is loading.
 #'
-#' @param label String. The accessible `aria-label`.
-#' @param size String. A Tailwind size utility suffix, e.g. `"4"` for `size-4`.
-#'   `NULL` uses the icon's natural size.
-#' @param ... Tag attributes for the `<svg>`.
-#' @return An `<svg>` tag.
+#' @param label String. Accessible name for the spinner. Defaults to
+#'   `"Loading"`.
+#' @param size String. A Tailwind size, such as `"4"` for `size-4`. `NULL`
+#'   keeps the default of 24 pixels.
+#' @param ... Extra tag attributes.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_spinner()

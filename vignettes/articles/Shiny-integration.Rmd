@@ -1,0 +1,24 @@
+---
+title: "Shiny integration"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The default behavior of basecoat is to act as a pure html library. However, you can **opt-in** to [`{shiny}`](TODO!) interactivity.
+
+Note that, if you are using basecoat with the shiny package, you should always use the basecoat components _instead_ of shiny or an alternative library like `{bslib}` (TODO hyperlink).
+
+This is because both shiny and bslib use the bootstrap library for styling. basecoat is based on tailwind css (TODO hyperlink).
+
+## Quickstart
+
+```{r setup}
+library(basecoat)
+```
+
+Basecoat uses 

@@ -2,14 +2,15 @@
 % Please edit documentation in R/print.R
 \name{print.bc_tag}
 \alias{print.bc_tag}
-\title{Render a component at the console}
+\title{Print a Component}
 \usage{
 \method{print}{bc_tag}(x, browse = interactive(), ...)
 }
 \arguments{
 \item{x}{A component.}
 
-\item{browse}{Bool. Show the rendered component rather than its HTML.}
+\item{browse}{Bool. Show the rendered component rather than its HTML.
+Defaults to \code{interactive()}.}
 
 \item{...}{Ignored.}
 }
@@ -17,8 +18,8 @@
 \code{x}, invisibly.
 }
 \description{
-Prints a component to the viewer with the Basecoat stylesheet and scripts
-attached, or writes its HTML when there is nowhere to show it.
+Show a component in the viewer with the Basecoat stylesheet and scripts.
+Outside an interactive session, print its HTML instead.
 }
 \examples{
 print(bc_badge("stable"), browse = FALSE)

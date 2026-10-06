@@ -6,17 +6,17 @@ bc_button_group_orientations <- c("default", "vertical")
 
 #' Button Group
 #'
-#' Joins related controls into a single `button-group` shell.
+#' Create a group of related buttons joined into one control.
 #'
-#' @param ... The group's children: controls and [bc_button_group_separator()].
-#' @param orientation String. One of `default` or `vertical`. `default` writes
-#'   no attribute.
+#' @param ... Buttons and other controls, with [bc_button_group_separator()]
+#'   between them for a divider.
+#' @param orientation String. `"default"` for a row or `"vertical"` for a
+#'   column.
 #' @param aria_label String. Accessible name for the group.
-#' @param class String. Extra classes for the shell.
-#' @return A `<div>` tag.
+#' @param class String. Extra CSS classes.
+#' @return An htmltools tag.
 #' @details
-#' A `<span>`, `<label>` or `<output>` child is a static segment; an `<hr>` is
-#' a divider.
+#' Wrap plain text in [htmltools::span()] to show it as a static segment.
 #' @export
 #' @examples
 #' bc_button_group(

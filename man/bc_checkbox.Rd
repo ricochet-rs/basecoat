@@ -16,28 +16,28 @@ bc_checkbox(
 )
 }
 \arguments{
-\item{id}{String. The input \code{id}, and the \code{for} of its label.}
+\item{id}{String. The input ID.}
 
-\item{label}{String or tag. The label content.}
+\item{label}{String or tag. The label.}
 
-\item{...}{Attributes passed to the \verb{<input>}.}
+\item{...}{Extra tag attributes for the checkbox.}
 
-\item{checked}{Bool. Whether the box starts ticked.}
+\item{checked}{Bool. Whether the box starts checked. Defaults to \code{FALSE}.}
 
-\item{disabled}{Bool. Whether the box is disabled.}
+\item{disabled}{Bool. Whether the box is disabled. Defaults to \code{FALSE}.}
 
-\item{invalid}{Bool. Whether to show the invalid state.}
+\item{invalid}{Bool. Whether to show the invalid state. Defaults to
+\code{FALSE}.}
 
-\item{description}{String or tag. Helper text shown under the label, wired to
-the input with \code{aria-describedby}.}
+\item{description}{String or tag. Helper text shown under the label.}
 
-\item{name}{String. The input \code{name}, defaulting to \code{id}.}
+\item{name}{String. The input name. Defaults to \code{id}.}
 }
 \value{
-A \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-A checkbox input paired with its label in a Basecoat \code{field}.
+Create a checkbox with a label.
 }
 \examples{
 bc_checkbox("terms", "Accept terms and conditions")

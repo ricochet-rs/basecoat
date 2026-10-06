@@ -2,7 +2,7 @@
 % Please edit documentation in R/page.R
 \name{bc_page}
 \alias{bc_page}
-\title{A whole HTML page as a string}
+\title{HTML Page as a String}
 \usage{
 bc_page(
   ...,
@@ -15,37 +15,35 @@ bc_page(
 )
 }
 \arguments{
-\item{...}{Children of the \verb{<body>}.}
+\item{...}{Page content.}
 
 \item{title}{String. The page title.}
 
-\item{assets}{String. The URL the bundled Basecoat directory is served from.}
+\item{assets}{String. The URL the bundled Basecoat files are served from.
+Defaults to \code{"/basecoat/"}.}
 
 \item{style}{String or \code{NULL}. A style pack, as in \code{\link[=bc_deps]{bc_deps()}}.}
 
-\item{theme}{String or \code{NULL}. Path to a CSS file of your own. It lands in
-the head after the style pack, so its tokens win.}
+\item{theme}{String or \code{NULL}. Path to a CSS file of your own. It loads
+after the style pack, so its tokens take precedence.}
 
-\item{head}{Tag or \code{NULL}. Anything else the head needs, such as the script
-tag for htmx.}
+\item{head}{Tag or \code{NULL}. Extra content for the page head, such as the
+htmx script.}
 
-\item{lang}{String. The \code{lang} attribute on \verb{<html>}.}
+\item{lang}{String. The page language. Defaults to \code{"en"}.}
 }
 \value{
 A single string.
 }
 \description{
-For servers that answer with HTML text rather than tags, like plumber2,
-ambiorix or nanonext. Writes the doctype, the head and the body, with the
-stylesheet and every script the components asked for already linked.
+Create a full HTML page as a string, for servers that send strings rather
+than tags, such as plumber2, ambiorix, or nanonext. The page loads the
+stylesheet and the scripts your components need.
 }
 \details{
-Serve \code{system.file("basecoat", package = "basecoat")} at \code{assets}. The files
-ship inside the package, where a browser cannot reach them, so every
-dependency is rewritten to that prefix.
+Serve \code{system.file("basecoat", package = "basecoat")} at the \code{assets} URL.
 
-\code{theme} is read and written into a \verb{<style>} tag, so the file itself does
-not have to be served.
+The \code{theme} file is written into the page, so you do not need to serve it.
 }
 \examples{
 cat(substr(bc_page(bc_button("Save"), title = "Demo"), 1, 80))

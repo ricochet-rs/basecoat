@@ -2,20 +2,20 @@
 % Please edit documentation in R/combobox.R
 \name{bc_combobox_group}
 \alias{bc_combobox_group}
-\title{Combobox group}
+\title{Combobox Group}
 \usage{
 bc_combobox_group(title, ...)
 }
 \arguments{
-\item{title}{String. The group heading.}
+\item{title}{String. The group title.}
 
-\item{...}{Option tags to group under the heading.}
+\item{...}{Options from \code{\link[=bc_combobox_option]{bc_combobox_option()}}.}
 }
 \value{
-A \verb{<div>} tag of class \verb{option group}.
+An htmltools tag.
 }
 \description{
-A headed set of options separated from the rest of the list.
+Create a titled group of combobox options.
 }
 \examples{
 bc_combobox_group(

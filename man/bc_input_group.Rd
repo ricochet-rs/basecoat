@@ -10,29 +10,32 @@ bc_input_group(..., orientation = "default", aria_label = NULL, class = NULL)
 bc_input_group_addon(..., align = "start", aria_hidden = FALSE)
 }
 \arguments{
-\item{...}{The native control and addon children.}
+\item{...}{For \code{bc_input_group()}, the input and its addons from
+\code{bc_input_group_addon()}. For \code{bc_input_group_addon()}, the addon's
+content.}
 
-\item{orientation}{String. \code{default} for inline controls, \code{vertical} for
-\code{header} and \code{footer} addon rows.}
+\item{orientation}{String. \code{"default"} for addons beside the input, or
+\code{"vertical"} for rows above and below it.}
 
-\item{aria_label}{String. Accessible name, added only when the group itself
-is named.}
+\item{aria_label}{String. Accessible name for the group.}
 
-\item{class}{String. Extra classes for the shell.}
+\item{class}{String. Extra CSS classes.}
 
-\item{align}{String. Addon placement, written to \code{data-align}. One of
+\item{align}{String. Where the addon sits. One of
 start, end, inline-start, inline-end, block-start, block-end.}
 
-\item{aria_hidden}{Bool. Whether to mark the addon \code{aria-hidden="true"}.}
+\item{aria_hidden}{Bool. Hide the addon from screen readers. Defaults to
+\code{FALSE}.}
 }
 \value{
-A \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-A group shell for a native control with inline or block addons.
+Create an input with addons such as icons, buttons, or text.
 }
 \details{
-\code{header} and \code{footer} rows need \code{orientation = "vertical"}.
+Rows above and below the input, made with \code{tags$header()} and
+\code{tags$footer()}, need \code{orientation = "vertical"}.
 }
 \examples{
 bc_input_group(

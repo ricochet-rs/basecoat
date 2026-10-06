@@ -1,29 +1,29 @@
 # Combobox, inlined from the docs mirror. The visible input is the editable
-# control, the hidden input stores the submitted value, and the listbox sits in
+# control, the hidden input stores the submitted value, and the listbox is in
 # a `data-popover` wrapper the Combobox script can resolve.
 
 #' Combobox
 #'
-#' A searchable select with an editable text input and a hidden value input.
+#' Create a select you type into to filter its options.
 #'
-#' @param id String. The ID for the combobox root. Input, popover and listbox
-#'   IDs derive from it.
-#' @param ... For [bc_combobox()], option tags from [bc_combobox_option()] and
-#'   [bc_combobox_group()], or plain character values that become simple
-#'   options.
+#' @param id String. The input ID. `NULL` uses a random ID.
+#' @param ... Options from [bc_combobox_option()] and [bc_combobox_group()],
+#'   or a character vector of values.
 #' @param placeholder String. Text shown while empty.
-#' @param name String. The `name` of the hidden value input.
-#' @param selected String or character vector. Initial value, or values in
-#'   multiple mode.
-#' @param empty String. Text shown when filtering finds no options.
-#' @param multiple Bool. Whether the listbox accepts several selections.
-#' @param auto_highlight Bool. Whether the first visible option activates when
-#'   the list opens or filters.
-#' @param disabled Bool. Whether the input is disabled.
-#' @param class Vector of class names merged onto the combobox root.
-#' @param aria_label String. Accessible name for the input, since its
-#'   placeholder alone is not one.
-#' @return A `<div>` tag of class `combobox`.
+#' @param name String. The form field name. Defaults to `id`.
+#' @param selected Character vector. The starting value, or values when
+#'   `multiple = TRUE`.
+#' @param empty String. Text shown when no options match. Defaults to
+#'   `"No items found."`.
+#' @param multiple Bool. Whether the user can select several options. Defaults
+#'   to `FALSE`.
+#' @param auto_highlight Bool. Highlight the first matching option as the list
+#'   opens or filters. Defaults to `FALSE`.
+#' @param disabled Bool. Whether the input is disabled. Defaults to `FALSE`.
+#' @param class Character vector. Extra CSS classes.
+#' @param aria_label String. Accessible name for the combobox. Set it when
+#'   there is no visible label, since the placeholder doesn't count.
+#' @return An htmltools tag.
 #' @details
 #' Submits a string, or a JSON array when `multiple = TRUE`.
 #' @seealso [bc_combobox_option()], [bc_combobox_group()],
@@ -128,18 +128,19 @@ bc_combobox <- function(
   ))
 }
 
-#' Combobox option
+#' Combobox Option
 #'
-#' A selectable entry in a combobox listbox.
+#' Create one choice in a combobox.
 #'
-#' @param value String. The submitted value. When `label` is `NULL`, the
-#'   rendered text too.
-#' @param ... Content of the option, used when `label` is `NULL`.
-#' @param label String. Display text. Defaults to the value when `NULL`.
+#' @param value String. The submitted value.
+#' @param ... Content of the option, such as an icon beside a name. Defaults
+#'   to `label`, then `value`.
+#' @param label String. Text shown in the input once the option is selected.
+#'   Defaults to `value`.
 #' @param filter String. Extra text searched beyond the label.
-#' @return A `<div>` tag of class `option` role.
+#' @return An htmltools tag.
 #' @details
-#' `data-label` sets the input text when it differs from the content.
+#' Set `label` when the input text should differ from the option's content.
 #' @export
 #' @examples
 #' bc_combobox_option("Next.js")
@@ -174,13 +175,13 @@ bc_combobox_option <- function(value, ..., label = NULL, filter = NULL) {
   ))
 }
 
-#' Combobox group
+#' Combobox Group
 #'
-#' A headed set of options separated from the rest of the list.
+#' Create a titled group of combobox options.
 #'
-#' @param title String. The group heading.
-#' @param ... Option tags to group under the heading.
-#' @return A `<div>` tag of class `option group`.
+#' @param title String. The group title.
+#' @param ... Options from [bc_combobox_option()].
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_combobox_group(
@@ -202,11 +203,11 @@ bc_combobox_group <- function(title, ...) {
   ))
 }
 
-#' Combobox separator
+#' Combobox Separator
 #'
-#' A horizontal rule between combobox groups.
+#' Create a divider between combobox groups.
 #'
-#' @return An `<hr>` tag.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_combobox_separator()

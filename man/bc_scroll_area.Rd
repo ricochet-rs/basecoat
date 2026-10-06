@@ -13,22 +13,22 @@ bc_scroll_area(
 )
 }
 \arguments{
-\item{...}{Content and attributes for the scroll container.}
+\item{...}{Tag attributes and content.}
 
-\item{size}{String. \code{default} for \code{scrollbar}, \code{sm} for \code{scrollbar-sm}.}
+\item{size}{String. \code{"default"} or \code{"sm"} for a smaller scrollbar.}
 
-\item{overflow}{String. The overflow utility: \code{auto}, \code{x} or \code{y}.}
+\item{overflow}{String. Which way the content scrolls. One of \code{"auto"}
+(default), \code{"x"}, or \code{"y"}.}
 
-\item{class}{String. Extra classes, such as a height (\code{h-72}).}
+\item{class}{String. Extra CSS classes, such as a height (\code{h-72}).}
 
-\item{aria_label}{String. Accessible name for the region, when its content
-needs one of its own.}
+\item{aria_label}{String. Accessible name for the scroll area.}
 }
 \value{
-A \verb{<div>} tag.
+An htmltools tag.
 }
 \description{
-A scrollable region carrying the Basecoat scrollbar or \code{scrollbar-sm} class.
+Create a scrollable area with a styled scrollbar.
 }
 \examples{
 bc_scroll_area(

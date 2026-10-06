@@ -13,23 +13,22 @@ bc_tabs(
 )
 }
 \arguments{
-\item{...}{List of tabs. Each item should be a list with 'label', 'content',
-and optionally 'id' and 'disabled'.}
+\item{...}{Tabs from \code{\link[=bc_tab]{bc_tab()}}.}
 
-\item{variant}{String. The tab variant ("default" or "line").}
+\item{variant}{String. \code{"default"} or \code{"line"}.}
 
-\item{orientation}{String. The tab orientation ("horizontal" or "vertical").}
+\item{orientation}{String. \code{"horizontal"} (default) or \code{"vertical"}.}
 
-\item{id}{String. The ID for the tabs container.}
+\item{id}{String. The ID. Defaults to a random ID.}
 
-\item{aria_label}{String. Accessible name for the tablist, useful when a
-page has more than one.}
+\item{aria_label}{String. Accessible name for the tabs, useful when a page
+has more than one set.}
 }
 \value{
-A tag with proper tab structure.
+An htmltools tag.
 }
 \description{
-A tab component with navigation and content panels.
+Create a set of tabbed panels. The first tab starts selected.
 }
 \examples{
 bc_tabs(

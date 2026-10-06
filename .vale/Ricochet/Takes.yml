@@ -1,0 +1,7 @@
+extends: existence
+message: "Cut '%s'. State the accepted values in the @param, or drop the detail."
+level: error
+ignorecase: true
+tokens:
+  - (?:also )?takes?
+  - under every

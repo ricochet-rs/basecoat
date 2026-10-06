@@ -14,19 +14,20 @@ bc_panel_icon <- paste0(
   '</svg>'
 )
 
-#' Page with a sidebar
+#' Page with a Sidebar
 #'
-#' A collapsible [bc_sidebar()] beside a `<main>` region, with a header
-#' carrying the sidebar toggle and a title.
+#' Create a page with a collapsible sidebar.
 #'
-#' @param ... Tag attributes and children for the `<main>` content region.
-#' @param sidebar A [bc_sidebar()] tag.
-#' @param title String or tag. Shown in the header beside the toggle.
-#' @param header Tag or `NULL`. Extra header content, aligned to the end, such
+#' @param ... Page content.
+#' @param sidebar A [bc_sidebar()].
+#' @param title String or tag. The page title.
+#' @param header Tag or `NULL`. Extra content for the top of the page, such
 #'   as [bc_theme_switcher()] or an avatar.
-#' @param toggle Bool. Whether the header carries the sidebar toggle.
-#' @param toggle_label String. Accessible name for the toggle.
-#' @return A [htmltools::tagList()] of the `<aside>` and the `<main>`.
+#' @param toggle Bool. Whether to show a button that opens and closes the
+#'   sidebar. Defaults to `TRUE`.
+#' @param toggle_label String. Accessible name for the toggle. Defaults to
+#'   `"Toggle sidebar"`.
+#' @return An [htmltools::tagList()].
 #' @seealso [bc_page_navbar()]
 #' @export
 #' @examples
@@ -84,7 +85,7 @@ bc_page_sidebar <- function(
 }
 
 #' @rdname bc_page_sidebar
-#' @param id String. The `id` of the [bc_sidebar()] to toggle.
+#' @param id String. The ID of the [bc_sidebar()] to toggle.
 #' @param label String. Accessible name for the button.
 #' @export
 #' @examples
@@ -109,18 +110,21 @@ bc_sidebar_toggle <- function(id, label = "Toggle sidebar") {
   ))
 }
 
-#' Page with a navbar
+#' Page with a Navbar
 #'
-#' A sticky top navigation bar over a `<main>` region.
+#' Create a page with a navbar.
 #'
-#' @param ... Tag attributes and children for the `<main>` content region.
-#' @param title String or tag. The brand, shown first.
-#' @param nav Tag or list. Navigation controls, usually [bc_nav_item()]s.
-#' @param end Tag or `NULL`. Content aligned to the end of the bar, such as
+#' @param ... For `bc_page_navbar()`, page content. For `bc_nav_item()`, extra
+#'   tag attributes.
+#' @param title String or tag. The app name, shown first in the navbar.
+#' @param nav Tag or list. Links for the navbar, usually from [bc_nav_item()].
+#' @param end Tag or `NULL`. Content aligned to the end of the navbar, such as
 #'   [bc_theme_switcher()] or a [bc_dropdown_menu()].
-#' @param href String or `NULL`. Makes the brand a link.
-#' @param aria_label String. Accessible name for the `<nav>` landmark.
-#' @return A [htmltools::tagList()] of the `<header>` and the `<main>`.
+#' @param href String or `NULL`. A link URL. For `bc_page_navbar()`, it makes
+#'   the app name a link. For `bc_nav_item()`, `NULL` makes a button.
+#' @param aria_label String. Accessible name for the navbar. Defaults to
+#'   `"Main navigation"`.
+#' @return An [htmltools::tagList()].
 #' @seealso [bc_page_sidebar()]
 #' @export
 #' @examples
@@ -170,14 +174,15 @@ bc_page_navbar <- function(
         tags$div(class = "ms-auto flex items-center gap-2", end)
       }
     ),
-    tags$main(...)
+    tags$main(class = "flex-1", ...)
   ))
 }
 
 #' @rdname bc_page_navbar
 #' @param label String or tag. The item's text.
-#' @param current Bool. Marks the item as the current page.
-#' @param disabled Bool. Whether the item is disabled.
+#' @param current Bool. Whether the item is the current page. Defaults to
+#'   `FALSE`.
+#' @param disabled Bool. Whether the item is disabled. Defaults to `FALSE`.
 #' @export
 #' @examples
 #'
@@ -193,7 +198,7 @@ bc_nav_item <- function(
   check_bool(current)
   check_bool(disabled)
 
-  # A nav item is a button, so its shape, hover and focus come from the style
+  # A nav item is a button, so its shape, hover, and focus come from the style
   # pack rather than from anything this package invents.
   variant <- if (current) "secondary" else "ghost"
 
@@ -221,29 +226,27 @@ bc_nav_item <- function(
   ))
 }
 
-#' A whole HTML page as a string
+#' HTML Page as a String
 #'
-#' For servers that answer with HTML text rather than tags, like plumber2,
-#' ambiorix or nanonext. Writes the doctype, the head and the body, with the
-#' stylesheet and every script the components asked for already linked.
+#' Create a full HTML page as a string, for servers that send strings rather
+#' than tags, such as plumber2, ambiorix, or nanonext. The page loads the
+#' stylesheet and the scripts your components need.
 #'
-#' @param ... Children of the `<body>`.
+#' @param ... Page content.
 #' @param title String. The page title.
-#' @param assets String. The URL the bundled Basecoat directory is served from.
+#' @param assets String. The URL the bundled Basecoat files are served from.
+#'   Defaults to `"/basecoat/"`.
 #' @param style String or `NULL`. A style pack, as in [bc_deps()].
-#' @param theme String or `NULL`. Path to a CSS file of your own. It lands in
-#'   the head after the style pack, so its tokens win.
-#' @param head Tag or `NULL`. Anything else the head needs, such as the script
-#'   tag for htmx.
-#' @param lang String. The `lang` attribute on `<html>`.
+#' @param theme String or `NULL`. Path to a CSS file of your own. It loads
+#'   after the style pack, so its tokens take precedence.
+#' @param head Tag or `NULL`. Extra content for the page head, such as the
+#'   htmx script.
+#' @param lang String. The page language. Defaults to `"en"`.
 #' @return A single string.
 #' @details
-#' Serve `system.file("basecoat", package = "basecoat")` at `assets`. The files
-#' ship inside the package, where a browser cannot reach them, so every
-#' dependency is rewritten to that prefix.
+#' Serve `system.file("basecoat", package = "basecoat")` at the `assets` URL.
 #'
-#' `theme` is read and written into a `<style>` tag, so the file itself does
-#' not have to be served.
+#' The `theme` file is written into the page, so you do not need to serve it.
 #' @seealso [bc_deps()], [bc_page_sidebar()], [bc_page_navbar()]
 #' @export
 #' @examples
@@ -296,7 +299,7 @@ bc_page <- function(
       ),
       collapse = "\n"
     ),
-    "\n</head>\n<body>\n",
+    "\n</head>\n<body class=\"flex min-h-screen flex-col\">\n",
     as.character(body),
     "\n</body>\n</html>"
   )

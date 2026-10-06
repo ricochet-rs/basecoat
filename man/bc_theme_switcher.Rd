@@ -7,13 +7,13 @@
 bc_theme_switcher(...)
 }
 \arguments{
-\item{...}{Tag attributes and children for the \verb{<button>}.}
+\item{...}{Extra tag attributes.}
 }
 \value{
-A \verb{<button>} tag with the theme utilities attached.
+An htmltools tag.
 }
 \description{
-A button that flips the \code{dark} class on \verb{<html>}, toggling the page theme.
+Create a button that switches the page between light and dark mode.
 }
 \examples{
 bc_theme_switcher()

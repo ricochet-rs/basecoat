@@ -1,5 +1,5 @@
 # An input group is a plain `div` shell that makes native controls borderless
-# and spaces addons around them. Addons carry a `data-align` for logical
+# and spaces addons around them. Addons have a `data-align` for logical
 # placement; a vertical group uses `header` and `footer` rows.
 
 bc_input_group_aligns <- c(
@@ -13,20 +13,23 @@ bc_input_group_aligns <- c(
 
 #' Input Group
 #'
-#' A group shell for a native control with inline or block addons.
+#' Create an input with addons such as icons, buttons, or text.
 #'
-#' @param ... The native control and addon children.
-#' @param align String. Addon placement, written to `data-align`. One of
+#' @param ... For `bc_input_group()`, the input and its addons from
+#'   `bc_input_group_addon()`. For `bc_input_group_addon()`, the addon's
+#'   content.
+#' @param align String. Where the addon sits. One of
 #'   `r toString(bc_input_group_aligns)`.
-#' @param orientation String. `default` for inline controls, `vertical` for
-#'   `header` and `footer` addon rows.
-#' @param aria_label String. Accessible name, added only when the group itself
-#'   is named.
-#' @param aria_hidden Bool. Whether to mark the addon `aria-hidden="true"`.
-#' @param class String. Extra classes for the shell.
-#' @return A `<div>` tag.
+#' @param orientation String. `"default"` for addons beside the input, or
+#'   `"vertical"` for rows above and below it.
+#' @param aria_label String. Accessible name for the group.
+#' @param aria_hidden Bool. Hide the addon from screen readers. Defaults to
+#'   `FALSE`.
+#' @param class String. Extra CSS classes.
+#' @return An htmltools tag.
 #' @details
-#' `header` and `footer` rows need `orientation = "vertical"`.
+#' Rows above and below the input, made with `tags$header()` and
+#' `tags$footer()`, need `orientation = "vertical"`.
 #' @export
 #' @examples
 #' bc_input_group(

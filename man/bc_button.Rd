@@ -13,29 +13,27 @@ bc_button(
 )
 }
 \arguments{
-\item{...}{Tag attributes and children for the \verb{<button>}. The label is a
-child.}
+\item{...}{Tag attributes and content, such as the label.}
 
-\item{variant}{String. One of primary, secondary, outline, ghost, link, destructive. \code{primary}
-writes no attribute.}
+\item{variant}{String. One of primary, secondary, outline, ghost, link, destructive.}
 
-\item{size}{String. One of default, xs, sm, lg, icon, icon-xs, icon-sm, icon-lg. \code{default} writes no
-attribute.}
+\item{size}{String. One of default, xs, sm, lg, icon, icon-xs, icon-sm, icon-lg.}
 
-\item{type}{String. The \code{type} attribute, \code{"button"} unless the button
-submits a form.}
+\item{type}{String. The button type. Defaults to \code{"button"}. Use
+\code{"submit"} for a button that submits a form.}
 
-\item{aria_label}{String. Accessible name, needed when the button has no
-visible text such as an icon-only button.}
+\item{aria_label}{String. Accessible name for the button. Set it when the
+button has no visible text, such as an icon-only button.}
 }
 \value{
-A \verb{<button>} tag.
+An htmltools tag.
 }
 \description{
-A \verb{<button>} carrying the Basecoat \code{btn} class.
+Create a button.
 }
 \details{
-An icon beside text takes \code{data-icon = "inline-start"} or \code{"inline-end"}.
+To place an icon beside the label, give the icon
+\code{data-icon = "inline-start"} or \code{"inline-end"}.
 }
 \examples{
 bc_button("Save")

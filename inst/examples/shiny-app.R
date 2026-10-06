@@ -6,10 +6,10 @@ library(shiny)
 library(basecoat)
 library(htmltools)
 
-ui <- tagList(
-  bc_deps(),
-  bc_shiny_deps(),
+ui <-
   bc_page_navbar(
+    bc_shiny_deps(),
+    bc_deps(),
     tags$div(
       class = "mx-auto flex max-w-lg flex-col gap-6 p-6",
       tags$section(
@@ -63,7 +63,6 @@ ui <- tagList(
     ),
     end = bc_theme_switcher()
   )
-)
 
 server <- function(input, output) {
   output$values <- renderText({

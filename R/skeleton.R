@@ -9,11 +9,11 @@
 
 #' Skeleton
 #'
-#' A block that stands in for content that has not arrived.
+#' Create a placeholder block shown while content loads.
 #'
-#' @param ... Tag attributes and children, passed to [htmltools::div()]. Sizing
-#'   is a caller's job: a skeleton has no dimensions of its own.
-#' @return A `<div>` tag.
+#' @param ... Tag attributes and content. Set the size with classes, such as
+#'   `h-4 w-full`.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_skeleton(class = "h-4 w-full")

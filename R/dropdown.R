@@ -1,23 +1,27 @@
 #' Dropdown Menu
 #'
-#' A menu of actions in an inline popover beside its trigger.
+#' Create a menu of actions that opens from a button.
 #'
-#' @param ... Menu content. Strings become menu items, tags pass through and
-#'   lists are passed to [bc_dropdown_item()]. Build the rest with
-#'   `bc_dropdown_group()`, `bc_dropdown_separator()`,
-#'   `bc_dropdown_checkbox()` and `bc_dropdown_radio()`.
-#' @param id String. The ID for the dropdown wrapper.
-#' @param trigger_label String or tag. The trigger button's label.
-#' @param trigger A tag. A whole trigger, an avatar or anything else, in place
-#'   of the default button. The wiring attributes are added to it.
-#' @param variant String. The trigger's button variant.
-#' @param side String. Placement of the menu beside the trigger. One of `top`,
-#'   `right`, `bottom`, `left`, `inline-start` or `inline-end`.
-#' @param align String. Alignment of the menu on its side. One of `start`,
-#'   `center` or `end`.
-#' @param class String. Extra classes for the popover.
-#' @return A `<div class="dropdown-menu">` with a trigger button and the menu
-#'   popover.
+#' @param ... For `bc_dropdown_menu()` and `bc_dropdown_group()`, menu items
+#'   from `bc_dropdown_item()`, `bc_dropdown_group()`,
+#'   `bc_dropdown_separator()`, `bc_dropdown_checkbox()` and
+#'   `bc_dropdown_radio()`. A string becomes an item, and a list is passed to
+#'   [bc_dropdown_item()] as its arguments. For the item functions, extra tag
+#'   attributes.
+#' @param id String. The ID. Defaults to a random ID.
+#' @param trigger_label String. The button's label. Defaults to `"Menu"`.
+#' @param trigger Tag, such as an avatar, that opens the menu in place of the
+#'   default button.
+#' @param variant String. For `bc_dropdown_menu()`, the button variant from
+#'   [bc_button()]. Defaults to `"outline"`. For `bc_dropdown_item()`,
+#'   `"destructive"` or `NULL`.
+#' @param side String. Where the menu opens next to the button. One of
+#'   `"top"`, `"right"`, `"bottom"`, `"left"`, `"inline-start"` or
+#'   `"inline-end"`.
+#' @param align String. Alignment of the menu along that side. One of
+#'   `"start"`, `"center"`, or `"end"`.
+#' @param class String. Extra CSS classes for the menu.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_dropdown_menu(
@@ -114,9 +118,9 @@ bc_dropdown_menu <- function(
 
 #' @rdname bc_dropdown_menu
 #' @param label String. The item's label.
-#' @param shortcut String. A shortcut hint shown at the inline end.
-#' @param icon A tag. An icon before the label.
-#' @param disabled Bool. Mark the item as disabled.
+#' @param shortcut String. A shortcut hint shown at the end of the item.
+#' @param icon Tag. An icon before the label.
+#' @param disabled Bool. Whether the item is disabled. Defaults to `FALSE`.
 #' @export
 bc_dropdown_item <- function(
   label,
@@ -145,9 +149,9 @@ bc_dropdown_item <- function(
 }
 
 #' @rdname bc_dropdown_menu
-#' @param title String. A group heading shown above its items.
-#' @param heading_id String. The heading's `id` and the group's
-#'   `aria-labelledby`.
+#' @param title String. A group title shown above its items.
+#' @param heading_id String. The ID of the group title. Defaults to a random
+#'   ID.
 #' @export
 bc_dropdown_group <- function(title = NULL, ..., heading_id = NULL) {
   if (is.null(title)) {
@@ -178,7 +182,7 @@ bc_dropdown_separator <- function() {
 }
 
 #' @rdname bc_dropdown_menu
-#' @param checked Bool. Whether the item starts checked.
+#' @param checked Bool. Whether the item starts checked. Defaults to `FALSE`.
 #' @export
 bc_dropdown_checkbox <- function(
   label,

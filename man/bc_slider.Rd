@@ -18,33 +18,32 @@ bc_slider(
 )
 }
 \arguments{
-\item{min}{Number. The minimum value of the slider.}
+\item{min}{Whole number. The smallest value.}
 
-\item{max}{Number. The maximum value of the slider.}
+\item{max}{Whole number. The largest value.}
 
-\item{value}{Number. The current value of the slider.}
+\item{value}{Whole number. The starting value.}
 
-\item{...}{Additional attributes passed to the \verb{<input>}.}
+\item{...}{Extra tag attributes for the slider.}
 
-\item{disabled}{Bool. Whether the slider is disabled.}
+\item{disabled}{Bool. Whether the slider is disabled. Defaults to \code{FALSE}.}
 
-\item{id}{String. The input \code{id}, and the \code{for} of its label.}
+\item{id}{String. The input ID. Defaults to a random ID.}
 
-\item{label}{String or tag. Optional label for the slider.}
+\item{label}{String or tag. A visible label.}
 
-\item{description}{String or tag. Helper text shown under the label, wired to
-the input with \code{aria-describedby}.}
+\item{description}{String or tag. Helper text shown under the label.}
 
-\item{oninput}{String. JavaScript function to run when the input changes.}
+\item{oninput}{String. JavaScript to run when the value changes.}
 
-\item{aria_label}{String. Accessible name, for a slider with no visible
-\code{label}.}
+\item{aria_label}{String. Accessible name for the slider. Set it when there
+is no \code{label}.}
 }
 \value{
-A tag with an \verb{<input type="range">} element.
+An htmltools tag.
 }
 \description{
-A range input component styled as a slider.
+Create a slider for selecting a number.
 }
 \examples{
 bc_slider(0, 100, 50, aria_label = "Volume")

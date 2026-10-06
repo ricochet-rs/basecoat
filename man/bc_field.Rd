@@ -16,30 +16,31 @@ bc_field_group(..., aria_label = NULL)
 bc_field_separator()
 }
 \arguments{
-\item{...}{Tag attributes and children for the \verb{<div>}.}
+\item{...}{Tag attributes and content.}
 
-\item{orientation}{String. One of default, horizontal, responsive.
-\code{default} writes no attribute.}
+\item{orientation}{String. One of default, horizontal, responsive.}
 
-\item{disabled}{Bool. Whether to mark the field as disabled.}
+\item{disabled}{Bool. Whether to show the field as disabled. Defaults to
+\code{FALSE}.}
 
-\item{invalid}{Bool. Whether to show the invalid state.}
+\item{invalid}{Bool. Whether to show the invalid state. Defaults to
+\code{FALSE}.}
 
-\item{legend}{String or tag. The group's heading, as a \verb{<legend>}.}
+\item{legend}{String or tag. The fieldset title.}
 
-\item{description}{String or tag. Shown under the legend.}
+\item{description}{String or tag. Text under the title.}
 
 \item{aria_label}{String. Accessible name for the group.}
 }
 \value{
-A tag.
+An htmltools tag.
 }
 \description{
-A single form control wrapped with its label and helper text.
+Create a form field that groups a control with its label and helper text.
 }
 \details{
-Children render in order: label, control, helper text. A horizontal field
-takes the control first.
+Pass the label, control, and helper text in that order. In a horizontal
+field, pass the control first.
 }
 \examples{
 bc_field(

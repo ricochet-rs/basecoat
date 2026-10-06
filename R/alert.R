@@ -1,21 +1,20 @@
-# An alert is structural, like a card: only the root carries a class, and
-# Basecoat finds the icon, title, body and action by element name. The named
+# An alert is structural, like a card: only the root has a class, and
+# Basecoat finds the icon, title, body, and action by element name. The named
 # arguments write those elements, and `...` stays open for anything else.
 
 #' Alert
 #'
-#' A short message with an optional icon, title, body and action.
+#' Create a short message with an optional icon, title, body, and action.
 #'
-#' @param ... Tag attributes and any further children, placed after the parts
-#'   written by the named arguments.
-#' @param title String or tag. The alert's heading, as an `<h2>`.
-#' @param description String or tag. The body, as a `<section>`.
+#' @param ... Tag attributes and extra content, placed after the other parts.
+#' @param title String or tag. The title.
+#' @param description String or tag. The body text.
 #' @param icon Tag or `NULL`. An icon before the title, such as one from the
 #'   phosphoricons package.
-#' @param action Tag or `NULL`. A button or link, placed in a `<footer>` that
-#'   Basecoat aligns to the inline end.
-#' @param variant String. `"destructive"` for an error alert, or `"default"`.
-#' @return A `<div>` tag.
+#' @param action Tag or `NULL`. A button or link, aligned to the end of the
+#'   alert.
+#' @param variant String. `"default"` or `"destructive"` for an error alert.
+#' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_alert(title = "Account updated", description = "Your changes are live.")

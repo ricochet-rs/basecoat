@@ -2,7 +2,7 @@
 % Please edit documentation in R/deps.R
 \name{bc_styles}
 \alias{bc_styles}
-\title{The style packs}
+\title{Style Packs}
 \format{
 A character vector of 8 names.
 }
@@ -10,12 +10,7 @@ A character vector of 8 names.
 bc_styles
 }
 \description{
-The style packs Basecoat ships, as named on its installation page. All of
-them are bundled with this package.
-}
-\details{
-\code{bc_deps(style = )} also takes \code{"base"}, which is not a pack but the
-styleless layer underneath them.
+The bundled style packs.
 }
 \examples{
 bc_styles

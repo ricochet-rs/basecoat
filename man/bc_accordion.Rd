@@ -17,31 +17,31 @@ bc_accordion_item(
 )
 }
 \arguments{
-\item{...}{Accordion items. Tags pass through and lists are passed to
-\code{\link[=bc_accordion_item]{bc_accordion_item()}} with \code{title}, \code{content}, \code{open} and \code{disabled}.}
+\item{...}{For \code{bc_accordion()}, items from \code{\link[=bc_accordion_item]{bc_accordion_item()}}. A list
+is passed to \code{\link[=bc_accordion_item]{bc_accordion_item()}} as its arguments. For
+\code{bc_accordion_item()}, the item's content.}
 
-\item{id}{String. The ID for the accordion root.}
+\item{id}{String. The ID. \code{bc_accordion()} uses a random ID by default.}
 
-\item{multiple}{Bool. Allow more than one item open at a time. Off by
-default, so opening one item closes the others.}
+\item{multiple}{Bool. Allow more than one item open at a time. Defaults to
+\code{FALSE}, so opening one item closes the others.}
 
-\item{class}{String. Extra classes for the accordion root.}
+\item{class}{String. Extra CSS classes.}
 
-\item{title}{String. The item's trigger, always visible.}
+\item{title}{String. The item's title, always visible.}
 
-\item{open}{Bool. Whether the item starts open.}
+\item{open}{Bool. Whether the item starts open. Defaults to \code{FALSE}.}
 
-\item{disabled}{Bool. Whether the item can be toggled.}
+\item{disabled}{Bool. Lock the item open or closed. Defaults to \code{FALSE}.}
 
-\item{icon}{Tag. Replaces the caret in the summary, such as one from the
-phosphoricons package. \code{NULL} for the default.}
+\item{icon}{Tag. An icon to replace the default caret, such as one from the
+phosphoricons package.}
 }
 \value{
-A \verb{<section class="accordion">} of \verb{<details>} items.
+An htmltools tag.
 }
 \description{
-A vertically stacked set of collapsible sections built on native
-\verb{<details>} elements.
+Create a stack of collapsible sections.
 }
 \examples{
 bc_accordion(
