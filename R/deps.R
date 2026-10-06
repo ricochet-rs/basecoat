@@ -63,8 +63,8 @@ bc_scripts <- c(
 #'   the style pack so its tokens win. See [bc_theme()].
 #' @param source String. `"local"` (default) serves the bundled files. `"cdn"`
 #'   serves the upstream files from jsDelivr, where several components render
-#'   wrong. A URL prefix such as `"/basecoat/"` points at a copy of the bundled
-#'   files you serve yourself.
+#'   wrong. A URL prefix such as `"/basecoat/"` or `"./basecoat/"` points at a
+#'   copy of the bundled files you serve yourself.
 #' @param viewport Bool. Add the mobile viewport setting to the page. Defaults
 #'   to `TRUE`.
 #' @param version String. The `basecoat-css` release to serve. Only
@@ -118,10 +118,10 @@ bc_deps <- function(
 
   mount <- !source %in% c("local", "cdn")
 
-  if (mount && !grepl("^(/|https?://)", source)) {
+  if (mount && !grepl("^(\\.{1,2}/|/|https?://)", source)) {
     cli::cli_abort(c(
       "{.arg source} must be {.val local}, {.val cdn}, or a URL prefix.",
-      i = "A prefix starts with {.val /} or {.val http}, as in {.val /basecoat/}."
+      i = "A prefix starts with {.val /}, {.val ./}, or {.val http}, as in {.val /basecoat/}."
     ))
   }
 
