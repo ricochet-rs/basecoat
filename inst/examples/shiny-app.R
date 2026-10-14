@@ -9,7 +9,6 @@ library(htmltools)
 ui <-
   bc_page_navbar(
     bc_shiny_deps(),
-    bc_deps(),
     tags$div(
       class = "mx-auto flex max-w-lg flex-col gap-6 p-6",
       tags$section(
@@ -51,7 +50,7 @@ ui <-
       bc_input(id = "name", label = "Name", placeholder = "Ada Lovelace"),
       bc_textarea(id = "bio", label = "Bio", placeholder = "A short bio"),
       bc_card(
-        bc_card_header(tags$h2("input$ values")),
+        bc_card_header("input$ values"),
         bc_card_body(tags$pre(textOutput("values")))
       )
     ),

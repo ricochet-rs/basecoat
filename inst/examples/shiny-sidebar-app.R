@@ -67,7 +67,7 @@ app_sidebar <- bc_sidebar(
 
 settings_form <- bc_card(
   bc_card_header(
-    tags$h2("Profile"),
+    "Profile",
     tags$p("These settings are wired up as Shiny inputs.")
   ),
   bc_card_body(
@@ -117,7 +117,7 @@ settings_form <- bc_card(
 )
 
 values_card <- bc_card(
-  bc_card_header(tags$h2("input$ values")),
+  bc_card_header("input$ values"),
   bc_card_body(tags$pre(textOutput("values")))
 )
 
@@ -131,15 +131,12 @@ app_content <- div(
   values_card
 )
 
-ui <- tagList(
-  bc_deps(style = "lyra"),
-  bc_shiny_deps(),
-  bc_page_sidebar(
-    app_content,
-    sidebar = app_sidebar,
-    title = "Settings",
-    header = bc_theme_switcher()
-  )
+ui <- bc_page_sidebar(
+  bc_shiny_deps(style = "lyra"),
+  app_content,
+  sidebar = app_sidebar,
+  title = "Settings",
+  header = bc_theme_switcher()
 )
 
 server <- function(input, output) {

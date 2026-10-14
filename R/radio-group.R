@@ -48,19 +48,41 @@ bc_radio_group <- function(
     class = "w-fit",
     `data-disabled` = if (disabled) NA,
     `data-invalid` = if (invalid) NA,
-    lapply(list(...), radio_group_set_name, name = name)
+    radio_group_scope(list(...), name, id, radio_group_ids(list(...)))
   ))
 }
 
-radio_group_set_name <- function(tag, name) {
+radio_group_ids <- function(tag) {
+  if (inherits(tag, "shiny.tag")) {
+    c(tag$attribs[["id"]], unlist(lapply(tag$children, radio_group_ids)))
+  } else if (is.list(tag)) {
+    unlist(lapply(tag, radio_group_ids))
+  }
+}
+
+radio_group_scope <- function(tag, name, prefix, ids) {
   if (inherits(tag, "shiny.tag")) {
     if (identical(tag$name, "input") && identical(tag$attribs$type, "radio")) {
       tag$attribs$name <- name
-    } else if (length(tag$children)) {
-      tag$children <- lapply(tag$children, radio_group_set_name, name = name)
     }
+    for (attr in c("id", "for", "aria-describedby")) {
+      value <- tag$attribs[[attr]]
+      if (!is.null(value)) {
+        refs <- strsplit(value, " ", fixed = TRUE)[[1]]
+        scoped <- refs %in% ids
+        refs[scoped] <- paste0(prefix, "-", refs[scoped])
+        tag$attribs[[attr]] <- paste(refs, collapse = " ")
+      }
+    }
+    tag$children <- lapply(
+      tag$children,
+      radio_group_scope,
+      name = name,
+      prefix = prefix,
+      ids = ids
+    )
   } else if (is.list(tag)) {
-    tag <- lapply(tag, radio_group_set_name, name = name)
+    tag <- lapply(tag, radio_group_scope, name = name, prefix = prefix, ids = ids)
   }
   tag
 }

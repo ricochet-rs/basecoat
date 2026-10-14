@@ -2,21 +2,27 @@
 % Please edit documentation in R/deps.R
 \name{bc_shiny_deps}
 \alias{bc_shiny_deps}
-\title{Shiny Input Bindings}
+\title{Shiny Dependencies}
 \usage{
-bc_shiny_deps()
+bc_shiny_deps(...)
+}
+\arguments{
+\item{...}{Arguments passed on to \code{\link[=bc_deps]{bc_deps()}}, such as \code{style} and \code{theme}.}
 }
 \value{
-An \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}}.
+A list of \code{\link[htmltools:htmlDependency]{htmltools::htmlDependency()}} objects.
 }
 \description{
-Let your Shiny app read and update \code{\link[=bc_radio_group]{bc_radio_group()}}, \code{\link[=bc_slider]{bc_slider()}},
-\code{\link[=bc_select]{bc_select()}} and \code{\link[=bc_combobox]{bc_combobox()}}.
+Load Basecoat in a Shiny app.
+This calls \code{\link[=bc_deps]{bc_deps()}} and additionally lets your Shiny app read and update
+\code{\link[=bc_radio_group]{bc_radio_group()}}, \code{\link[=bc_slider]{bc_slider()}}, \code{\link[=bc_select]{bc_select()}}, \code{\link[=bc_combobox]{bc_combobox()}}, and
+\code{\link[=bc_accordion]{bc_accordion()}}.
 }
 \details{
-Use it with \code{\link[=bc_deps]{bc_deps()}}, not instead of it. Shiny reads the other inputs as
-\code{input$id} without it.
+Use it in place of \code{\link[=bc_deps]{bc_deps()}} in a Shiny app.
 }
 \examples{
 bc_shiny_deps()
+
+bc_shiny_deps(style = "lyra")
 }

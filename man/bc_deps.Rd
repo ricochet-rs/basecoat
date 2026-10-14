@@ -26,8 +26,8 @@ the style pack so its tokens win. See \code{\link[=bc_theme]{bc_theme()}}.}
 
 \item{source}{String. \code{"local"} (default) serves the bundled files. \code{"cdn"}
 serves the upstream files from jsDelivr, where several components render
-wrong. A URL prefix such as \code{"/basecoat/"} points at a copy of the bundled
-files you serve yourself.}
+wrong. A URL prefix such as \code{"/basecoat/"} or \code{"./basecoat/"} points at a
+copy of the bundled files you serve yourself.}
 
 \item{viewport}{Bool. Add the mobile viewport setting to the page. Defaults
 to \code{TRUE}.}

@@ -303,25 +303,34 @@ bc_init <- function(force = FALSE) {
   )))
 }
 
-#' Shiny Input Bindings
+#' Shiny Dependencies
 #'
-#' Let your Shiny app read and update [bc_radio_group()], [bc_slider()],
-#' [bc_select()] and [bc_combobox()].
+#' Load Basecoat in a Shiny app.
+#' This calls [bc_deps()] and additionally lets your Shiny app read and update
+#' [bc_radio_group()], [bc_slider()], [bc_select()], [bc_combobox()], and
+#' [bc_accordion()].
 #'
-#' @return An [htmltools::htmlDependency()].
+#' @param ... Arguments passed on to [bc_deps()], such as `style` and `theme`.
+#' @return A list of [htmltools::htmlDependency()] objects.
 #' @details
-#' Use it with [bc_deps()], not instead of it. Shiny reads the other inputs as
-#' `input$id` without it.
+#' Use it in place of [bc_deps()] in a Shiny app.
 #' @export
 #' @examples
 #' bc_shiny_deps()
-bc_shiny_deps <- function() {
-  htmltools::htmlDependency(
+#'
+#' bc_shiny_deps(style = "lyra")
+bc_shiny_deps <- function(...) {
+  deps <- bc_deps(...)
+  if (inherits(deps, "html_dependency")) {
+    deps <- list(deps)
+  }
+
+  c(deps, list(htmltools::htmlDependency(
     name = "basecoat-shiny",
     version = bc_version,
     src = c(file = "basecoat"),
     package = "basecoat",
     script = list(src = "js/shiny.js", defer = NA),
     all_files = FALSE
-  )
+  )))
 }

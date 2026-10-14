@@ -8,7 +8,8 @@
 #' @param name String. The form field name. Defaults to `id`.
 #' @param id String. The select's ID. Defaults to a random ID.
 #' @param selected Character vector. The starting value, or values when
-#'   `multiple = TRUE`.
+#'   `multiple = TRUE`. Without it, a single select with no `placeholder`
+#'   starts on its first option.
 #' @param disabled Bool. Whether the select is disabled. Defaults to `FALSE`.
 #' @param invalid Bool. Whether to show the invalid state. Defaults to
 #'   `FALSE`.
@@ -84,7 +85,13 @@ bc_select <- function(
 
   name <- name %||% id
   chosen <- selected[nzchar(selected)]
-  options <- select_items(list2(...), chosen)
+  items <- list2(...)
+  options <- select_items(items, chosen)
+
+  if (!multiple && !length(chosen) && is.null(placeholder)) {
+    chosen <- select_first_value(options)
+    options <- select_items(items, chosen)
+  }
 
   trigger <- tags$button(
     type = "button",
@@ -170,6 +177,16 @@ select_option_tag <- function(option, chosen) {
     `aria-selected` = if (option$value %in% chosen) "true",
     option$label %||% option$value
   )
+}
+
+select_first_value <- function(options) {
+  for (option in options) {
+    value <- if (inherits(option, "shiny.tag")) option$attribs[["data-value"]]
+    if (!is.null(value)) {
+      return(value)
+    }
+  }
+  NULL
 }
 
 # What the trigger reads before any script runs, so the closed control is not

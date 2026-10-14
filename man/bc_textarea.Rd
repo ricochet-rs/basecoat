@@ -30,7 +30,7 @@ bc_textarea(
 
 \item{value}{String. The starting value.}
 
-\item{rows}{String. The number of visible rows, such as \code{"4"}.}
+\item{rows}{Whole number or \code{NULL}. The number of visible rows.}
 
 \item{description}{String or tag. Helper text shown under the input. Needs
 a \code{label}.}

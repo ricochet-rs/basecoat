@@ -69,7 +69,7 @@ bc_page_sidebar <- function(
 
   head <- if (toggle || !is.null(title) || !is.null(header)) {
     tags$header(
-      class = "flex items-center gap-3 border-b px-4 py-3",
+      class = "bg-background sticky top-0 z-30 flex items-center gap-3 border-b px-4 py-3",
       if (toggle) bc_sidebar_toggle(sidebar_id, toggle_label),
       if (!is.null(title)) tags$h1(class = "text-lg font-semibold", title),
       if (!is.null(header)) {
@@ -80,7 +80,7 @@ bc_page_sidebar <- function(
 
   bc_tag(tagList(
     sidebar,
-    tags$main(head, ...)
+    tags$main(head, tags$div(class = "p-4", ...))
   ))
 }
 

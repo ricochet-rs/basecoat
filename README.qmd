@@ -168,7 +168,7 @@ bc_page_sidebar(
     class = "max-w-sm p-4",
     bc_card(
       bc_card_header(
-        htmltools::h2("Production deploy"),
+        "Production deploy",
         htmltools::p("v1.4.2, 3m 12s"),
         bc_card_action(bc_badge("passed"))
       ),

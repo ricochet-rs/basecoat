@@ -6,6 +6,7 @@
 \usage{
 bc_button(
   ...,
+  id = NULL,
   variant = "primary",
   size = "default",
   type = "button",
@@ -14,6 +15,9 @@ bc_button(
 }
 \arguments{
 \item{...}{Tag attributes and content, such as the label.}
+
+\item{id}{String or \code{NULL}. The button's ID. In a Shiny app, a button with
+an \code{id} is an action button, so \code{input$id} counts its clicks.}
 
 \item{variant}{String. One of primary, secondary, outline, ghost, link, destructive.}
 

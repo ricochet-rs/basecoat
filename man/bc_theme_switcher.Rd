@@ -4,10 +4,13 @@
 \alias{bc_theme_switcher}
 \title{Theme Switcher}
 \usage{
-bc_theme_switcher(...)
+bc_theme_switcher(..., id = NULL)
 }
 \arguments{
 \item{...}{Extra tag attributes.}
+
+\item{id}{String or \code{NULL}. The switcher's ID. With \code{\link[=bc_shiny_deps]{bc_shiny_deps()}},
+\code{input$id} is \code{"light"} or \code{"dark"}.}
 }
 \value{
 An htmltools tag.

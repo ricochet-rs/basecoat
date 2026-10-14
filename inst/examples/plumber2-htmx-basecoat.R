@@ -38,7 +38,7 @@ function() {
       ),
       bc_card(
         bc_card_header(
-          tags$h2("Sign up"),
+          "Sign up",
           tags$p("Posts to /signup and swaps the reply in below.")
         ),
         bc_card_body(

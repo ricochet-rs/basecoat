@@ -21,7 +21,9 @@ bc_accordion_item(
 is passed to \code{\link[=bc_accordion_item]{bc_accordion_item()}} as its arguments. For
 \code{bc_accordion_item()}, the item's content.}
 
-\item{id}{String. The ID. \code{bc_accordion()} uses a random ID by default.}
+\item{id}{String. The ID. \code{bc_accordion()} uses a random ID by default.
+With \code{\link[=bc_shiny_deps]{bc_shiny_deps()}}, \code{input$id} is the IDs, or titles, of the open
+items when \code{bc_accordion()} is given an \code{id}.}
 
 \item{multiple}{Bool. Allow more than one item open at a time. Defaults to
 \code{FALSE}, so opening one item closes the others.}

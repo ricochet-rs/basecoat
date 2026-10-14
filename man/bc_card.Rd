@@ -10,7 +10,7 @@
 \usage{
 bc_card(...)
 
-bc_card_header(...)
+bc_card_header(title, ...)
 
 bc_card_body(...)
 
@@ -21,6 +21,8 @@ bc_card_action(...)
 \arguments{
 \item{...}{Tag attributes and content. Pass \code{data-size = "sm"} to
 \code{\link[=bc_card]{bc_card()}} for a denser card.}
+
+\item{title}{String or tag. The card title, shown as a heading.}
 }
 \value{
 An htmltools tag.
@@ -35,7 +37,7 @@ Parts render in the order written. An \code{\link[htmltools:img]{htmltools::img(
 \examples{
 bc_card(
   bc_card_header(
-    htmltools::h2("Production deploy"),
+    "Production deploy",
     htmltools::p("v1.4.2, 3m 12s"),
     bc_card_action(bc_badge("passed"))
   ),

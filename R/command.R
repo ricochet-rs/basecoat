@@ -85,7 +85,7 @@ bc_command <- function(
       id = menu_id,
       `aria-orientation` = "vertical",
       `data-empty` = empty,
-      command_items(list(...))
+      command_menu(command_items(list(...)))
     )
   )
 
@@ -217,4 +217,30 @@ command_items <- function(items) {
     }
     bc_command_item(as.character(item))
   })
+}
+
+# The style packs pad each group to line items up with the search box, so items
+# passed outside a bc_command_group() are gathered into an untitled group.
+command_menu <- function(items) {
+  out <- list()
+  run <- list()
+
+  for (item in items) {
+    role <- if (inherits(item, "shiny.tag")) item$attribs$role
+    if (identical(role, "group") || identical(role, "separator")) {
+      if (length(run)) {
+        out <- c(out, list(div(role = "group", run)))
+        run <- list()
+      }
+      out <- c(out, list(item))
+    } else {
+      run <- c(run, list(item))
+    }
+  }
+
+  if (length(run)) {
+    out <- c(out, list(div(role = "group", run)))
+  }
+
+  out
 }

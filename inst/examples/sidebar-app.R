@@ -103,7 +103,7 @@ app_content <- div(
     class = "grid gap-4 sm:grid-cols-2",
     bc_card(
       bc_card_header(
-        tags$h2("Production deploy"),
+        "Production deploy",
         tags$p("v1.4.2, 3m 12s"),
         bc_card_action(bc_badge("passed", variant = "secondary"))
       ),
@@ -112,7 +112,7 @@ app_content <- div(
     ),
     bc_card(
       bc_card_header(
-        tags$h2("Usage"),
+        "Usage",
         tags$p("Requests this month")
       ),
       bc_card_body(bc_progress(66, label = "Monthly quota")),

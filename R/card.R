@@ -18,7 +18,7 @@
 #' @examples
 #' bc_card(
 #'   bc_card_header(
-#'     htmltools::h2("Production deploy"),
+#'     "Production deploy",
 #'     htmltools::p("v1.4.2, 3m 12s"),
 #'     bc_card_action(bc_badge("passed"))
 #'   ),
@@ -30,9 +30,10 @@ bc_card <- function(...) {
 }
 
 #' @rdname bc_card
+#' @param title String or tag. The card title, shown as a heading.
 #' @export
-bc_card_header <- function(...) {
-  bc_tag(tags$header(...))
+bc_card_header <- function(title, ...) {
+  bc_tag(tags$header(tags$h2(title), ...))
 }
 
 #' @rdname bc_card

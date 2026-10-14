@@ -16,6 +16,7 @@ reference:
       - bc_theme
       - bc_init
       - bc_shiny_deps
+      - bc_update_radio_group
       - print.bc_tag
   - title: Layout
     desc: Regions that hold other components.

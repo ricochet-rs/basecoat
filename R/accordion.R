@@ -6,6 +6,8 @@
 #'   is passed to [bc_accordion_item()] as its arguments. For
 #'   `bc_accordion_item()`, the item's content.
 #' @param id String. The ID. `bc_accordion()` uses a random ID by default.
+#'   With [bc_shiny_deps()], `input$id` is the IDs, or titles, of the open
+#'   items when `bc_accordion()` is given an `id`.
 #' @param multiple Bool. Allow more than one item open at a time. Defaults to
 #'   `FALSE`, so opening one item closes the others.
 #' @param class String. Extra CSS classes.
@@ -20,6 +22,7 @@ bc_accordion <- function(..., id = NULL, multiple = FALSE, class = NULL) {
   check_bool(multiple)
   check_string(class, allow_null = TRUE, allow_empty = TRUE)
 
+  input <- !is.null(id)
   if (is.null(id)) {
     id <- paste0(
       "accordion-",
@@ -32,6 +35,7 @@ bc_accordion <- function(..., id = NULL, multiple = FALSE, class = NULL) {
       id = id,
       class = paste0("accordion", if (!is.null(class)) paste0(" ", class)),
       `data-multiple` = if (multiple) NA,
+      `data-input` = if (input) NA,
       accordion_items(list(...))
     ),
     bc_script_dep("accordion")
@@ -60,6 +64,7 @@ bc_accordion_item <- function(
 
   bc_tag(tags$details(
     id = id,
+    `data-value` = id %||% title,
     open = if (open) NA,
     `aria-disabled` = if (disabled) "true",
     tags$summary(title, icon %||% bc_icon("caret-down")),

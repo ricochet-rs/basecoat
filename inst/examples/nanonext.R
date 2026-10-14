@@ -20,7 +20,7 @@ page <- bc_page(
       ),
       bc_card(
         bc_card_header(
-          tags$h2("Echo"),
+          "Echo",
           tags$p("Posts to /api/echo and renders the reply.")
         ),
         bc_card_body(

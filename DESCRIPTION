@@ -18,6 +18,7 @@ Imports:
     rlang (>= 1.1.0)
 Suggests:
     knitr,
+    shiny,
     testthat (>= 3.0.0)
 Config/Needs/website: commonmark, downlit, knitr, xml2, yaml, yyjsonr, rmarkdown
 Config/roxygen2/version: 8.1.0.9000

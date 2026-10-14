@@ -9,13 +9,19 @@
 #' Create a button that switches the page between light and dark mode.
 #'
 #' @param ... Extra tag attributes.
+#' @param id String or `NULL`. The switcher's ID. With [bc_shiny_deps()],
+#'   `input$id` is `"light"` or `"dark"`.
 #' @return An htmltools tag.
 #' @export
 #' @examples
 #' bc_theme_switcher()
-bc_theme_switcher <- function(...) {
+bc_theme_switcher <- function(..., id = NULL) {
+  check_string(id, allow_null = TRUE, allow_empty = FALSE)
+
   button <- tags$button(
     type = "button",
+    id = id,
+    `data-slot` = "theme-switcher",
     `aria-label` = "Toggle dark mode",
     `data-tooltip` = "Toggle dark mode",
     `data-side` = "bottom",

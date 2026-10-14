@@ -351,7 +351,7 @@ theme_builder_actions <- function(style) {
 theme_builder_stat <- function(title, value, note, pct) {
   bc_card(
     bc_card_header(
-      tags$h2(class = "text-xs font-medium", title),
+      tags$span(class = "text-xs font-medium", title),
       bc_card_action(bc_badge(note, variant = "secondary"))
     ),
     bc_card_body(
@@ -469,7 +469,7 @@ theme_builder_feed <- function(kind = NULL) {
 
 theme_builder_activity <- function() {
   bc_card(
-    bc_card_header(tags$h2("Activity")),
+    bc_card_header("Activity"),
     bc_card_body(
       class = "flex flex-col gap-3",
       bc_input_group(
@@ -514,7 +514,7 @@ theme_builder_preview <- function() {
       div(
         class = "flex flex-col gap-4",
         bc_card(
-          bc_card_header(tags$h2("Buttons and navigation")),
+          bc_card_header("Buttons and navigation"),
           bc_card_body(
             class = "flex flex-col gap-3",
             div(
@@ -569,7 +569,7 @@ theme_builder_preview <- function() {
       div(
         class = "flex flex-col gap-4",
         bc_card(
-          bc_card_header(tags$h2("Form")),
+          bc_card_header("Form"),
           bc_card_body(
             class = "flex flex-col gap-3",
             bc_input(
@@ -607,7 +607,7 @@ theme_builder_preview <- function() {
           )
         ),
         bc_card(
-          bc_card_header(tags$h2("Disclosure and overlays")),
+          bc_card_header("Disclosure and overlays"),
           bc_card_body(
             class = "flex flex-col gap-3",
             bc_accordion(
@@ -656,7 +656,7 @@ theme_builder_preview <- function() {
       )
     ),
     bc_card(
-      bc_card_header(tags$h2("theme.css")),
+      bc_card_header("theme.css"),
       bc_card_body(tags$pre(id = "theme-css", class = "text-xs"))
     )
   )

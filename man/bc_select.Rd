@@ -29,7 +29,8 @@ values. For custom content, pass a tag with \code{role = "option"}.}
 \item{id}{String. The select's ID. Defaults to a random ID.}
 
 \item{selected}{Character vector. The starting value, or values when
-\code{multiple = TRUE}.}
+\code{multiple = TRUE}. Without it, a single select with no \code{placeholder}
+starts on its first option.}
 
 \item{disabled}{Bool. Whether the select is disabled. Defaults to \code{FALSE}.}
 

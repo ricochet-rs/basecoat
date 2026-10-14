@@ -95,6 +95,12 @@ export(bc_toast)
 export(bc_toast_trigger)
 export(bc_toaster)
 export(bc_tooltip)
+export(bc_update_accordion)
+export(bc_update_combobox)
+export(bc_update_radio_group)
+export(bc_update_select)
+export(bc_update_slider)
+export(bc_update_theme_switcher)
 import(rlang)
 importFrom(htmltools,
   HTML,
