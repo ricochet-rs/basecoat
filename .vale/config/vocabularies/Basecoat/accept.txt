@@ -38,6 +38,8 @@ Lucide
 (?i)scrollable
 (?i)scrollbar
 (?i)select
+(?i)shiny
+(?i)ui
 (?i)sm
 (?i)src
 (?i)styleless

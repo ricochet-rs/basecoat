@@ -43,7 +43,7 @@ ui <- bc_page_sidebar(
 
 ## Updating Inputs
 
-Each of the components provided by basecoat can be updated and modified in the shiny server function. Many of these components can be modfied directly by Shiny:
+Each of the components provided by basecoat can be updated and modified in the shiny server function. Many of these components can be modified directly by Shiny:
 
 
 | Input | Update |
@@ -59,7 +59,7 @@ Each of the components provided by basecoat can be updated and modified in the s
 | `bc_button()` | `shiny::updateActionButton()` |
 | `bc_command()` | `shiny::updateTextInput()` |
 
-Thee following components must use bespoke handlers: 
+The following components must use bespoke handlers: 
 
 | Input | Update |
 | ----- | ------ |
