@@ -13,6 +13,20 @@ The default behavior of basecoat is to act as a pure html library. However, you 
 
 Note that, if you are using basecoat with the shiny package, you should always use the basecoat components _instead_ of shiny or an alternative library like [`{bslib}`](https://rstudio.github.io/bslib/). This is because both shiny and bslib use the bootstrap library for styling. basecoat, which is based on [tailwind css](https://tailwindcss.com/), has conflicting styles with bootstrap.
 
+
+## Example
+
+Basecoat ships an example shiny app that illustrates how to use every single component. 
+
+```r
+shiny::runApp(
+  system.file("examples", "shiny-inputs.R", package = "basecoat")
+)
+```
+
+Run this example application to see each component in use.
+
+
 ## Quickstart
 
 Basecoat, by default, does not load its shiny dependencies. Use `bc_shiny_deps()` to load the shiny interactivity.
@@ -58,6 +72,10 @@ Each of the components provided by basecoat can be updated and modified in the s
 | `bc_select()` | `shiny::updateSelectInput()` or `bc_update_select()` |
 | `bc_button()` | `shiny::updateActionButton()` |
 | `bc_command()` | `shiny::updateTextInput()` |
+| `bc_input(type = "date")` and the other date, time, color, and tel types | `shiny::updateTextInput()` |
+| `bc_tabs()` | `shiny::updateTabsetPanel()` |
+| `bc_dropdown_checkbox()` | `shiny::updateCheckboxInput()` |
+| `bc_dropdown_group()` | `shiny::updateRadioButtons()` |
 
 The following components must use bespoke handlers: 
 
@@ -68,15 +86,33 @@ The following components must use bespoke handlers:
 | `bc_combobox()` | `bc_update_combobox()` |
 | `bc_accordion()` | `bc_update_accordion()` |
 | `bc_theme_switcher()` | `bc_update_theme_switcher()` |
+| `bc_dialog()`, `bc_alert_dialog()`, and `bc_drawer()` | `bc_update_dialog()` |
+| `bc_sidebar()` | `bc_update_sidebar()` |
 
-## Example
+## Sending alerts
 
-Basecoat ships an example shiny app that illustrates how to use every single component. 
+Toasts are sent from the server with `bc_show_toast()`.
+Because a toast needs somewhere to appear, the page must also include a `bc_toaster()`.
 
 ```r
-shiny::runApp(
-  system.file("examples", "shiny-inputs.R", package = "basecoat")
-)
-```
+library(shiny)
+library(basecoat)
 
-Run this example application to see each component in use.
+ui <- bc_page_sidebar(
+  bc_shiny_deps(),
+  title = "Alerts",
+  sidebar = bc_sidebar(id = "sidebar"),
+  bc_button("Save", id = "save"),
+  bc_toaster()
+)
+
+server <- function(input, output, session) {
+  observeEvent(input$save, {
+    bc_show_toast(
+      bc_toast("Saved", description = "Your changes are live.", category = "success")
+    )
+  })
+}
+
+shinyApp(ui, server)
+```

@@ -20,7 +20,9 @@ bc_alert_dialog(
 \arguments{
 \item{...}{Extra tag attributes for the dialog.}
 
-\item{id}{String. The dialog's ID. Defaults to a random ID.}
+\item{id}{String. The dialog's ID. Defaults to a random ID. With
+\code{\link[=bc_shiny_deps]{bc_shiny_deps()}}, \code{input$id} is \code{TRUE} while the dialog is open when
+\code{bc_alert_dialog()} is given an \code{id}.}
 
 \item{title}{String. The title.}
 

@@ -185,3 +185,53 @@ toast_icon <- function(category) {
     "</svg>"
   ))
 }
+
+#' Show a Toast from Shiny
+#'
+#' Show a toast from the server of a Shiny app.
+#' The page needs a [bc_toaster()] for the toast to appear in.
+#'
+#' @param toast A [bc_toast()].
+#' @param toaster String. The ID of the [bc_toaster()]. Defaults to
+#'   `"toaster"`.
+#' @param session The Shiny session. Defaults to the current session.
+#' @return `NULL`, invisibly.
+#' @export
+#' @examples
+#' if (interactive()) {
+#'   library(shiny)
+#'
+#'   ui <- bc_page_sidebar(
+#'     bc_shiny_deps(),
+#'     sidebar = bc_sidebar(id = "sidebar"),
+#'     bc_button("Save", id = "save"),
+#'     bc_toaster()
+#'   )
+#'
+#'   server <- function(input, output, session) {
+#'     observeEvent(input$save, {
+#'       bc_show_toast(bc_toast("Saved", category = "success"))
+#'     })
+#'   }
+#'
+#'   shinyApp(ui, server)
+#' }
+bc_show_toast <- function(
+  toast,
+  toaster = "toaster",
+  session = shiny::getDefaultReactiveDomain()
+) {
+  check_string(toaster, allow_empty = FALSE)
+  if (is.null(session)) {
+    cli::cli_abort("Call this from inside a Shiny {.arg session}.")
+  }
+
+  shiny::insertUI(
+    paste0("#", toaster),
+    where = "beforeEnd",
+    ui = toast,
+    immediate = TRUE,
+    session = session
+  )
+  invisible(NULL)
+}

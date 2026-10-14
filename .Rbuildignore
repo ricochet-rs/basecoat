@@ -15,6 +15,7 @@ _files$
 ^README_files$
 ^README\.knit\.md$
 ^README\.qmd$
+^README\.md$
 ^rproject\.toml$
 ^rv\.lock$
 ^rv$

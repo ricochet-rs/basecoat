@@ -7,8 +7,11 @@
 #' @param value The new value. A string for [bc_radio_group()], a number for
 #'   [bc_slider()], and a character vector for [bc_select()] and
 #'   [bc_combobox()].
-#' @param open Character vector. The IDs, or titles, of the items to open.
-#'   Every other item is closed. Use `character(0)` to close them all.
+#' @param open For `bc_update_accordion()`, a character vector of the IDs, or
+#'   titles, of the items to open. Every other item is closed. Use
+#'   `character(0)` to close them all. For `bc_update_dialog()`, a Bool:
+#'   whether the [bc_dialog()], [bc_alert_dialog()], or [bc_drawer()] is open.
+#'   For `bc_update_sidebar()`, a Bool: whether the [bc_sidebar()] is open.
 #' @param session The Shiny session. Defaults to the current session.
 #' @return `NULL`, invisibly.
 #' @export
@@ -85,6 +88,28 @@ bc_update_accordion <- function(
   session = shiny::getDefaultReactiveDomain()
 ) {
   check_character(open)
+  bc_send_input_message(id, list(open = open), session)
+}
+
+#' @rdname bc_update_radio_group
+#' @export
+bc_update_dialog <- function(
+  id,
+  open,
+  session = shiny::getDefaultReactiveDomain()
+) {
+  check_bool(open)
+  bc_send_input_message(id, list(open = open), session)
+}
+
+#' @rdname bc_update_radio_group
+#' @export
+bc_update_sidebar <- function(
+  id,
+  open,
+  session = shiny::getDefaultReactiveDomain()
+) {
+  check_bool(open)
   bc_send_input_message(id, list(open = open), session)
 }
 

@@ -6,6 +6,8 @@
 \alias{bc_update_select}
 \alias{bc_update_combobox}
 \alias{bc_update_accordion}
+\alias{bc_update_dialog}
+\alias{bc_update_sidebar}
 \alias{bc_update_theme_switcher}
 \title{Update Shiny Inputs}
 \usage{
@@ -19,6 +21,10 @@ bc_update_combobox(id, value, session = shiny::getDefaultReactiveDomain())
 
 bc_update_accordion(id, open, session = shiny::getDefaultReactiveDomain())
 
+bc_update_dialog(id, open, session = shiny::getDefaultReactiveDomain())
+
+bc_update_sidebar(id, open, session = shiny::getDefaultReactiveDomain())
+
 bc_update_theme_switcher(id, mode, session = shiny::getDefaultReactiveDomain())
 }
 \arguments{
@@ -30,8 +36,11 @@ bc_update_theme_switcher(id, mode, session = shiny::getDefaultReactiveDomain())
 
 \item{session}{The Shiny session. Defaults to the current session.}
 
-\item{open}{Character vector. The IDs, or titles, of the items to open.
-Every other item is closed. Use \code{character(0)} to close them all.}
+\item{open}{For \code{bc_update_accordion()}, a character vector of the IDs, or
+titles, of the items to open. Every other item is closed. Use
+\code{character(0)} to close them all. For \code{bc_update_dialog()}, a Bool:
+whether the \code{\link[=bc_dialog]{bc_dialog()}}, \code{\link[=bc_alert_dialog]{bc_alert_dialog()}}, or \code{\link[=bc_drawer]{bc_drawer()}} is open.
+For \code{bc_update_sidebar()}, a Bool: whether the \code{\link[=bc_sidebar]{bc_sidebar()}} is open.}
 
 \item{mode}{String. \code{"light"} or \code{"dark"}.}
 }

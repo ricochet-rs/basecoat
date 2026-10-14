@@ -19,7 +19,9 @@ bc_tabs(
 
 \item{orientation}{String. \code{"horizontal"} (default) or \code{"vertical"}.}
 
-\item{id}{String. The ID. Defaults to a random ID.}
+\item{id}{String. The ID. Defaults to a random ID. With \code{\link[=bc_shiny_deps]{bc_shiny_deps()}},
+\code{input$id} is the label of the selected tab when \code{bc_tabs()} is given an
+\code{id}.}
 
 \item{aria_label}{String. Accessible name for the tabs, useful when a page
 has more than one set.}

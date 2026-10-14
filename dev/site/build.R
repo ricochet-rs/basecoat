@@ -285,7 +285,7 @@ frontmatter <- function(path) {
 
 # The first paragraph under `## Description`, which is the sentence the
 # reference index shows beneath each topic's functions.
-description_of <- function(md) {
+description_of <- function(md, html = TRUE) {
   lines <- strsplit(md, "\n", fixed = TRUE)[[1]]
   at <- grep("^## Description\\s*$", lines)
   if (!length(at)) {
@@ -301,7 +301,8 @@ description_of <- function(md) {
   if (length(blank)) {
     rest <- rest[seq_len(blank[1] - 1)]
   }
-  inline_md(paste(rest, collapse = " "))
+  text <- paste(rest, collapse = " ")
+  if (html) inline_md(text) else text
 }
 
 # ---- style packs ------------------------------------------------------------
@@ -702,6 +703,7 @@ build_reference <- function(articles) {
     parsed <- render_md(knit$md)
     body <- attachDependencies(parsed$html, knit$deps)
 
+    write_md(file.path(OUT, "reference", paste0(slug, ".md")), title, knit$md)
     write_page(
       file.path(OUT, "reference", paste0(slug, ".html")),
       title = paste0(title, " — basecoat"),
@@ -717,7 +719,8 @@ build_reference <- function(articles) {
       slug = slug,
       title = title,
       aliases = as.character(fm$aliases %||% slug),
-      description = description_of(knit$md)
+      description = description_of(knit$md),
+      summary = description_of(knit$md, html = FALSE)
     )
   })
 }
@@ -749,6 +752,7 @@ build_articles <- function(articles) {
     parsed <- render_md(knit$md)
     body <- attachDependencies(parsed$html, knit$deps)
 
+    write_md(file.path(OUT, "articles", paste0(a$slug, ".md")), a$title, knit$md)
     write_page(
       file.path(OUT, "articles", paste0(a$slug, ".html")),
       title = paste0(a$title, " — basecoat"),
@@ -839,6 +843,91 @@ home_body <- function() {
   render_md(paste(readLines("README.md", warn = FALSE), collapse = "\n"))$html
 }
 
+# ---- markdown for llms --------------------------------------------------------
+
+# Every page also gets a .md beside it for language models. The knitted
+# markdown keeps each chunk's R code, so the rendered component HTML is dropped.
+write_md <- function(path, title, md) {
+  ex <- extractPreserveChunks(md)
+  md <- ex$value
+  for (key in names(ex$chunks)) {
+    md <- gsub(key, "", md, fixed = TRUE)
+  }
+  md <- gsub("\\]\\(([^):#]+)\\.(qmd|html)(#[^)]*)?\\)", "](\\1.md\\3)", md)
+  dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
+  writeLines(c(paste("#", title), "", md), path)
+}
+
+reference_md <- function(cfg, topics, prefix = "") {
+  by_slug <- setNames(topics, vapply(topics, function(t) t$slug, character(1)))
+  find_topic <- function(name) {
+    by_slug[[name]] %||% Find(function(t) name %in% t$aliases, topics)
+  }
+
+  unlist(lapply(cfg$reference, function(sec) {
+    slugs <- unique(unlist(lapply(sec$contents, function(n) find_topic(n)$slug)))
+    c(
+      "",
+      paste("###", sec$title),
+      "",
+      vapply(slugs, function(s) {
+        t <- by_slug[[s]]
+        summary <- gsub(
+          "\\]\\(([^):#/]+)\\.qmd\\)",
+          paste0("](", prefix, "\\1.md)"),
+          t$summary
+        )
+        sprintf("- [%s](%s%s.md): %s", t$title, prefix, s, summary)
+      }, character(1))
+    )
+  }))
+}
+
+articles_md <- function(articles, prefix = "") {
+  vapply(articles, function(a) {
+    sprintf("- [%s](%s%s.md)", a$title, prefix, a$slug)
+  }, character(1))
+}
+
+build_llms <- function(cfg, topics, articles) {
+  readme <- readLines("README.md", warn = FALSE)
+  writeLines(readme, file.path(OUT, "index.md"))
+
+  writeLines(
+    c("# Reference", reference_md(cfg, topics)),
+    file.path(OUT, "reference", "index.md")
+  )
+  writeLines(
+    c("# Articles", "", articles_md(articles)),
+    file.path(OUT, "articles", "index.md")
+  )
+  writeLines(
+    c(
+      "# Theme builder",
+      "",
+      "An interactive page for building a light and dark theme.",
+      "Run `bc_theme_builder()` in R to open the same page locally, and see",
+      "[`bc_theme()`](../reference/bc_theme.md) for loading the result."
+    ),
+    file.path(OUT, "theme", "index.md")
+  )
+
+  url <- if (is.null(cfg$url)) "" else sub("/?$", "/", cfg$url)
+  writeLines(
+    c(
+      readme,
+      "",
+      "## Reference",
+      reference_md(cfg, topics, paste0(url, "reference/")),
+      "",
+      "## Articles",
+      "",
+      articles_md(articles, paste0(url, "articles/"))
+    ),
+    file.path(OUT, "llms.txt")
+  )
+}
+
 # ---- run --------------------------------------------------------------------
 
 main <- function() {
@@ -905,6 +994,8 @@ main <- function() {
     file = file.path(OUT, "theme", "index.html"),
     browse = FALSE
   )
+
+  build_llms(cfg, topics, articles)
 
   message(sprintf(
     "Built %s: %d topics, %d articles.",

@@ -3,6 +3,7 @@
 #' Create a modal dialog with a title, content, and actions.
 #'
 #' @param id String. The dialog's ID, which [bc_dialog_trigger()] targets.
+#'   With [bc_shiny_deps()], `input$id` is `TRUE` while the dialog is open.
 #' @param title String or tag. The dialog title.
 #' @param description String or tag. Text under the title.
 #' @param content Tag or tag list. The main content, which scrolls when tall.
@@ -61,8 +62,8 @@ bc_dialog <- function(
     tags$button(
       type = "button",
       class = "btn",
-      data_variant = "ghost",
-      data_size = "icon-sm",
+      `data-variant` = "ghost",
+      `data-size` = "icon-sm",
       `aria-label` = "Close dialog",
       onclick = paste0("this.closest('dialog').close()"),
       bc_icon("x")
@@ -73,6 +74,7 @@ bc_dialog <- function(
   dialog <- tags$dialog(
     id = id,
     class = "dialog",
+    `data-input` = NA,
     `aria-labelledby` = if (!is.null(title)) title_id,
     `aria-describedby` = if (!is.null(description)) desc_id,
     onclick = if (close_on_click) {

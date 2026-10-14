@@ -1,6 +1,7 @@
 // Shiny input bindings for the basecoat components Shiny cannot already read on
 // its own: a radio group (shared `name`, no wrapper Shiny recognises), an
-// accordion (open state lives on each `<details>`), the theme switcher, a slider
+// accordion (open state lives on each `<details>`), dialogs, tabs, the sidebar,
+// dropdown checkboxes and radio groups, the theme switcher, a slider
 // (a native range input, not Shiny's ion.rangeslider), and the custom select
 // and combobox widgets (state lives on a hidden input inside a styled div).
 //
@@ -250,6 +251,172 @@
     },
   });
   inputBindings.register(themeSwitcherBinding, "basecoat.themeSwitcher");
+
+  // Dialogs, alert dialogs, and drawers are all `<dialog>`. Nothing fires
+  // when one opens, so the `open` attribute is watched instead, which catches
+  // a trigger's showModal(), Escape, and a click on the backdrop alike.
+  const dialogBinding = new InputBinding();
+  Object.assign(dialogBinding, {
+    find(scope) {
+      return $(scope).find("dialog[data-input][id]");
+    },
+    getValue(el) {
+      return el.open;
+    },
+    setValue(el, value) {
+      if (value && !el.open) el.showModal();
+      if (!value && el.open) el.close();
+    },
+    subscribe(el, callback) {
+      el._basecoatDialogObserver = new MutationObserver(() => callback(false));
+      el._basecoatDialogObserver.observe(el, { attributeFilter: ["open"] });
+    },
+    unsubscribe(el) {
+      el._basecoatDialogObserver?.disconnect();
+    },
+    receiveMessage(el, data) {
+      if (Object.prototype.hasOwnProperty.call(data, "open")) {
+        this.setValue(el, data.open);
+      }
+    },
+    getState(el) {
+      return { open: this.getValue(el) };
+    },
+  });
+  inputBindings.register(dialogBinding, "basecoat.dialog");
+
+  // Tabs, the sidebar, and dropdown items keep their state in attributes the
+  // vendored scripts set, so each binding watches those attributes.
+  const watchBinding = ({ selector, attributes, subtree = false, ...rest }) => {
+    const binding = new InputBinding();
+    Object.assign(binding, {
+      find(scope) {
+        return $(scope).find(selector);
+      },
+      subscribe(el, callback) {
+        el._basecoatWatch = new MutationObserver(() => callback(false));
+        el._basecoatWatch.observe(el, { attributeFilter: attributes, subtree });
+      },
+      unsubscribe(el) {
+        el._basecoatWatch?.disconnect();
+      },
+      receiveMessage(el, data) {
+        const key = Object.prototype.hasOwnProperty.call(data, "open") ? "open" : "value";
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+          this.setValue(el, data[key]);
+        }
+      },
+      getState(el) {
+        return { value: this.getValue(el) };
+      },
+      ...rest,
+    });
+    return binding;
+  };
+
+  // updateTabsetPanel() sends the label to select as `value`.
+  inputBindings.register(
+    watchBinding({
+      selector: ".tabs[data-input][id]",
+      attributes: ["aria-selected"],
+      subtree: true,
+      getValue(el) {
+        return el.querySelector('[role="tab"][aria-selected="true"]')?.dataset.value ?? null;
+      },
+      setValue(el, value) {
+        const tab = Array.from(el.querySelectorAll('[role="tab"]'))
+          .find((t) => t.dataset.value === value);
+        if (tab) el.select(tab);
+      },
+    }),
+    "basecoat.tabs"
+  );
+
+  inputBindings.register(
+    watchBinding({
+      selector: ".sidebar[data-input][id]",
+      attributes: ["aria-hidden"],
+      getValue(el) {
+        return el.getAttribute("aria-hidden") !== "true";
+      },
+      setValue(el, value) {
+        if (value) el.open?.();
+        else el.close?.();
+      },
+    }),
+    "basecoat.sidebar"
+  );
+
+  // updateCheckboxInput() sends `value` as a Bool.
+  inputBindings.register(
+    watchBinding({
+      selector: '[role="menuitemcheckbox"][id]',
+      attributes: ["aria-checked"],
+      getValue(el) {
+        return el.getAttribute("aria-checked") === "true";
+      },
+      setValue(el, value) {
+        el.setAttribute("aria-checked", String(Boolean(value)));
+      },
+    }),
+    "basecoat.dropdownCheckbox"
+  );
+
+  // updateRadioButtons() sends the label to check as `value`.
+  inputBindings.register(
+    watchBinding({
+      selector: '[role="group"][data-input][id]',
+      attributes: ["aria-checked"],
+      subtree: true,
+      getValue(el) {
+        return el.querySelector('[role="menuitemradio"][aria-checked="true"]')?.dataset.value ?? null;
+      },
+      setValue(el, value) {
+        el.querySelectorAll('[role="menuitemradio"]').forEach((item) => {
+          item.setAttribute("aria-checked", String(item.dataset.value === value));
+        });
+      },
+    }),
+    "basecoat.dropdownGroup"
+  );
+
+  // The input types Shiny has no binding for. A date arrives in R as a Date;
+  // the rest are strings. updateTextInput() sends `value`.
+  const nativeTypes = ["date", "time", "datetime-local", "month", "week", "color", "tel"];
+  const nativeInputBinding = new InputBinding();
+  Object.assign(nativeInputBinding, {
+    find(scope) {
+      return $(scope).find(nativeTypes.map((t) => `input[type="${t}"][id]`).join(", "));
+    },
+    getValue(el) {
+      return el.value || null;
+    },
+    getType(el) {
+      return el.type === "date" ? "shiny.date" : null;
+    },
+    setValue(el, value) {
+      el.value = value ?? "";
+    },
+    subscribe(el, callback) {
+      $(el).on("input.basecoatNativeInput change.basecoatNativeInput", () => callback(true));
+    },
+    unsubscribe(el) {
+      $(el).off(".basecoatNativeInput");
+    },
+    receiveMessage(el, data) {
+      if (Object.prototype.hasOwnProperty.call(data, "value")) {
+        this.setValue(el, data.value);
+        $(el).trigger("change");
+      }
+    },
+    getState(el) {
+      return { value: this.getValue(el) };
+    },
+    getRatePolicy() {
+      return { policy: "debounce", delay: 250 };
+    },
+  });
+  inputBindings.register(nativeInputBinding, "basecoat.nativeInput");
 
   // Shiny's text binding reads a command menu's search box as is, but
   // updateTextInput() only fires `change`, and command.js filters on `input`.

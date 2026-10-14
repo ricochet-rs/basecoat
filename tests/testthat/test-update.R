@@ -80,3 +80,53 @@ test_that("the theme switcher updates with light or dark", {
   expect_identical(session$sent()$message, list(value = "dark"))
   expect_error(bc_update_theme_switcher("theme", "blue", session = session))
 })
+
+test_that("dialogs open and close from the server", {
+  session <- mock_session()
+  bc_update_dialog("confirm", TRUE, session = session)
+  expect_identical(session$sent()$message, list(open = TRUE))
+  expect_error(bc_update_dialog("confirm", "yes", session = session))
+})
+
+test_that("only a dialog given an id is a Shiny input", {
+  expect_match(format(bc_dialog("confirm")), "data-input", fixed = TRUE)
+  expect_match(format(bc_drawer("Body", id = "filters")), "data-input", fixed = TRUE)
+  expect_no_match(format(bc_drawer("Body")), "data-input", fixed = TRUE)
+  expect_match(format(bc_alert_dialog(id = "sure")), "data-input", fixed = TRUE)
+  expect_no_match(format(bc_alert_dialog()), "data-input", fixed = TRUE)
+})
+
+test_that("the sidebar opens and closes from the server", {
+  session <- mock_session()
+  bc_update_sidebar("nav", FALSE, session = session)
+  expect_identical(session$sent()$message, list(open = FALSE))
+})
+
+test_that("tabs, sidebars, and dropdown groups are inputs only with an id", {
+  tabs <- function(...) bc_tabs(bc_tab("Body", label = "One"), ...)
+  expect_match(format(tabs(id = "t")), "data-input", fixed = TRUE)
+  expect_no_match(format(tabs()), "data-input", fixed = TRUE)
+  expect_match(format(tabs(id = "t")), 'data-value="One"', fixed = TRUE)
+
+  expect_match(format(bc_sidebar(id = "nav")), "data-input", fixed = TRUE)
+  expect_no_match(format(bc_sidebar()), "data-input", fixed = TRUE)
+
+  group <- bc_dropdown_group("Size", bc_dropdown_radio("Small"), id = "size")
+  expect_match(format(group), "data-input", fixed = TRUE)
+  expect_match(format(group), 'data-value="Small"', fixed = TRUE)
+  expect_no_match(format(bc_dropdown_group("Size")), "data-input", fixed = TRUE)
+
+  expect_match(
+    format(bc_dropdown_checkbox("Bold", id = "bold")),
+    'id="bold"',
+    fixed = TRUE
+  )
+})
+
+test_that("the combobox search box is not a Shiny input", {
+  expect_match(
+    format(bc_combobox("fw", bc_combobox_option("Remix"))),
+    "data-shiny-no-bind-input",
+    fixed = TRUE
+  )
+})

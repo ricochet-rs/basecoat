@@ -50,7 +50,8 @@ bc_sidebar_separator()
 }
 \arguments{
 \item{id}{String or \code{NULL}. The ID. \code{bc_sidebar_group()} and
-\code{bc_sidebar_submenu()} use a random ID when \code{NULL}.}
+\code{bc_sidebar_submenu()} use a random ID when \code{NULL}. With \code{\link[=bc_shiny_deps]{bc_shiny_deps()}},
+\code{input$id} is \code{TRUE} while a \code{bc_sidebar()} given an \code{id} is open.}
 
 \item{...}{For \code{bc_sidebar_group()} and \code{bc_sidebar_submenu()}, items such
 as \code{\link[=bc_sidebar_item]{bc_sidebar_item()}}. For \code{bc_sidebar_item()}, extra tag attributes.}

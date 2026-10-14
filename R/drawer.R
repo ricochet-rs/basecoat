@@ -3,7 +3,9 @@
 #' Create a modal panel that slides in from the edge of the screen.
 #'
 #' @param ... Drawer content.
-#' @param id String. The drawer's ID. Defaults to a random ID.
+#' @param id String. The drawer's ID. Defaults to a random ID. With
+#'   [bc_shiny_deps()], `input$id` is `TRUE` while the drawer is open when
+#'   `bc_drawer()` is given an `id`.
 #' @param side String. The edge the drawer slides from. One of `"bottom"`
 #'   (default), `"top"`, `"right"`, or `"left"`.
 #' @param trigger String. Label for a button that opens the drawer, or `NULL`
@@ -59,6 +61,7 @@ bc_drawer <- function(
   check_string(description, allow_null = TRUE, allow_empty = TRUE)
   check_string(class, allow_null = TRUE, allow_empty = TRUE)
 
+  input <- !is.null(id)
   if (is.null(id)) {
     id <- paste0(
       "drawer-",
@@ -84,6 +87,7 @@ bc_drawer <- function(
   dialog <- tags$dialog(
     id = id,
     class = paste0("drawer", if (!is.null(class)) paste0(" ", class)),
+    `data-input` = if (input) NA,
     `data-side` = if (side != "bottom") side,
     `aria-labelledby` = if (!is.null(title)) title_id,
     `aria-describedby` = if (!is.null(description)) desc_id,

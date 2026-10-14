@@ -18,7 +18,9 @@ bc_drawer(
 \arguments{
 \item{...}{Drawer content.}
 
-\item{id}{String. The drawer's ID. Defaults to a random ID.}
+\item{id}{String. The drawer's ID. Defaults to a random ID. With
+\code{\link[=bc_shiny_deps]{bc_shiny_deps()}}, \code{input$id} is \code{TRUE} while the drawer is open when
+\code{bc_drawer()} is given an \code{id}.}
 
 \item{side}{String. The edge the drawer slides from. One of \code{"bottom"}
 (default), \code{"top"}, \code{"right"}, or \code{"left"}.}

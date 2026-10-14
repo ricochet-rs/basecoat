@@ -29,7 +29,7 @@ bc_dropdown_item(
   variant = NULL
 )
 
-bc_dropdown_group(title = NULL, ..., heading_id = NULL)
+bc_dropdown_group(title = NULL, ..., heading_id = NULL, id = NULL)
 
 bc_dropdown_separator()
 
@@ -38,7 +38,8 @@ bc_dropdown_checkbox(
   ...,
   checked = FALSE,
   disabled = FALSE,
-  icon = NULL
+  icon = NULL,
+  id = NULL
 )
 
 bc_dropdown_radio(label, ..., checked = FALSE, disabled = FALSE, icon = NULL)
@@ -51,7 +52,10 @@ from \code{bc_dropdown_item()}, \code{bc_dropdown_group()},
 \code{\link[=bc_dropdown_item]{bc_dropdown_item()}} as its arguments. For the item functions, extra tag
 attributes.}
 
-\item{id}{String. The ID. Defaults to a random ID.}
+\item{id}{String. The ID. \code{bc_dropdown_menu()} uses a random ID by default.
+With \code{\link[=bc_shiny_deps]{bc_shiny_deps()}}, \code{input$id} is \code{TRUE} or \code{FALSE} for a
+\code{bc_dropdown_checkbox()}, and the label of the checked
+\code{bc_dropdown_radio()} for a \code{bc_dropdown_group()}.}
 
 \item{trigger_label}{String. The button's label. Defaults to \code{"Menu"}.}
 

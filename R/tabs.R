@@ -5,7 +5,9 @@
 #' @param ... Tabs from [bc_tab()].
 #' @param variant String. `"default"` or `"line"`.
 #' @param orientation String. `"horizontal"` (default) or `"vertical"`.
-#' @param id String. The ID. Defaults to a random ID.
+#' @param id String. The ID. Defaults to a random ID. With [bc_shiny_deps()],
+#'   `input$id` is the label of the selected tab when `bc_tabs()` is given an
+#'   `id`.
 #' @param aria_label String. Accessible name for the tabs, useful when a page
 #'   has more than one set.
 #' @return An htmltools tag.
@@ -52,6 +54,7 @@ bc_tabs <- function(
 
   tabs_list <- list(...)
 
+  input <- !is.null(id)
   # Generate IDs if not provided
   if (is.null(id)) {
     id <- paste0("tabs-", paste0(sample(1:9, 8, replace = TRUE), collapse = ""))
@@ -74,6 +77,7 @@ bc_tabs <- function(
       role = "tab",
       id = tab_ids[[i]],
       `aria-controls` = panel_ids[[i]],
+      `data-value` = tab_data$label,
       `aria-selected` = if (is_active) "true" else "false",
       tabindex = if (is_active) "0" else "-1",
       `data-disabled` = if (disabled) NA,
@@ -113,6 +117,7 @@ bc_tabs <- function(
   bc_tag(htmltools::attachDependencies(
     div(
       class = "tabs w-full",
+      `data-input` = if (input) NA,
       id = id,
       nav,
       panels

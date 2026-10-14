@@ -19,7 +19,8 @@ bc_dialog(
 bc_dialog_close(label = "Close", ..., variant = "primary")
 }
 \arguments{
-\item{id}{String. The dialog's ID, which \code{\link[=bc_dialog_trigger]{bc_dialog_trigger()}} targets.}
+\item{id}{String. The dialog's ID, which \code{\link[=bc_dialog_trigger]{bc_dialog_trigger()}} targets.
+With \code{\link[=bc_shiny_deps]{bc_shiny_deps()}}, \code{input$id} is \code{TRUE} while the dialog is open.}
 
 \item{title}{String or tag. The dialog title.}
 

@@ -93,6 +93,7 @@ bc_combobox <- function(
         type = "text",
         role = "combobox",
         id = paste0(id, "-input"),
+        `data-shiny-no-bind-input` = NA,
         placeholder = placeholder,
         autocomplete = "off",
         autocorrect = "off",

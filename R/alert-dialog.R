@@ -9,7 +9,9 @@ bc_alert_dialog_sizes <- c("default", "sm")
 #' Create a modal dialog that asks the user to confirm or cancel.
 #'
 #' @param ... Extra tag attributes for the dialog.
-#' @param id String. The dialog's ID. Defaults to a random ID.
+#' @param id String. The dialog's ID. Defaults to a random ID. With
+#'   [bc_shiny_deps()], `input$id` is `TRUE` while the dialog is open when
+#'   `bc_alert_dialog()` is given an `id`.
 #' @param title String. The title.
 #' @param description String or tag. Text under the title.
 #' @param icon Tag. An icon shown above the title.
@@ -57,6 +59,7 @@ bc_alert_dialog <- function(
   check_bool(open)
   check_string(trigger, allow_null = TRUE, allow_empty = FALSE)
 
+  input <- !is.null(id)
   if (is.null(id)) {
     id <- paste0(
       "alert-dialog-",
@@ -76,6 +79,7 @@ bc_alert_dialog <- function(
   dialog <- tags$dialog(
     id = id,
     class = "alert-dialog",
+    `data-input` = if (input) NA,
     `data-size` = if (size != "default") size,
     `aria-labelledby` = title_id,
     `aria-describedby` = desc_id,

@@ -73,6 +73,7 @@ bc_sidebar <- function(
     tags$aside(
       id = id,
       class = "sidebar",
+      `data-input` = if (!is.null(id)) NA,
       `data-side` = side,
       `data-initial-open` = if (!is.null(initial_open)) tolower(initial_open),
       `data-initial-mobile-open` = if (!is.null(initial_mobile_open)) {
@@ -93,7 +94,8 @@ bc_sidebar <- function(
 #' @rdname bc_sidebar
 #' @param title String. The group title, also used as its accessible name.
 #' @param id String or `NULL`. The ID. `bc_sidebar_group()` and
-#'   `bc_sidebar_submenu()` use a random ID when `NULL`.
+#'   `bc_sidebar_submenu()` use a random ID when `NULL`. With [bc_shiny_deps()],
+#'   `input$id` is `TRUE` while a `bc_sidebar()` given an `id` is open.
 #' @param ... For `bc_sidebar_group()` and `bc_sidebar_submenu()`, items such
 #'   as [bc_sidebar_item()]. For `bc_sidebar_item()`, extra tag attributes.
 #' @export

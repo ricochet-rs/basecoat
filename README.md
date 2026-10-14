@@ -15,10 +15,8 @@ implementation of [shadcn/ui](https://ui.shadcn.com/) that is the very
 same design system that powers [ricochet.rs](https://ricochet.rs).
 Naturally, we’ve grown quite fond of it.
 
-Every function is documented in the
-[reference](https://ricochet-rs.github.io/basecoat/reference/index.html),
-and every component is drawn in the [components
-article](https://ricochet-rs.github.io/basecoat/articles/Components.html).
+See all [components
+here](https://ricochet-rs.github.io/basecoat/articles/Components.html).
 
 ## Installation
 
@@ -39,17 +37,27 @@ pak::pak("ricochet-rs/basecoat")
 generates raw HTML with *opt-in* shiny binding.
 
 It works for creating HTML templates or with server-side-rendering (SSR)
-with a framework like
-[`{plumber2}`](https://posit-dev.github.io/plumber2/) or
+with a framework like [`{plumber2}`](https://plumber2.posit.co/) or
 [`{ambiorix}`](https://ambiorix.dev/) as well as an opt-in
 [`{shiny}`](https://shiny.posit.co/) integration.
 
-## Examples:
+Each component is an R function that returns `{htmltools}` tags. For
+example creating a card:
 
-Basecoat is a framework agnostic package. These examples each build the
-same kind of page on a different stack, with [HTMX](https://htmx.org/)
-and [`{htmxr}`](https://hyperverse-r.github.io/htmxr/) doing the
-swapping in the server rendered ones.
+``` r
+library(basecoat)
+
+bc_card(
+  bc_card_header("Production deploy"),
+  bc_card_body("All 128 checks pass."),
+  bc_card_footer(bc_button("View logs"))
+)
+```
+
+## Examples
+
+Basecoat is a framework agnostic package. Each of these examples
+illustrate how to use basecoat with a different framework
 
 - [`{htmltools}` static html
   sidebar](https://github.com/ricochet-rs/basecoat/blob/main/inst/examples/sidebar-app.R)
@@ -71,7 +79,28 @@ shipped:
 For servers that answer with HTML text rather than tags, `bc_page()`
 writes the whole document as a string.
 
+## Develop with an agent
+
+The basecoat package ships with a skill that can be loaded using the
+`{btw}` R package. You can install the skill via
+`btw::btw_skill_install_package("basecoat")`.
+
+If you want to install the skills into Claude code please use:
+
+``` r
+# project scope
+btw::btw_skill_install_package("basecoat", scope = ".claude/skills")
+
+# global scope
+btw::btw_skill_install_package("basecoat", scope = "~/.claude/skills")
+```
+
 ## Shiny integration
+
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="man/figures/shiny-app-dark.png"/>
+<img src="man/figures/shiny-app-light.png" alt="A Shiny app using bc_page_sidebar(), with basecoat inputs wired to input$"/>
+</picture>
 
 {basecoat} ships an optional shiny integration. Because `basecoat` is
 not a shiny-only package, it must be opted into. Do this by calling
@@ -84,18 +113,11 @@ ui <- bc_page_navbar(
 )
 ```
 
-Below is an example of the `bc_page_sidebar()`.
-
-<picture>
-<source media="(prefers-color-scheme: dark)" srcset="man/figures/shiny-app-dark.png"/>
-<img src="man/figures/shiny-app-light.png" alt="A Shiny app using bc_page_sidebar(), with basecoat inputs wired to input$"/>
-</picture>
-
 Open an example application file with:
 
 ``` r
 tmp <- tempfile(fileext = ".R")
-fp <- system.file("examples", "shiny-app.R", package = "basecoat")
+fp <- system.file("examples", "shiny-inputs.R", package = "basecoat")
 file.copy(fp, tmp)
 
 file.edit(tmp)

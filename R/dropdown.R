@@ -8,7 +8,10 @@
 #'   `bc_dropdown_radio()`. A string becomes an item, and a list is passed to
 #'   [bc_dropdown_item()] as its arguments. For the item functions, extra tag
 #'   attributes.
-#' @param id String. The ID. Defaults to a random ID.
+#' @param id String. The ID. `bc_dropdown_menu()` uses a random ID by default.
+#'   With [bc_shiny_deps()], `input$id` is `TRUE` or `FALSE` for a
+#'   `bc_dropdown_checkbox()`, and the label of the checked
+#'   `bc_dropdown_radio()` for a `bc_dropdown_group()`.
 #' @param trigger_label String. The button's label. Defaults to `"Menu"`.
 #' @param trigger Tag, such as an avatar, that opens the menu in place of the
 #'   default button.
@@ -153,9 +156,15 @@ bc_dropdown_item <- function(
 #' @param heading_id String. The ID of the group title. Defaults to a random
 #'   ID.
 #' @export
-bc_dropdown_group <- function(title = NULL, ..., heading_id = NULL) {
+bc_dropdown_group <- function(title = NULL, ..., heading_id = NULL, id = NULL) {
+  check_string(id, allow_null = TRUE, allow_empty = FALSE)
   if (is.null(title)) {
-    return(bc_tag(div(role = "group", dropdown_items(list(...)))))
+    return(bc_tag(div(
+      role = "group",
+      id = id,
+      `data-input` = if (!is.null(id)) NA,
+      dropdown_items(list(...))
+    )))
   }
 
   check_string(title, allow_empty = FALSE)
@@ -169,6 +178,8 @@ bc_dropdown_group <- function(title = NULL, ..., heading_id = NULL) {
 
   bc_tag(div(
     role = "group",
+    id = id,
+    `data-input` = if (!is.null(id)) NA,
     `aria-labelledby` = heading_id,
     div(role = "heading", id = heading_id, title),
     dropdown_items(list(...))
@@ -189,14 +200,17 @@ bc_dropdown_checkbox <- function(
   ...,
   checked = FALSE,
   disabled = FALSE,
-  icon = NULL
+  icon = NULL,
+  id = NULL
 ) {
   check_string(label, allow_empty = FALSE)
   check_bool(checked)
   check_bool(disabled)
+  check_string(id, allow_null = TRUE, allow_empty = FALSE)
 
   bc_tag(div(
     role = "menuitemcheckbox",
+    id = id,
     `aria-checked` = tolower(checked),
     `aria-disabled` = if (disabled) "true",
     ...,
@@ -221,6 +235,7 @@ bc_dropdown_radio <- function(
 
   bc_tag(div(
     role = "menuitemradio",
+    `data-value` = label,
     `aria-checked` = tolower(checked),
     `aria-disabled` = if (disabled) "true",
     ...,
