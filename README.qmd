@@ -43,6 +43,22 @@ pak::pak("ricochet-rs/basecoat")
 
 It works for creating HTML templates or with server-side-rendering (SSR) with a framework like [`{plumber2}`](https://posit-dev.github.io/plumber2/) or [`{ambiorix}`](https://ambiorix.dev/) as well as an opt-in [`{shiny}`](https://shiny.posit.co/) integration.
 
+Each component is an R function that returns HTML.
+Say you want a card with a title, some text, and a button.
+
+```{r}
+#| eval: false
+library(basecoat)
+
+bc_card(
+  bc_card_header("Production deploy"),
+  bc_card_body("All 128 checks green."),
+  bc_card_footer(bc_button("View logs"))
+)
+```
+
+Printing a component at the console opens it in the viewer with the basecoat stylesheet loaded, so you can see it without building a page first.
+
 ## Examples: 
 
 Basecoat is a framework agnostic package. These examples each build the same
@@ -95,7 +111,7 @@ Open an example application file with:
 ```{r}
 #| eval: false
 tmp <- tempfile(fileext = ".R")
-fp <- system.file("examples", "shiny-app.R", package = "basecoat")
+fp <- system.file("examples", "shiny-inputs.R", package = "basecoat")
 file.copy(fp, tmp)
 
 file.edit(tmp)

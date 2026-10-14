@@ -104,12 +104,9 @@ ui <- bc_page_sidebar(
     )
   ),
   tags$div(
-    class = "grid items-start gap-4 lg:grid-cols-2",
-    tags$div(
-      class = "grid items-start gap-4 sm:grid-cols-2",
-      native_inputs,
-      basecoat_inputs
-    ),
+    class = "grid items-start gap-4 sm:grid-cols-3",
+    native_inputs,
+    basecoat_inputs,
     tags$div(class = "flex flex-col gap-4", values, controls)
   )
 )

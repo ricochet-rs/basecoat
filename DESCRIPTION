@@ -2,7 +2,8 @@ Package: basecoat
 Title: 'Basecoat UI' Components for 'htmltools' and 'shiny'
 Version: 0.1.0
 Authors@R: c(
-    person("Josiah", "Parry", , "josiah.parry@gmail.com", role = c("aut", "cre", "cph")),
+    person("Josiah", "Parry", , "josiah.parry@gmail.com", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0001-9910-865X")),
     person("Ronan", "Berder", role = c("ctb", "cph"),
            comment = "Author of the bundled basecoat-css library")
   )

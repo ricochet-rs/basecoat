@@ -17,11 +17,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Josiah Parry \email{josiah.parry@gmail.com} [copyright holder]
+\strong{Maintainer}: Josiah Parry \email{josiah.parry@gmail.com} (\href{https://orcid.org/0000-0001-9910-865X}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Josiah Parry \email{josiah.parry@gmail.com} [copyright holder]
+  \item Josiah Parry \email{josiah.parry@gmail.com} (\href{https://orcid.org/0000-0001-9910-865X}{ORCID}) [copyright holder]
 }
 
 Other contributors:

@@ -336,7 +336,7 @@ theme_builder_actions <- function(style) {
       content = bc_textarea(
         id = "import-css",
         aria_label = "Theme CSS",
-        rows = "8",
+        rows = 8,
         class = "font-mono text-xs",
         placeholder = ":root {\n  --background: oklch(1 0 0);\n}"
       ),
@@ -581,7 +581,7 @@ theme_builder_preview <- function() {
               id = "tb-bio",
               label = "Bio",
               placeholder = "A short bio",
-              rows = "2"
+              rows = 2
             ),
             bc_select(
               "Apple",

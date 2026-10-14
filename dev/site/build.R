@@ -150,6 +150,7 @@ render_md <- function(md) {
     list_tables_to_html(ex$value),
     extensions = TRUE
   )
+  html <- gsub("<table>", '<table class="table">', html, fixed = TRUE)
 
   # Anchored while the components are still tokens, so a heading belonging to
   # a card or a toast is never mistaken for a section of the page.
@@ -725,12 +726,18 @@ build_reference <- function(articles) {
 
 article_stubs <- function() {
   lapply(
-    list.files("vignettes/articles", pattern = "\\.qmd$", full.names = TRUE),
+    list.files(
+      "vignettes/articles",
+      pattern = "\\.(qmd|rmd)$",
+      ignore.case = TRUE,
+      full.names = TRUE
+    ),
     function(f) {
+      slug <- sub("\\.(qmd|rmd)$", "", basename(f), ignore.case = TRUE)
       list(
         path = f,
-        slug = sub("\\.qmd$", "", basename(f)),
-        title = frontmatter(f)$title %||% sub("\\.qmd$", "", basename(f))
+        slug = slug,
+        title = frontmatter(f)$title %||% slug
       )
     }
   )

@@ -81,7 +81,7 @@ settings_form <- bc_card(
       id = "bio",
       label = "Bio",
       placeholder = "A short bio",
-      rows = "3"
+      rows = 3
     ),
     bc_select(
       "utc",
