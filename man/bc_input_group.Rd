@@ -40,7 +40,7 @@ Rows above and below the input, made with \code{tags$header()} and
 \examples{
 bc_input_group(
   bc_input(type = "search", placeholder = "Search...", aria_label = "Search"),
-  bc_input_group_addon(bc_kbd("⌘K"), align = "end")
+  bc_input_group_addon(bc_kbd("\u2318K"), align = "end")
 )
 
 bc_input_group(

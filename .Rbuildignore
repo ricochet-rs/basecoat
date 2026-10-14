@@ -30,3 +30,4 @@ _files$
 ^\.vale$
 ^\.vale\.ini$
 ^\.pre-commit-config\.yaml$
+^CRAN-SUBMISSION$

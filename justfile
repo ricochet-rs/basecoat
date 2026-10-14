@@ -9,9 +9,9 @@ document:
 install:
   R -q -e 'devtools::install()'
 
-# Build and run R CMD check.
+# Build and run R CMD check, including the PDF manual CRAN builds.
 check:
-  Rscript -e 'devtools::check()'
+  Rscript -e 'devtools::check(manual = TRUE)'
 
 # Run the testthat suite.
 test:

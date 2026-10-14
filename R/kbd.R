@@ -7,14 +7,14 @@
 #'
 #' Create a keyboard key label.
 #'
-#' @param label String. Text on the key, such as `"⌘K"`.
+#' @param label String. Text on the key, such as `"\u2318K"`.
 #' @param ... Extra tag attributes.
 #' @return An htmltools tag.
 #' @export
 #' @examples
-#' bc_kbd("⌘K")
+#' bc_kbd("\u2318K")
 #'
-#' bc_kbd("⏎", `data-icon` = "inline-end")
+#' bc_kbd("\u23CE", `data-icon` = "inline-end")
 bc_kbd <- function(label, ...) {
   check_string(label, allow_empty = FALSE)
   bc_tag(tags$kbd(class = "kbd", ..., label))

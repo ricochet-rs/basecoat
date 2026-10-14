@@ -7,7 +7,7 @@
 bc_kbd(label, ...)
 }
 \arguments{
-\item{label}{String. Text on the key, such as \code{"⌘K"}.}
+\item{label}{String. Text on the key, such as \code{"\\u2318K"}.}
 
 \item{...}{Extra tag attributes.}
 }
@@ -18,7 +18,7 @@ An htmltools tag.
 Create a keyboard key label.
 }
 \examples{
-bc_kbd("⌘K")
+bc_kbd("\u2318K")
 
-bc_kbd("⏎", `data-icon` = "inline-end")
+bc_kbd("\u23CE", `data-icon` = "inline-end")
 }
